@@ -42,7 +42,6 @@ plugins:
         - zh
         - en
   - tags:
-      tags_file: tags.md
 
 markdown_extensions:
   - pymdownx.highlight:
