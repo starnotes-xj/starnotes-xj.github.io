@@ -11,7 +11,7 @@
 
 ## Flag
 
-```
+```text
 novruzCTF{cbc_m4c_f0rg3ry_v14_l3ngth_3xt3ns10n}
 ```
 
@@ -21,7 +21,7 @@ novruzCTF{cbc_m4c_f0rg3ry_v14_l3ngth_3xt3ns10n}
 
 连接服务后，服务端提供两条已知的 CBC-MAC：
 
-```
+```text
 MAC('hello_world') = 77ec0fdf191b1011b974864b443a60ad
 MAC('get_flag')    = 162cb90b16adeb0dcdc9776c3af7b324
 ```
@@ -86,7 +86,7 @@ $$= \texttt{68656c6c6f5f776f726c640000000000}\texttt{10897b807f777176b974864b443
 
 ### 4. 获取 Flag
 
-```
+```text
 $ nc 95.111.234.103 1337
 Prophecy (Hex Msg)> 68656c6c6f5f776f726c64000000000010897b807f777176b974864b443a60ad
 Seal (Hex Token)> 162cb90b16adeb0dcdc9776c3af7b324

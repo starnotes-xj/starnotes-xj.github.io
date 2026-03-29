@@ -11,7 +11,7 @@
 
 ## Flag
 
-```
+```text
 novruzctf{Pr0t0type_P0lluti0n_1s_N0t_Just_f0r_Adm1n_Access}
 ```
 
@@ -21,7 +21,7 @@ novruzctf{Pr0t0type_P0lluti0n_1s_N0t_Just_f0r_Adm1n_Access}
 
 访问主页，得到提示信息：
 
-```
+```text
 System Interface v2.0
 Status: ONLINE
 Send a JSON POST request to /api/settings to configure your session.

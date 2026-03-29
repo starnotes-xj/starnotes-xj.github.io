@@ -11,7 +11,7 @@
 
 ## Flag
 
-```
+```text
 未找到正确 flag
 ```
 
@@ -102,7 +102,7 @@ curl -s -X POST http://95.111.234.103:5050/api/mine \
 ```
 
 **返回内容：**
-```
+```text
 cat /home/system_admin/secret_flag.txt
 ```
 
@@ -160,7 +160,7 @@ func main() {
 
 ## 完整网络拓扑
 
-```
+```text
 用户 → Caddy (反向代理, :5050) → uvicorn:5000 (FastAPI/Scanner)
                                         ↓ SSRF
                                   aiohttp GET → 目标URL

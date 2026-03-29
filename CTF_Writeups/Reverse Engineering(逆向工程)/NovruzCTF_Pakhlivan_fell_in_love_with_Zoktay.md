@@ -38,7 +38,7 @@ for GNU/Linux 3.2.0, not stripped
 
 使用Python脚本提取程序中的字符串，发现以下关键信息：
 
-```
+```text
 Usage: %s <password>
 this_is_not_flag
 [+] Correct flag!
@@ -65,7 +65,7 @@ swap
 #### .data段（关键！）
 在 `.data` 段偏移 `0x3020` 处找到 **69字节的加密数据**：
 
-```
+```text
 65 f9 45 ce 8a 60 e0 90 fe 66 ff 67 ef 1b d1 2e
 f1 6b a4 0f 96 9e be c0 0b 88 c3 40 06 27 5a d2
 df a6 15 0d 8d ef cf 29 83 a4 44 3d d7 9b f4 9e
@@ -174,7 +174,7 @@ print(decrypted.decode())
 
 **结果**：
 
-```
+```text
 novruzCTF{ea9d371ee29e03cf04054bc1154a8b0b4513614d246fe4653adc7e03f4a2ac65}
 ```
 
@@ -260,18 +260,18 @@ go build -o crypto_toolkit.exe
 ```
 
 `out.txt` 得到：
-```
+```text
 Cup{ea9d371ee29e03cf04054bc1154a8b0b4513614d246fe4653adc7e03f4a2ac65}
 ```
 
 平台提交前缀规则：
-```
+```text
 novruzCTF{ea9d371ee29e03cf04054bc1154a8b0b4513614d246fe4653adc7e03f4a2ac65}
 ```
 
 ## Flag
 
-```
+```text
 novruzCTF{ea9d371ee29e03cf04054bc1154a8b0b4513614d246fe4653adc7e03f4a2ac65}
 ```
 
@@ -357,7 +357,7 @@ print(f"FLAG: {flag.decode()}")
 ```
 
 **输出**：
-```
+```text
 FLAG: novruzCTF{ea9d371ee29e03cf04054bc1154a8b0b4513614d246fe4653adc7e03f4a2ac65}
 ```
 

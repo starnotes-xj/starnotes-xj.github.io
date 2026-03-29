@@ -11,7 +11,7 @@
 
 ## Flag
 
-```
+```text
 novruzctf{someL0ngPasswordYouShouldNev3rGuess}
 ```
 
@@ -87,7 +87,7 @@ OpenResty 的 Lua WAF 使用 `ngx.req.get_post_args()` 解析 POST 参数进行�
 
 **绕过方法**：发送 100 个垃圾参数 + 注入 payload
 
-```
+```text
 POST /login.php HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
@@ -139,7 +139,7 @@ const body = parts.join('&');
 
 #### 6.1 提取表结构
 
-```
+```text
 sqlite_master → 1 个表: users
 CREATE TABLE users (name VARCHAR(200), password VARCHAR(200))
 ```
@@ -171,7 +171,7 @@ OpenResty 的 `ngx.req.get_post_args()` 默认 `max_args = 100`。当 POST body 
 
 而 PHP 的 `$_POST` 解析器独立运行，默认 `max_input_vars = 1000`，可以解析远超 100 个的参数。
 
-```
+```text
             OpenResty WAF                    PHP-FPM
                  │                              │
     get_post_args(max_args=100)         $_POST(max_input_vars=1000)
@@ -478,7 +478,7 @@ done
 
 ## 解题流程图
 
-```
+```text
 访问登录页面 → 尝试 SQL 注入 → 403 Forbidden (WAF 拦截)
     │
     ▼

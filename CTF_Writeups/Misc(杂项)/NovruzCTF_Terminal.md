@@ -11,7 +11,7 @@
 
 ## Flag
 
-```
+```text
 novruzctf{H1DD3N_F1L3S_4R3_N0T_S4F3_FR0M_Y0U}
 ```
 
@@ -21,7 +21,7 @@ novruzctf{H1DD3N_F1L3S_4R3_N0T_S4F3_FR0M_Y0U}
 
 连接后进入一个受限 shell 环境，以 guest 身份登录，需要提权到 root 才能获取 flag。
 
-```
+```text
 guest@ghost-server:/$ help
 Commands:
  ls [-a]   : List files (use -a to see hidden)
@@ -37,7 +37,7 @@ Commands:
 
 ### 2. 文件系统探索
 
-```
+```text
 guest@ghost-server:/$ ls
 var/  home/  readme.txt
 
@@ -54,7 +54,7 @@ Find them and secure the system.
 
 进入备份目录，常规 `ls` 只显示一个日志文件：
 
-```
+```text
 guest@ghost-server:/var/backups$ ls
 sys_restore.log
 
@@ -66,7 +66,7 @@ guest@ghost-server:/var/backups$ cat sys_restore.log
 
 日志提示存在隐藏的 `.integrity_check` 文件。使用 `ls -a` 查看：
 
-```
+```text
 guest@ghost-server:/var/backups$ ls -a
 sys_restore.log  .integrity_check
 
@@ -79,7 +79,7 @@ SAVED_CREDENTIAL_DUMP: q#9L!z@X_v2$mR
 
 ### 4. 提权并获取 Flag
 
-```
+```text
 guest@ghost-server:/var/backups$ auth q#9L!z@X_v2$mR
 [+] AUTHENTICATION SUCCESSFUL.
 [+] WELCOME, ADMINISTRATOR.
@@ -91,7 +91,7 @@ novruzctf{H1DD3N_F1L3S_4R3_N0T_S4F3_FR0M_Y0U}
 
 ## 攻击链/解题流程总结
 
-```
+```text
 cat readme.txt(线索指向/var/backups) → cat sys_restore.log(提示隐藏文件) → ls -a(发现.integrity_check) → cat .integrity_check(获取凭证) → auth提权 → getflag
 ```
 

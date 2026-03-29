@@ -11,7 +11,7 @@
 
 ## Flag
 
-```
+```text
 novruzCTF{R3DB0X3920}
 ```
 
@@ -38,7 +38,7 @@ RIFF (little-endian) data, WAVE audio, Microsoft PCM, 16 bit, mono 44100 Hz
 
 对音频前 500ms 进行 5ms 窗口的频率分析：
 
-```
+```text
   0-100ms:  1900 Hz  ← SSTV Leader 音
 100-200ms:  1500 Hz  ← 校准信号
 200-300ms:  1900 Hz  ← SSTV Leader 音
@@ -191,7 +191,7 @@ go run decode_bibo.go < bi_bo.txt
 
 解码后获得一张 320x256 的图像：一个人的自拍照，左上方有一个**对话气泡**，里面包含编码文字：
 
-```
+```text
 bibobi bibibibobo bobibi
 bobibibi bobobobobo
 bobibibo bibibibobo
@@ -362,7 +362,7 @@ sudo apt install sonic-visualiser
 3. 输出: `R3DB0X3920`
 
 **CyberChef 配方：**
-```
+```text
 Find_/_Replace({'option':'Regex','string':'bo'},'_',true,false,true,false)
 Find_/_Replace({'option':'Regex','string':'bi'},'.',true,false,true,false)
 From_Morse_Code('Space','Line feed')
@@ -400,7 +400,7 @@ binwalk -e 7630e312-da5e-4792-9f88-d02a7494a651.wav
 
 ## 解题流程图
 
-```
+```text
 WAV 音频文件
     │
     ▼

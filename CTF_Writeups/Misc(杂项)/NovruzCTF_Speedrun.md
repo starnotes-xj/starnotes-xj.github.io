@@ -11,7 +11,7 @@
 
 ## Flag
 
-```
+```text
 novruzctf{TBD}
 ```
 
@@ -37,7 +37,7 @@ novruzctf{TBD}
 
 ## 攻击链/解题流程总结
 
-```
+```text
 连接服务 → 解析 RULES → 递归解析表达式 → 应用动态运算规则 → 逐题回传结果 → 获取 flag
 ```
 
