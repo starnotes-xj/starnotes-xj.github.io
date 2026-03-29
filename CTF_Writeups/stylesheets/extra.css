@@ -95,6 +95,41 @@ body {
   display: inline-flex !important;
 }
 
+/* Fallback floating drawer button (always visible on non-desktop widths) */
+.cyb-drawer-toggle {
+  position: fixed;
+  top: 0.7rem;
+  left: 0.75rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.4rem;
+  border: 1px solid var(--cyb-border);
+  background: rgba(10, 15, 20, 0.9);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 1200;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.cyb-drawer-toggle:hover {
+  color: var(--cyb-accent);
+  border-color: var(--cyb-accent);
+  box-shadow: 0 0 12px var(--cyb-accent-dim);
+}
+
+@media screen and (min-width: 76.25em) {
+  .cyb-drawer-toggle {
+    display: none;
+  }
+}
+
 .md-header__button:hover {
   color: var(--cyb-accent) !important;
 }
@@ -516,46 +551,8 @@ body {
   background-clip: text;
 }
 
-/* ---------- Force sidebar visible on laptops (>=960px) ---------- */
-@media screen and (min-width: 60em) and (max-width: 76.1875em) {
-  /* Show the left sidebar as a persistent panel instead of drawer */
-  .md-sidebar--primary {
-    display: block !important;
-    position: sticky !important;
-    left: auto !important;
-    width: 12.1rem !important;
-    transform: none !important;
-    visibility: visible !important;
-    z-index: 3;
-  }
-
-  /* Keep the hamburger menu button visible */
-  .md-header__button[for="__drawer"] {
-    display: inline-flex !important;
-  }
-
-  /* Fix the sidebar nav to behave like desktop */
-  .md-nav--primary,
-  .md-nav--primary .md-nav__title {
-    background: transparent !important;
-  }
-
-  .md-nav--primary .md-nav__title[for] {
-    display: none;
-  }
-
-  /* Ensure the grid layout includes sidebar space */
-  .md-container {
-    display: flex;
-  }
-
-  .md-main__inner {
-    display: flex;
-  }
-}
-
 /* ---------- Mobile Responsive ---------- */
-@media screen and (max-width: 59.9375em) {
+@media screen and (max-width: 76.1875em) {
   .md-nav--primary .md-nav__title {
     background: var(--cyb-bg-surface);
     color: #ffffff !important;
