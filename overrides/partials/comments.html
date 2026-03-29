@@ -1,0 +1,21 @@
+{% if page.meta.comments != false %}
+<h2 id="__comments">{{ lang.t("meta.comments") }}</h2>
+
+<script
+  src="https://giscus.app/client.js"
+  data-repo="{{ config.extra.comments.giscus_repo }}"
+  data-repo-id="{{ config.extra.comments.giscus_repo_id }}"
+  data-category="{{ config.extra.comments.giscus_category }}"
+  data-category-id="{{ config.extra.comments.giscus_category_id }}"
+  data-mapping="pathname"
+  data-strict="1"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="preferred_color_scheme"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+{% endif %}
