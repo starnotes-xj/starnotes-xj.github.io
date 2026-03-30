@@ -118,6 +118,11 @@ CBC-MAC **不是**长度安全的 MAC。对于变长消息，攻击者知道 $\t
 - Zero-padding 的安全问题（不具有唯一可逆性）
 - MAC 伪造（Forgery）
 
+??? note "知识点常见问题解答（可选）"
+    如果你想扩展 CBC-MAC 攻击原理（为什么不需要密钥、IV 的作用、pad 含义、$E_K$ 操作等），可点击跳转：
+
+    [:material-book-open-variant: CBC-MAC 知识点 FAQ](./cbc_mac.md)
+
 ## 使用的工具
 - Python 3 + pwntools/手工计算 — 构造伪造消息
 - netcat (`nc`) — 连接远程服务
