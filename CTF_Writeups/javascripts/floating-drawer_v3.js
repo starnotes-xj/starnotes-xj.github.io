@@ -23,9 +23,15 @@
     btn._drawerListener = update
     drawer.addEventListener("change", btn._drawerListener)
 
+    const nativeToggle = document.querySelector('.md-header__button[for="__drawer"]')
+
     btn.onclick = () => {
-      drawer.checked = !drawer.checked
-      drawer.dispatchEvent(new Event("change", { bubbles: true }))
+      if (nativeToggle && typeof nativeToggle.click === "function") {
+        nativeToggle.click()
+      } else {
+        drawer.checked = !drawer.checked
+        drawer.dispatchEvent(new Event("change", { bubbles: true }))
+      }
       update()
     }
 

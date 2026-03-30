@@ -90,12 +90,12 @@ body {
   transition: color 0.2s;
 }
 
-/* Always show drawer toggle button for discoverability */
+/* Drawer toggle visibility: only show in drawer mode widths */
 .md-header__button[for="__drawer"] {
-  display: inline-flex !important;
+  display: none !important;
 }
 
-/* Fallback floating drawer button (always visible on ALL screen sizes) */
+/* Fallback floating drawer button */
 .cyb-drawer-toggle {
   position: fixed;
   top: 0.7rem;
@@ -106,7 +106,7 @@ body {
   border: 1px solid var(--cyb-border);
   background: rgba(10, 15, 20, 0.9);
   color: #ffffff;
-  display: inline-flex !important;
+  display: none;
   align-items: center;
   justify-content: center;
   font-size: 1.1rem;
@@ -122,6 +122,16 @@ body {
   color: var(--cyb-accent);
   border-color: var(--cyb-accent);
   box-shadow: 0 0 12px var(--cyb-accent-dim);
+}
+
+@media screen and (max-width: 76.1875em) {
+  .md-header__button[for="__drawer"] {
+    display: inline-flex !important;
+  }
+
+  .cyb-drawer-toggle {
+    display: inline-flex !important;
+  }
 }
 
 .md-header__button:hover {
