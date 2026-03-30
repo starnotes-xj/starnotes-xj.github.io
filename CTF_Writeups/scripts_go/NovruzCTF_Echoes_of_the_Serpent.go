@@ -15,22 +15,19 @@ import (
 	"fmt"
 )
 
-const (
-	// MAC("hello_world") 的已知值
-	knownMACHex = "77ec0fdf191b1011b974864b443a60ad"
-	// oracle 返回的目标 MAC 值
-	oracleMACHex = "162cb90b16adeb0dcdc9776c3af7b324"
-)
-
 func main() {
+	var knownMACHex string
+	var oracleMACHex string
+	fmt.Scanln(&knownMACHex)
+	fmt.Scanln(&oracleMACHex)
 	knownMAC, _ := hex.DecodeString(knownMACHex)
 	oracleMAC, _ := hex.DecodeString(oracleMACHex)
 
 	// pad("hello_world") = "hello_world" + 5 个零字节（补齐到 16 字节块）
-	helloPadded := append([]byte("hello_world"), make([]byte, 5)...)
+	helloPadded := zero_pad([]byte("hello_world"))
 
 	// pad("get_flag") = "get_flag" + 8 个零字节（补齐到 16 字节块）
-	getflagPadded := append([]byte("get_flag"), make([]byte, 8)...)
+	getflagPadded := zero_pad([]byte("get_flag"))
 
 	// 构造第二个块: block2 = MAC(hello_world) XOR pad(get_flag)
 	block2 := make([]byte, 16)
@@ -43,4 +40,10 @@ func main() {
 
 	fmt.Println("Prophecy (hex):", hex.EncodeToString(forgedMsg))
 	fmt.Println("Seal (hex):", hex.EncodeToString(oracleMAC))
+}
+func zero_pad(data []byte) []byte {
+	if len(data)%16 != 0 {
+		return append(data, make([]byte, 16-len(data)%16)...)
+	}
+	return data
 }
