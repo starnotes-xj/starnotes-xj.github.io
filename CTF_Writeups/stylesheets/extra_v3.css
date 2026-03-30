@@ -91,6 +91,11 @@ body {
   transition: color 0.2s;
 }
 
+/* 桌面端也显示左上角汉堡菜单按钮 */
+.md-header__button[for="__drawer"] {
+  display: inline-block !important;
+}
+
 .md-header__button:hover {
   color: var(--cyb-accent) !important;
 }
