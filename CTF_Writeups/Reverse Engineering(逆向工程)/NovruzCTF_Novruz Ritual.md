@@ -6,7 +6,7 @@
 - **题目**: 古老的仪式咒语 / Ritual
 - **类型**: Reverse Engineering
 - **附件**: `ad1c72b0-ca4c-4899-8e24-962d6cbc60a9.bin`
-- **附件链接**: [下载附件](https://github.com/starnotes-xj/BIGC_CTF_Writeups/raw/main/CTF_Writeups/files/Novruz%20Ritual/ad1c72b0-ca4c-4899-8e24-962d6cbc60a9.bin?download=1){target="_blank" download} · [仓库位置](https://github.com/starnotes-xj/BIGC_CTF_Writeups/tree/main/CTF_Writeups/files/Novruz%20Ritual){target="_blank"}
+- **附件链接**: [下载附件](https://starnotes-xj.github.io/BIGC_CTF_Writeups/files/Novruz%20Ritual/ad1c72b0-ca4c-4899-8e24-962d6cbc60a9.bin){download} · [仓库位置](https://github.com/starnotes-xj/BIGC_CTF_Writeups/tree/main/CTF_Writeups/files/Novruz%20Ritual){target="_blank"}
 - **Flag格式**: `novruzCTF{}` (注意大写 CTF)
 - **状态**: 已解
 

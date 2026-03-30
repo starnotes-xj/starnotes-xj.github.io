@@ -6,7 +6,7 @@
 - **分类**: Reverse Engineering (逆向工程)
 - **难度**: Easy
 - **文件**: `65c452c9-d9ce-4287-a621-c54e5624c82c.bin` (ELF 64-bit)
-- **附件链接**: [下载附件](https://github.com/starnotes-xj/BIGC_CTF_Writeups/raw/main/CTF_Writeups/files/Pakhlivan%20fell%20in%20love%20with%20Zoktay/zoktay_crack_me.bin?download=1){target="_blank" download} · [仓库位置](https://github.com/starnotes-xj/BIGC_CTF_Writeups/tree/main/CTF_Writeups/files/Pakhlivan%20fell%20in%20love%20with%20Zoktay){target="_blank"}
+- **附件链接**: [下载附件](https://starnotes-xj.github.io/BIGC_CTF_Writeups/files/Pakhlivan%20fell%20in%20love%20with%20Zoktay/zoktay_crack_me.bin){download} · [仓库位置](https://github.com/starnotes-xj/BIGC_CTF_Writeups/tree/main/CTF_Writeups/files/Pakhlivan%20fell%20in%20love%20with%20Zoktay){target="_blank"}
 - **状态**: 已解
 
 ## 题目描述

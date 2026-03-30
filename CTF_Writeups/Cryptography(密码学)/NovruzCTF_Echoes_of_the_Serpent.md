@@ -6,7 +6,7 @@
 - **类别**: Cryptography
 - **难度**: Easy-Medium
 - **附件/URL**: `nc 95.111.234.103 1337` + 服务端源码 `f563fb06-e8e0-4279-8268-85d0cc835ba0.py`
-- **附件链接**: [下载附件](https://github.com/starnotes-xj/BIGC_CTF_Writeups/raw/main/CTF_Writeups/files/Echoes%20of%20the%20Serpent/f563fb06-e8e0-4279-8268-85d0cc835ba0.py?download=1){target="_blank" download} · [仓库位置](https://github.com/starnotes-xj/BIGC_CTF_Writeups/tree/main/CTF_Writeups/files/Echoes%20of%20the%20Serpent){target="_blank"}
+- **附件链接**: [下载附件](https://starnotes-xj.github.io/BIGC_CTF_Writeups/files/Echoes%20of%20the%20Serpent/f563fb06-e8e0-4279-8268-85d0cc835ba0.py){download} · [仓库位置](https://github.com/starnotes-xj/BIGC_CTF_Writeups/tree/main/CTF_Writeups/files/Echoes%20of%20the%20Serpent){target="_blank"}
 - **Flag格式**: novruzCTF{}
 - **状态**: 已解
 

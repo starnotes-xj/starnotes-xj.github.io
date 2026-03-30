@@ -7,7 +7,7 @@
 - **难度**: 难
 - **题目描述**: 在遥远的群山中，居住着一个古老的部落。据说他们的祖先曾传授一个神奇的咒语，但随着时间的流逝，这个咒语早已被遗忘。他们唯一留下的，是一段神秘的录音，其含义无人能解。请从这段录音中找到那个神奇的咒语。
 - **附件**: `7630e312-da5e-4792-9f88-d02a7494a651.wav`
-- **附件链接**: [下载附件](https://github.com/starnotes-xj/BIGC_CTF_Writeups/raw/main/CTF_Writeups/files/WYCGPRB/7630e312-da5e-4792-9f88-d02a7494a651.wav?download=1){target="_blank" download} · [仓库位置](https://github.com/starnotes-xj/BIGC_CTF_Writeups/tree/main/CTF_Writeups/files/WYCGPRB){target="_blank"}
+- **附件链接**: [下载附件](https://starnotes-xj.github.io/BIGC_CTF_Writeups/files/WYCGPRB/7630e312-da5e-4792-9f88-d02a7494a651.wav){download} · [仓库位置](https://github.com/starnotes-xj/BIGC_CTF_Writeups/tree/main/CTF_Writeups/files/WYCGPRB){target="_blank"}
 - **状态**: 已解
 
 ## Flag

@@ -6,7 +6,7 @@
 - **类别**:
 - **难度**:
 - **附件/URL**:
-- **附件链接**: [下载附件](https://github.com/starnotes-xj/BIGC_CTF_Writeups/raw/main/CTF_Writeups/files/[题目目录]/[附件名]?download=1){target="_blank" download} · [仓库位置](https://github.com/starnotes-xj/BIGC_CTF_Writeups/tree/main/CTF_Writeups/files/[题目目录]){target="_blank"}
+- **附件链接**: [下载附件](https://starnotes-xj.github.io/BIGC_CTF_Writeups/files/[题目目录]/[附件名]){download} · [仓库位置](https://github.com/starnotes-xj/BIGC_CTF_Writeups/tree/main/CTF_Writeups/files/[题目目录]){target="_blank"}
 - **Flag格式**:
 - **状态**: 已解 / 进行中 / 未解
 

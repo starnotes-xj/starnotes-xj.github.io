@@ -8,7 +8,7 @@
 - **Flag格式**: `novruzCTF{}`
 - **题目描述**: 人们常说大海捞针是不可能的，但对电脑来说，这只是一个普通的星期二。种子密钥隐藏在 1000 到 100 万之间。别再手动猜测了，让你的 CPU 来完成烧录。找到那个至关重要的种子密钥。
 - **附件**: `a87ad61f-e3a0-4547-a92c-e7957eaade3c.png`（150x150 RGB 图片）
-- **附件链接**: [下载附件](https://github.com/starnotes-xj/BIGC_CTF_Writeups/raw/main/CTF_Writeups/files/one%20in%20million/a87ad61f-e3a0-4547-a92c-e7957eaade3c.png?download=1){target="_blank" download} · [仓库位置](https://github.com/starnotes-xj/BIGC_CTF_Writeups/tree/main/CTF_Writeups/files/one%20in%20million){target="_blank"}
+- **附件链接**: [下载附件](https://starnotes-xj.github.io/BIGC_CTF_Writeups/files/one%20in%20million/a87ad61f-e3a0-4547-a92c-e7957eaade3c.png){download} · [仓库位置](https://github.com/starnotes-xj/BIGC_CTF_Writeups/tree/main/CTF_Writeups/files/one%20in%20million){target="_blank"}
 - **状态**: 进行中
 
 ## 解题过程
