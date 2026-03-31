@@ -128,5 +128,6 @@ nav:
   - 比赛:
       - events/index.md
       - NovruzCTF 2026: events/NovruzCTF_2026/index.md
+      - 历史参赛记录: history/competitions.md
   - 标签: tags.md
   - 模板: WRITEUP_TEMPLATE.md
