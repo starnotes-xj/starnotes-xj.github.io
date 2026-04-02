@@ -1,1 +1,6 @@
 site/
+/.idea/.gitignore
+/.idea/BIGC_CTF_Writeups.iml
+/.idea/go.imports.xml
+/.idea/modules.xml
+/.idea/vcs.xml

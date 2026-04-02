@@ -116,6 +116,7 @@ nav:
       - "Cryptography(\u5BC6\u7801\u5B66)/NovruzCTF_The_Magical_Meal.md"
       - "Cryptography(\u5BC6\u7801\u5B66)/HackForAChange2026March_Patient_Zero.md"
       - "Cryptography(\u5BC6\u7801\u5B66)/HackForAChange2026March_Encrypted_Audit_Logs.md"
+      - "Cryptography(\u5BC6\u7801\u5B66)/HackForAChange2026March_UN_SDG3_GenomeRand_LCG.md"
   - 逆向工程:
       - "Reverse Engineering(\u9006\u5411\u5DE5\u7A0B)/NovruzCTF_Novruz_Reverse_by_Zoktay.md"
       - "Reverse Engineering(\u9006\u5411\u5DE5\u7A0B)/NovruzCTF_Pakhlivan_fell_in_love_with_Zoktay.md"
