@@ -20,7 +20,7 @@ tags:
 
     SSRF / XSS / SQLi / LFI / RCE
 
-    [:octicons-arrow-right-24: 7 篇 Writeups](Web/NovruzCTF_kecel-scanner.md)
+    [:octicons-arrow-right-24: 11 篇文章](Web/index.md)
 
 -   :material-lock:{ .lg .middle } __Crypto__
 
@@ -28,7 +28,7 @@ tags:
 
     AES / RSA / Hash / Classical
 
-    [:octicons-arrow-right-24: 2 篇 Writeups](Cryptography(密码学)/NovruzCTF_Echoes_of_the_Serpent.md)
+    [:octicons-arrow-right-24: 16 篇文章](Cryptography(密码学)/index.md)
 
 -   :material-cog-refresh:{ .lg .middle } __Reverse__
 
@@ -36,7 +36,15 @@ tags:
 
     Binary / Decompile / Algorithm
 
-    [:octicons-arrow-right-24: 3 篇 Writeups](Reverse Engineering(逆向工程)/NovruzCTF_Novruz_Reverse_by_Zoktay.md)
+    [:octicons-arrow-right-24: 3 篇文章](Reverse Engineering(逆向工程)/index.md)
+
+-   :material-bug:{ .lg .middle } __Pwn__
+
+    ---
+
+    Format String / ROP / GOT Hijack
+
+    [:octicons-arrow-right-24: 1 篇文章](Pwn/index.md)
 
 -   :material-puzzle:{ .lg .middle } __Misc & PPC__
 
@@ -44,7 +52,7 @@ tags:
 
     Stego / Forensics / Programming
 
-    [:octicons-arrow-right-24: 5 篇 Writeups](Misc(杂项)/NovruzCTF_Speedrun.md)
+    [:octicons-arrow-right-24: 5 + 1 篇文章](Misc(杂项)/index.md)
 
 -   :material-trophy:{ .lg .middle } __按比赛查看__
 
@@ -62,7 +70,14 @@ tags:
 
 | 比赛 | 时间 | 类别 | 题数 | 状态 |
 |------|------|------|:----:|------|
+| [**Hack For A Change 2026 March**](events/HackForAChange2026March/index.md) | 2026.03 | Crypto | 3 | :material-check-circle: 已归档 |
+| [**ACSC Qualification 2026**](events/ACSC_Qualification_2026/index.md) | 2026.03-05 | Crypto | 2 | :material-alert: 本地草稿 |
+| [**kashiCTF 2026**](events/kashiCTF/index.md) | 2026.04 | Crypto / Web | 4 | :material-check-circle: 已归档 |
 | [**NovruzCTF 2026**](events/NovruzCTF_2026/index.md) | 2026.03 | Web / Crypto / Rev / Misc / PPC | 17 | :material-check-circle: 已归档 |
+| [**MetaCTF**](events/MetaCTF/index.md) | 待补 | Crypto / Pwn | 2 | :material-check-circle: 已归档 |
+| [**putcCTF**](events/putcCTF/index.md) | 待补 | Crypto / Web / Stego | 3 | :material-check-circle: 已归档 |
+| [**UMassCTF 2026**](events/UMassCTF_2026/index.md) | 待补 | Crypto | 1 | :material-check-circle: 已归档 |
+| [**VishwaCTF 2026**](events/VishwaCTF_2026/index.md) | 待补 | Misc | 1 | :material-check-circle: 已归档 |
 
 ---
 

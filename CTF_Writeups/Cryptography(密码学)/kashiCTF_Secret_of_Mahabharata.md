@@ -1,8 +1,8 @@
-# kashiCTF - Secret of Mahabharata (Crypto)
+# kashiCTF 2026 - Secret of Mahabharata Writeup
 
 ## 题目信息
 
-- **比赛**: kashiCTF
+- **比赛**: kashiCTF 2026
 - **题目**: Secret of Mahabharata
 - **类别**: Crypto
 - **难度**: 简单

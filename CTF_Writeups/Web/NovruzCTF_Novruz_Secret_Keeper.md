@@ -1,11 +1,11 @@
-# NovruzCTF_Novruz Secret Keeper（Web）
+# NovruzCTF 2026 - Novruz Secret Keeper Writeup
 
 ## 题目信息
-- 比赛：NovruzCTF
-- 题目：Admin Panel（Web）
-- 访问：http://103.54.19.209/
-- 目标：获取 `novruzctf{...}`
-- 状态：已解
+- **比赛**: NovruzCTF 2026
+- **题目**: Admin Panel（Web）
+- **附件/URL**: `http://103.54.19.209/`
+- **题目描述**: 获取 `novruzctf{...}`
+- **状态**: 已解
 
 ## Flag
 ```text

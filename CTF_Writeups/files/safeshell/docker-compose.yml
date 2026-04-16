@@ -1,0 +1,7 @@
+services:
+  safeshell:
+    image: safeshell:latest
+    build:
+      context: .
+    ports:
+      - "5000:5000"

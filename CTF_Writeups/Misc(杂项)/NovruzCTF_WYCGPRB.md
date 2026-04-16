@@ -1,8 +1,9 @@
-# novruzCTF - Ancient Spell (Misc/Stego)
+# NovruzCTF 2026 - Ancient Spell Writeup
 
 ## 题目信息
 
-- **题目名称**: WYCGPRB（西约克郡政府公共关系委员会）
+- **比赛**: NovruzCTF 2026
+- **题目**: WYCGPRB（西约克郡政府公共关系委员会）
 - **类别**: Misc / Steganography
 - **难度**: 难
 - **题目描述**: 在遥远的群山中，居住着一个古老的部落。据说他们的祖先曾传授一个神奇的咒语，但随着时间的流逝，这个咒语早已被遗忘。他们唯一留下的，是一段神秘的录音，其含义无人能解。请从这段录音中找到那个神奇的咒语。

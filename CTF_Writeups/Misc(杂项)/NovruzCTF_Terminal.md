@@ -1,7 +1,7 @@
-# NovruzCTF - Terminal Writeup
+# NovruzCTF 2026 - Terminal Writeup
 
 ## 题目信息
-- **比赛**: NovruzCTF
+- **比赛**: NovruzCTF 2026
 - **题目**: Terminal
 - **类别**: Misc
 - **难度**: Medium

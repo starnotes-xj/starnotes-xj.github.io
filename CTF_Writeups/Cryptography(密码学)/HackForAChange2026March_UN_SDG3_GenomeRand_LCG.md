@@ -1,7 +1,7 @@
-# Hack for a Change 2026 March: UN SDG 3 - GenomeRand Clinical Randomization System Writeup
+# Hack For A Change 2026 March (UN SDG3) - GenomeRand Clinical Randomization System Writeup
 
 ## 题目信息
-- **比赛**: Hack for a Change 2026 March: UN SDG 3
+- **比赛**: Hack For A Change 2026 March (UN SDG3)
 - **题目**: GenomeRand Clinical Randomization System
 - **类别**: 密码学
 - **难度**: Easy

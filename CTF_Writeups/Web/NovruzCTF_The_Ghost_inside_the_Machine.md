@@ -1,11 +1,12 @@
-# novruzCTF - Ghost Machine Interface (Web)
+# NovruzCTF 2026 - Ghost Machine Interface Writeup
 
 ## 题目信息
 
-- **题目名称**: Ghost Machine Interface / System Interface v2.0
+- **比赛**: NovruzCTF 2026
+- **题目**: Ghost Machine Interface / System Interface v2.0
 - **类别**: Web
 - **难度**: 简单
-- **题目地址**: `http://95.111.234.103:3000/`
+- **附件/URL**: `http://95.111.234.103:3000/`
 - **题目描述**: 页面显示 "System Interface v2.0"，提示向 `/api/settings` 发送 JSON POST 请求来配置会话。
 - **状态**: 已解
 

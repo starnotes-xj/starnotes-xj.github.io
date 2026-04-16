@@ -1,12 +1,12 @@
-# NovruzCTF_rev_zoktay Writeup
+# NovruzCTF 2026 - Novruz Reverse by Zoktay Writeup
 
 ## 题目信息
-- 比赛：NovruzCTF
-- 题目：novruz_rev_zoktay（Reverse）
-- 附件：`2a104a33-ad45-4bbf-8937-fb1f9ea85805.bin`（重命名为 `novruz_rev_zoktay`）
-- 附件链接：[下载附件](https://starnotes-xj.github.io/BIGC_CTF_Writeups/files/Novruz%20Reverse%20by%20Zoktay/novruz_rev_zoktay.bin){download} · [仓库位置](https://github.com/starnotes-xj/BIGC_CTF_Writeups/tree/main/CTF_Writeups/files/Novruz%20Reverse%20by%20Zoktay){target="_blank"}
-- 目标：运行或逆向二进制获取 flag
-  - 状态：已解
+- **比赛**: NovruzCTF 2026
+- **题目**: novruz_rev_zoktay（Reverse）
+- **附件**: `2a104a33-ad45-4bbf-8937-fb1f9ea85805.bin`（重命名为 `novruz_rev_zoktay`）
+- **附件链接**: [下载附件](https://starnotes-xj.github.io/BIGC_CTF_Writeups/files/Novruz%20Reverse%20by%20Zoktay/novruz_rev_zoktay.bin){download} · [仓库位置](https://github.com/starnotes-xj/BIGC_CTF_Writeups/tree/main/CTF_Writeups/files/Novruz%20Reverse%20by%20Zoktay){target="_blank"}
+- **题目描述**: 运行或逆向二进制获取 flag
+- **状态**: 已解
 
 ## Flag
 `NovruzCTF{21_Masalli_xeberdar2025}`

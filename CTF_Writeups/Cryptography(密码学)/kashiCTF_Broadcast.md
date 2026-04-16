@@ -1,4 +1,4 @@
-# kashiCTF 2026 - Broadcast (Crypto)
+# kashiCTF 2026 - Broadcast Writeup
 
 ## 题目信息
 
@@ -107,6 +107,7 @@ kashiCTF{h4st4d_s4ys_sm4ll_3xp0n3nts_k1ll_RSA_br04dc4sts}
 ## 使用的工具
 
 - Go `math/big` — 大整数运算与整数立方根计算
+- **Security MCP Hub** — `crypto_iroot` / `crypto_rsa_hastad` 一键求解
 
 ## 脚本归档
 
@@ -121,16 +122,71 @@ go run kashiCTF_Broadcast.go
 # 输出: kashiCTF{h4st4d_s4ys_sm4ll_3xp0n3nts_k1ll_RSA_br04dc4sts}
 ```
 
+## MCP 工具解法（Security MCP Hub）
+
+本题可通过 [security-mcp-hub](https://github.com/starnotes-xj/security-mcp-hub) 项目提供的 Crypto MCP 工具**零代码**求解，无需编写任何脚本。
+
+### 方法一：`crypto_iroot` — 整数立方根
+
+由于三份密文完全相同（$c_1 = c_2 = c_3 = c$），确认 $m^3 = c$（无模约减），直接对 $c$ 求整数立方根：
+
+```
+调用: crypto_iroot(n=<密文c>, k=3)
+
+返回:
+{
+  "is_exact": true,
+  "root": "780484271864688109...85565",
+  "root_hex": "0x6b617368694354467b...7d"
+}
+```
+
+`is_exact: true` 确认 $c$ 是精确的完全立方数。将 `root_hex` 解码为 ASCII 即得 Flag。
+
+### 方法二：`crypto_rsa_hastad` — Håstad 广播攻击一键求解
+
+即使三份密文不同（标准 Håstad 场景），也可使用该工具，它内部自动完成 CRT + 开 $e$ 次根：
+
+```
+调用: crypto_rsa_hastad(
+  pairs=[
+    {"c": "<c1>", "n": "<n1>"},
+    {"c": "<c2>", "n": "<n2>"},
+    {"c": "<c3>", "n": "<n3>"}
+  ],
+  e=3
+)
+
+返回:
+{
+  "plaintext_hex": "0x6b617368694354467b...7d",
+  "plaintext_bytes": "6b61736869...7d"
+}
+```
+
+`plaintext_bytes` 十六进制解码即为 Flag：
+
+```text
+kashiCTF{h4st4d_s4ys_sm4ll_3xp0n3nts_k1ll_RSA_br04dc4sts}
+```
+
+### MCP 解题优势
+
+- **零代码**：无需编写 Go/Python 脚本，直接在 Claude Code / MCP 客户端中调用工具
+- **即时验证**：`is_exact: true` 自动验证结果正确性
+- **双重方法**：`crypto_iroot` 适合简化场景（密文相同），`crypto_rsa_hastad` 覆盖通用 Håstad 场景
+
 ## 推荐工具与优化解题流程
 
 ### 工具对比总结
 
 | 工具 | 适用阶段 | 优点 | 缺点 |
 |------|----------|------|------|
+| **Security MCP Hub** | 求解 | 零代码，`crypto_rsa_hastad` 一键完成 | 需配置 MCP 服务 |
 | Go math/big | 求解 | 标准库即可，无需额外依赖 | 需手写二分法 |
 | Python gmpy2 | 求解 | `iroot()` 一行搞定 | 需安装 gmpy2 |
 | SageMath | 分析+求解 | 数学函数丰富 | 环境较重 |
 
 ### 推荐流程
 
-**推荐流程**：识别 e=3 广播模式 → Python `gmpy2.iroot(c, 3)` 一行求解 → Flag（< 1 分钟）。
+**推荐流程**：识别 e=3 广播模式 → MCP `crypto_rsa_hastad` 一键求解 → Flag（< 10 秒）。

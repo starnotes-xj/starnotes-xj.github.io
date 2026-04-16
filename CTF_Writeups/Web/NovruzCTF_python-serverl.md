@@ -1,11 +1,12 @@
-# novruzCTF -python-server (Web)
+# NovruzCTF 2026 - python-server Writeup
 
 ## 题目信息
 
-- **题目名称**: python-server
+- **比赛**: NovruzCTF 2026
+- **题目**: python-server
 - **类别**: Web
 - **难度**: 简单
-- **URL**: `https://58538afc0c.chall.canyouhack.org`
+- **附件/URL**: `https://58538afc0c.chall.canyouhack.org`
 - **TCP**: `nc 58538afc0c.chall.canyouhack.org 10009`
 - **题目描述**: 我们搭建了一个简单的Python文件服务器。它只提供files目录中的文件，所以完全安全。
 - **状态**: 已解

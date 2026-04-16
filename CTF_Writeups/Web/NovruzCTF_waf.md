@@ -1,4 +1,4 @@
-# NovruzCTF - Novruz 2196 (Web)
+# NovruzCTF 2026 - Novruz 2196 Writeup
 
 ## 题目信息
 

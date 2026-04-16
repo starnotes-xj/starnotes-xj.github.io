@@ -1,12 +1,13 @@
-# novruzCTF - XOR42 (Misc/Math)
+# NovruzCTF 2026 - XOR42 Writeup
 
 ## 题目信息
 
-- **题目名称**: XOR42（Floating in Samani above Metra Veehkim）
+- **比赛**: NovruzCTF 2026
+- **题目**: XOR42（Floating in Samani above Metra Veehkim）
 - **类别**: Misc / Math
 - **难度**: 困难
 - **题目描述**: Floating in samani above Metra Veehkim, you find yourself in a strange place amongst numbers and arithmetic operations.
-- **连接**: `nc tcp.canyouhack.org 10091`
+- **附件/URL**: `nc tcp.canyouhack.org 10091`
 - **附件**: `e8f04de8-b931-48d5-a462-f07bb37a648f.py`
 - **附件链接**: [下载附件](https://starnotes-xj.github.io/BIGC_CTF_Writeups/files/Floating%20in%20Samani/e8f04de8-b931-48d5-a462-f07bb37a648f.py){download} · [仓库位置](https://github.com/starnotes-xj/BIGC_CTF_Writeups/tree/main/CTF_Writeups/files/Floating%20in%20Samani){target="_blank"}
 - **状态**: 已解

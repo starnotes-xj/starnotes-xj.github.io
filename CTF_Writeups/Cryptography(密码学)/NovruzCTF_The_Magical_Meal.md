@@ -1,8 +1,9 @@
-# novruzCTF - The Magic Meal (Crypto)
+# NovruzCTF 2026 - The Magic Meal Writeup
 
 ## 题目信息
 
-- **题目名称**: The Magic Meal（神奇的饭菜）
+- **比赛**: NovruzCTF 2026
+- **题目**: The Magic Meal（神奇的饭菜）
 - **类别**: Crypto
 - **难度**: 中等
 - **题目描述**:

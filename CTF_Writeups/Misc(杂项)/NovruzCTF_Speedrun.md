@@ -1,7 +1,7 @@
-# NovruzCTF - NightmareCalc Writeup
+# NovruzCTF 2026 - NightmareCalc Writeup
 
 ## 题目信息
-- **比赛**: NovruzCTF
+- **比赛**: NovruzCTF 2026
 - **题目**: NightmareCalc
 - **类别**: Misc / Programming
 - **难度**: 中

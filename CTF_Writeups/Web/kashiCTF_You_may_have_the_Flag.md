@@ -1,4 +1,4 @@
-# kashiCTF - You may have the Flag Writeup
+# kashiCTF 2026 - You may have the Flag Writeup
 
 ## 题目信息
 - **比赛**: kashiCTF 2026

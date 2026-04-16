@@ -1,4 +1,4 @@
-# Hack For A Change 2026 March - Encrypted Audit Logs (Crypto)
+# Hack For A Change 2026 March - Encrypted Audit Logs Writeup
 
 ## 题目信息
 

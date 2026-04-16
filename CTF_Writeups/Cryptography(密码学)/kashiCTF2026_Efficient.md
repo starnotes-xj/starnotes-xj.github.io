@@ -1,4 +1,4 @@
-# kashiCTF 2026 - Efficient (Crypto)
+# kashiCTF 2026 - Efficient Writeup
 
 ## 题目信息
 
@@ -118,6 +118,7 @@ flag = unpad(cipher_aes.decrypt(flag_ct), 16)
 
 - **Python + PyCryptodome** — RSA 解密与 AES-CBC 解密
 - **math.isqrt** — Python 内置整数平方根，用于分解 $n = p^2$
+- **Security MCP Hub** — `crypto_iroot` 分解 $n = p^2$，`crypto_mod_math` 辅助模运算
 
 ## 脚本归档
 
@@ -131,6 +132,65 @@ flag = unpad(cipher_aes.decrypt(flag_ct), 16)
 python kashiCTF2026_Efficient.py
 ```
 
+## MCP 工具解法（Security MCP Hub）
+
+本题可通过 [security-mcp-hub](https://github.com/starnotes-xj/security-mcp-hub) 项目提供的 Crypto MCP 工具完成**关键分解步骤**，后续 AES 解密配合 `cyberchef_decrypt` 完成。
+
+### 步骤一：`crypto_iroot` — 分解 $n = p^2$
+
+对 4096 位 RSA 模数 $n$ 开平方根，验证是否为完全平方数：
+
+```
+调用: crypto_iroot(n=0x752a94a1...59479, k=2)
+
+返回:
+{
+  "is_exact": true,
+  "root": "218631407806408676...56843",
+  "root_hex": "0xad307ed8fa74c548...0b"
+}
+```
+
+`is_exact: true` 确认 $n$ 是完全平方数，`root` 即为素数 $p$（2048 位）。这一步零代码完成了分解，无需编写任何脚本。
+
+### 步骤二：`crypto_mod_math` — 计算 RSA 私钥
+
+使用模逆运算求私钥 $d = e^{-1} \mod \varphi(p^2)$：
+
+```
+调用: crypto_mod_math(
+  operation="inverse",
+  a="65537",
+  b="<φ(n) = p*(p-1)>",
+  m="<φ(n)>"
+)
+```
+
+### 步骤三：RSA 解密 + AES-CBC 解密
+
+RSA 解密得到 AES 密钥后，使用 `cyberchef_decrypt` 完成 AES-CBC 解密：
+
+```
+调用: cyberchef_decrypt(
+  data="<flag_ct hex>",
+  algorithm="aes-cbc",
+  key="3a59a95d070450f5f1c070743cc7aa37",
+  iv="5d20a7a592f237639a9fb17aee138a59"
+)
+```
+
+最终得到 Flag：
+
+```text
+kashiCTF{wh3n_0n3_pr1m3_1s_n0t_3n0ugh_p_squared_1s_w0rs3}
+```
+
+### MCP 解题优势
+
+- **即时分解**：`crypto_iroot` 对 4096 位模数开平方根，`is_exact: true` 自动验证完全平方数
+- **模块化流程**：分解（`crypto_iroot`）→ 模运算（`crypto_mod_math`）→ 解密（`cyberchef_decrypt`），每步独立可验证
+- **混合加密覆盖**：Crypto MCP 处理 RSA 数论层，CyberChef MCP 处理 AES 对称层，工具链完整
+
 ## 推荐工具与优化解题流程
 
 > 参考 `CTF_TOOLS_EXTENSION_PLAN.md` 中的 Crypto 工具推荐。
@@ -139,15 +199,16 @@ python kashiCTF2026_Efficient.py
 
 | 工具 | 适用阶段 | 本题耗时 | 优点 | 缺点 |
 |------|----------|----------|------|------|
+| **Security MCP Hub** | 分解 + 模运算 | < 1 秒 | 零代码分解，即时验证完全平方数 | AES 层需配合 CyberChef |
 | **Python + PyCryptodome** | 全流程 | < 1 秒 | 灵活，可处理混合加密 | 需手动编写逻辑 |
 | **RsaCtfTool** | RSA 分析 | 即时 | 自动检测 p=q 等弱点 | 不处理后续 AES 层 |
 | **SageMath** | 数论分析 | 即时 | 内置 `is_square()` 等函数 | 对本题杀鸡用牛刀 |
 
 ### 推荐流程
 
-**推荐流程**：识别 $n = p^2$ → `isqrt(n)` 分解 → PyCryptodome 解密 → Flag（预估 < 1 分钟）。
+**推荐流程**：MCP `crypto_iroot` 分解 $n = p^2$ → `crypto_mod_math` 求私钥 → RSA 解密得 AES 密钥 → `cyberchef_decrypt` 解密 → Flag（< 30 秒）。
 
-### Python + PyCryptodome（推荐首选）
+### Python + PyCryptodome（脚本方案）
 
 - **安装**：`pip install pycryptodome`
 - **详细步骤**：

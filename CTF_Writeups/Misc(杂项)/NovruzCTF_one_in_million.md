@@ -1,8 +1,9 @@
-# novruzCTF - Needle in a Haystack (Misc)
+# NovruzCTF 2026 - Needle in a Haystack Writeup
 
 ## 题目信息
 
-- **题目名称**: Needle in a Haystack（大海捞针）
+- **比赛**: NovruzCTF 2026
+- **题目**: Needle in a Haystack（大海捞针）
 - **类别**: Misc
 - **难度**: 中等
 - **Flag格式**: `novruzCTF{}`

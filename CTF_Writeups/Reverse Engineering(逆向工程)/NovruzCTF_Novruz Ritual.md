@@ -1,8 +1,8 @@
-# NovruzCTF - Ritual (Reverse Engineering)
+# NovruzCTF 2026 - Ritual Writeup
 
 ## 题目信息
 
-- **比赛**: NovruzCTF
+- **比赛**: NovruzCTF 2026
 - **题目**: 古老的仪式咒语 / Ritual
 - **类型**: Reverse Engineering
 - **附件**: `ad1c72b0-ca4c-4899-8e24-962d6cbc60a9.bin`

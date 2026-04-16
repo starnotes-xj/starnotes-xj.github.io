@@ -1,11 +1,12 @@
-# novruzCTF - Shiny Scanner (Web/SSRF) [未解出]
+# NovruzCTF 2026 - Shiny Scanner Writeup [未解出]
 
 ## 题目信息
 
-- **题目名称**: Shiny Scanner
+- **比赛**: NovruzCTF 2026
+- **题目**: Shiny Scanner
 - **类别**: Web
 - **难度**: 中等
-- **题目地址**: `http://95.111.234.103:5050/`
+- **附件/URL**: `http://95.111.234.103:5050/`
 - **题目描述**: kosa 发布了一款先进的互联网扫描产品。我们必须立即阻止他们。捕获 /flag.txt。
 - **状态**: 未解出（比赛环境已关闭）
 

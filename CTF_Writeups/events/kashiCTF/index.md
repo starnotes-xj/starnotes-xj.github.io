@@ -3,7 +3,7 @@ hide:
   - toc
 ---
 
-# kashiCTF
+# kashiCTF 2026
 
 **时间**: 2026 年 4 月 3 日 12:00 UTC ～ 4 月 4 日 12:00 UTC | **类别**: Crypto / Web / ...
 

@@ -1,8 +1,8 @@
-# NovruzCTF - Novruzland (Web)
+# NovruzCTF 2026 - Novruzland Writeup
 
 ## 题目信息
 
-- **比赛**: NovruzCTF
+- **比赛**: NovruzCTF 2026
 - **题目**: Novruzland（扎卡塔拉 / 卡拉杜祖）
 - **类型**: Web
 - **地址**: `http://95.111.234.103:33097/`

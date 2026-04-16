@@ -1,7 +1,7 @@
-# NovruzCTF - Echoes of the Serpent Writeup
+# NovruzCTF 2026 - Echoes of the Serpent Writeup
 
 ## 题目信息
-- **比赛**: NovruzCTF
+- **比赛**: NovruzCTF 2026
 - **题目**: Echoes of the Serpent
 - **类别**: Cryptography
 - **难度**: Easy-Medium

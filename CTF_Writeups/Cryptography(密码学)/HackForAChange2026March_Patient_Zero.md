@@ -1,4 +1,4 @@
-# Hack For A Change 2026 March - Patient Zero (Crypto)
+# Hack For A Change 2026 March - Patient Zero Writeup
 
 ## 题目信息
 
