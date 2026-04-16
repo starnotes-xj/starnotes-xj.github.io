@@ -4,3 +4,25 @@ site/
 /.idea/go.imports.xml
 /.idea/modules.xml
 /.idea/vcs.xml
+
+# Temp/test files
+output.txt
+output (1).txt
+secret_message.txt
+test.go
+
+# Tool artifacts
+.claude/
+.playwright-mcp/
+hashcat_sessions.db
+
+# Local agent/runtime scratch
+.omx/
+__pycache__/
+CTF_Writeups/scripts_python/__pycache__/
+analysis_tmp/
+site_clean_check/
+tmp_site/
+tmp_test_dotenv/
+cookies.txt
+*.tmp
