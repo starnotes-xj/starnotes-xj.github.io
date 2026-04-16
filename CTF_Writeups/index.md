@@ -20,7 +20,7 @@ tags:
 
     SSRF / XSS / SQLi / LFI / RCE
 
-    [:octicons-arrow-right-24: 11 篇文章](Web/index.md)
+    [:octicons-arrow-right-24: 13 篇文章](Web/index.md)
 
 -   :material-lock:{ .lg .middle } __Crypto__
 
@@ -71,7 +71,7 @@ tags:
 | 比赛 | 时间 | 类别 | 题数 | 状态 |
 |------|------|------|:----:|------|
 | [**Hack For A Change 2026 March**](events/HackForAChange2026March/index.md) | 2026.03 | Crypto | 3 | :material-check-circle: 已归档 |
-| [**ACSC Qualification 2026**](events/ACSC_Qualification_2026/index.md) | 2026.03-05 | Crypto | 2 | :material-alert: 本地草稿 |
+| [**ACSC Qualification 2026**](events/ACSC_Qualification_2026/index.md) | 2026.03-05 | Crypto / Web | 4 | :material-alert: 本地草稿 |
 | [**kashiCTF 2026**](events/kashiCTF/index.md) | 2026.04 | Crypto / Web | 4 | :material-check-circle: 已归档 |
 | [**NovruzCTF 2026**](events/NovruzCTF_2026/index.md) | 2026.03 | Web / Crypto / Rev / Misc / PPC | 17 | :material-check-circle: 已归档 |
 | [**MetaCTF**](events/MetaCTF/index.md) | 待补 | Crypto / Pwn | 2 | :material-check-circle: 已归档 |

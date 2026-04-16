@@ -1,0 +1,11 @@
+version: "3"
+services:
+  web:
+    image: web:latest
+    build:
+      context: .
+    environment:
+      - FLAG=dach2026{test_flag}
+      - SHORTEN_RATE_LIMIT_SECONDS=5
+    ports:
+      - "5000:5000"
