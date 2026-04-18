@@ -45,7 +45,7 @@ hide:
 
     ---
 
-    **11 题** — Crypto / Reverse / Misc / Pwn / PPC
+    **12 题** — Crypto / Reverse / Misc / Pwn / PPC
 
     2026 年 4 月 17 日 - 19 日
 

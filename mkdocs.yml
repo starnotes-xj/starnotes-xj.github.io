@@ -119,6 +119,7 @@ nav:
       - Web/ACSC2026Qualification_Wibe4Win.md
       - Web/putcCTF_Lorem_Ipsum_Arcanum_Invocatum.md
       - Web/putcCTF_Lorem_Ipsum_Arcanum_Invocatum_payload_faq.md
+      - Web/CPCTF_mirage.md
   - 密码学:
       - "Cryptography(\u5BC6\u7801\u5B66)/index.md"
       - "Cryptography(\u5BC6\u7801\u5B66)/cbc_mac.md"
@@ -135,6 +136,7 @@ nav:
       - "Cryptography(\u5BC6\u7801\u5B66)/kashiCTF_Broadcast.md"
       - "Cryptography(\u5BC6\u7801\u5B66)/MetaCTF_Physics_Notes.md"
       - "Cryptography(\u5BC6\u7801\u5B66)/CPCTF_Bitwise_Scrumble.md"
+      - "Cryptography(\u5BC6\u7801\u5B66)/CPCTF_1_0_7.md"
       - "Cryptography(\u5BC6\u7801\u5B66)/CPCTF_Dualcast.md"
       - "Cryptography(\u5BC6\u7801\u5B66)/CPCTF_Anomaly_2.md"
       - "Cryptography(\u5BC6\u7801\u5B66)/CPCTF_Ultra_Janken_Tournament.md"
@@ -154,9 +156,11 @@ nav:
       - Pwn/CPCTF_killionaire.md
       - Pwn/MetaCTF_pwnMe.md
       - Pwn/MetaCTF_Teaching_Bricks.md
+      - Pwn/putcCTF_P2P_Secure_Chat.md
   - 杂项:
       - "Misc(\u6742\u9879)/index.md"
       - "Misc(\u6742\u9879)/CPCTF_L0v3_PDF.md"
+      - "Misc(\u6742\u9879)/CPCTF_SSH.md"
       - "Misc(\u6742\u9879)/NovruzCTF_Speedrun.md"
       - "Misc(\u6742\u9879)/NovruzCTF_Terminal.md"
       - "Misc(\u6742\u9879)/NovruzCTF_WYCGPRB.md"

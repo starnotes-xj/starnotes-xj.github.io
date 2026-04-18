@@ -52,7 +52,7 @@ tags:
 
     Stego / Forensics / Programming
 
-    [:octicons-arrow-right-24: 6 + 3 篇文章](Misc(杂项)/index.md)
+    [:octicons-arrow-right-24: 7 + 3 篇文章](Misc(杂项)/index.md)
 
 -   :material-trophy:{ .lg .middle } __按比赛查看__
 
@@ -73,7 +73,7 @@ tags:
 | [**Hack For A Change 2026 March**](events/HackForAChange2026March/index.md) | 2026.03 | Crypto | 3 | :material-check-circle: 已归档 |
 | [**ACSC Qualification 2026**](events/ACSC_Qualification_2026/index.md) | 2026.03-05 | Crypto / Web | 4 | :material-alert: 本地草稿 |
 | [**kashiCTF 2026**](events/kashiCTF/index.md) | 2026.04 | Crypto / Web | 4 | :material-check-circle: 已归档 |
-| [**CPCTF**](events/CPCTF/index.md) | 2026.04.17-04.19 | Crypto / Reverse / Misc / Pwn / PPC | 11 | :material-check-circle: 已归档 |
+| [**CPCTF**](events/CPCTF/index.md) | 2026.04.17-04.19 | Crypto / Reverse / Misc / Pwn / PPC | 12 | :material-check-circle: 已归档 |
 | [**NovruzCTF 2026**](events/NovruzCTF_2026/index.md) | 2026.03 | Web / Crypto / Rev / Misc / PPC | 17 | :material-check-circle: 已归档 |
 | [**MetaCTF**](events/MetaCTF/index.md) | 待补 | Crypto / Pwn | 2 | :material-check-circle: 已归档 |
 | [**putcCTF**](events/putcCTF/index.md) | 待补 | Crypto / Web / Stego | 3 | :material-check-circle: 已归档 |

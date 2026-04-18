@@ -6,8 +6,8 @@ hide:
 # CPCTF
 
 > **时间**: 2026-04-17 11:00 UTC ～ 2026-04-19 11:00 UTC
-> **题目数量**: 11（当前已收录）
-> **类别**: Crypto / Reverse / Misc / Pwn / PPC
+> **题目数量**: 13（当前已收录）
+> **类别**: Crypto / Reverse / Misc / Pwn / PPC / Web
 
 ## 相关链接
 
@@ -38,6 +38,7 @@ hide:
 | 题目 | 难度 | 状态 |
 |------|------|------|
 | [L0v3 PDF](../../Misc(杂项)/CPCTF_L0v3_PDF.md) | 简单 | :material-check-circle: 已解 |
+| [SSH](../../Misc(杂项)/CPCTF_SSH.md) | 简单 | :material-check-circle: 已解 |
 
 ## Pwn
 
@@ -51,3 +52,9 @@ hide:
 |------|------|------|
 | [Sign up for traP](../../PPC/CPCTF_Sign_up_for_traP.md) | 简单 | :material-check-circle: 已解 |
 | [Modulo Equation](../../PPC/CPCTF_Modulo_Equation.md) | 简单 | :material-check-circle: 已解 |
+
+## Web
+
+| 题目 | 难度 | 状态 |
+|------|------|------|
+| [mirage](../../Web/CPCTF_mirage.md) | 简单 | :material-check-circle: 已解 |
