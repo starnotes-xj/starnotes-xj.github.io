@@ -1,0 +1,17 @@
+\seq_new:N \l_my_char_code_seq
+\tl_new:N  \l_my_result_tl
+
+\cs_new_protected:Npn \my_convert_clist_to_string:n #1
+  {
+    \???:Nn \l_my_char_code_seq { #1 }
+    \tl_clear:N \l_my_result_tl
+    \seq_map_inline:Nn \l_my_char_code_seq
+      {
+        \tl_put_right:Nx \l_my_result_tl { \char_generate:nn { ##1 } { 12 } }
+      }
+    \tl_use:N \l_my_result_tl
+  }
+\NewDocumentCommand{\printfromclist}{m}
+  {
+    \my_convert_clist_to_string:n { #1 }
+  }

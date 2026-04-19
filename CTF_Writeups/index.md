@@ -14,6 +14,14 @@ tags:
 
 <div class="grid cards" markdown>
 
+-   :material-compass-outline:{ .lg .middle } __新手上手指南__
+
+    ---
+
+    不知道拿到题目后第一步做什么？从这里按方向建立固定操作流程。
+
+    [:octicons-arrow-right-24: 开始学习](guides/index.md)
+
 -   :material-web:{ .lg .middle } __Web__
 
     ---

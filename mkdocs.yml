@@ -103,86 +103,15 @@ extra_css:
 
 nav:
   - 首页: index.md
-  - Web:
-      - Web/index.md
-      - Web/NovruzCTF_kecel-scanner.md
-      - Web/NovruzCTF_Novruzland.md
-      - Web/NovruzCTF_loteraya.md
-      - Web/NovruzCTF_python-serverl.md
-      - Web/NovruzCTF_waf.md
-      - Web/NovruzCTF_Novruz_Secret_Keeper.md
-      - Web/NovruzCTF_The_Ghost_inside_the_Machine.md
-      - Web/kashiCTF_You_may_have_the_Flag.md
-      - Web/UMassCTF2026_Brick_by_Brick.md
-      - Web/UMassCTF2026_BrOWSER_BOSS_FIGHT.md
-      - Web/ACSC2026Qualification_FasterTravel.md
-      - Web/ACSC2026Qualification_Wibe4Win.md
-      - Web/putcCTF_Lorem_Ipsum_Arcanum_Invocatum.md
-      - Web/putcCTF_Lorem_Ipsum_Arcanum_Invocatum_payload_faq.md
-      - Web/CPCTF_mirage.md
-  - 密码学:
-      - "Cryptography(\u5BC6\u7801\u5B66)/index.md"
-      - "Cryptography(\u5BC6\u7801\u5B66)/cbc_mac.md"
-      - "Cryptography(\u5BC6\u7801\u5B66)/rsa_modular_arithmetic.md"
-      - "Cryptography(\u5BC6\u7801\u5B66)/ACSC2026Qualification_Dino_Vault.md"
-      - "Cryptography(\u5BC6\u7801\u5B66)/NovruzCTF_Echoes_of_the_Serpent.md"
-      - "Cryptography(\u5BC6\u7801\u5B66)/NovruzCTF_The_Magical_Meal.md"
-      - "Cryptography(\u5BC6\u7801\u5B66)/HackForAChange2026March_Patient_Zero.md"
-      - "Cryptography(\u5BC6\u7801\u5B66)/HackForAChange2026March_Encrypted_Audit_Logs.md"
-      - "Cryptography(\u5BC6\u7801\u5B66)/HackForAChange2026March_UN_SDG3_GenomeRand_LCG.md"
-      - "Cryptography(\u5BC6\u7801\u5B66)/ACSC2026Qualification_SafeShell.md"
-      - "Cryptography(\u5BC6\u7801\u5B66)/kashiCTF_Secret_of_Mahabharata.md"
-      - "Cryptography(\u5BC6\u7801\u5B66)/kashiCTF2026_Efficient.md"
-      - "Cryptography(\u5BC6\u7801\u5B66)/kashiCTF_Broadcast.md"
-      - "Cryptography(\u5BC6\u7801\u5B66)/MetaCTF_Physics_Notes.md"
-      - "Cryptography(\u5BC6\u7801\u5B66)/CPCTF_Bitwise_Scrumble.md"
-      - "Cryptography(\u5BC6\u7801\u5B66)/CPCTF_1_0_7.md"
-      - "Cryptography(\u5BC6\u7801\u5B66)/CPCTF_Dualcast.md"
-      - "Cryptography(\u5BC6\u7801\u5B66)/CPCTF_Anomaly_2.md"
-      - "Cryptography(\u5BC6\u7801\u5B66)/CPCTF_Ultra_Janken_Tournament.md"
-      - "Cryptography(\u5BC6\u7801\u5B66)/CPCTF_Very_Exciting.md"
-      - "Cryptography(\u5BC6\u7801\u5B66)/CPCTF_Janken_Master.md"
-      - "Cryptography(\u5BC6\u7801\u5B66)/UMassCTF2026_The_Accursed_Lego_Bin.md"
-      - "Cryptography(\u5BC6\u7801\u5B66)/putcCTF_Exercise.md"
-      - "Cryptography(\u5BC6\u7801\u5B66)/putcCTF_\u6587\u4ef6\u91cc\u9762\u6709\u4ec0\u4e48.md"
-  - 逆向工程:
-      - "Reverse Engineering(\u9006\u5411\u5DE5\u7A0B)/index.md"
-      - "Reverse Engineering(\u9006\u5411\u5DE5\u7A0B)/NovruzCTF_Novruz_Reverse_by_Zoktay.md"
-      - "Reverse Engineering(\u9006\u5411\u5DE5\u7A0B)/NovruzCTF_Pakhlivan_fell_in_love_with_Zoktay.md"
-      - "Reverse Engineering(\u9006\u5411\u5DE5\u7A0B)/NovruzCTF_Novruz Ritual.md"
-      - "Reverse Engineering(\u9006\u5411\u5DE5\u7A0B)/CPCTF_hidden.md"
-  - Pwn:
-      - Pwn/index.md
-      - Pwn/CPCTF_killionaire.md
-      - Pwn/MetaCTF_pwnMe.md
-      - Pwn/MetaCTF_Teaching_Bricks.md
-      - Pwn/putcCTF_P2P_Secure_Chat.md
-  - 杂项:
-      - "Misc(\u6742\u9879)/index.md"
-      - "Misc(\u6742\u9879)/CPCTF_L0v3_PDF.md"
-      - "Misc(\u6742\u9879)/CPCTF_SSH.md"
-      - "Misc(\u6742\u9879)/NovruzCTF_Speedrun.md"
-      - "Misc(\u6742\u9879)/NovruzCTF_Terminal.md"
-      - "Misc(\u6742\u9879)/NovruzCTF_WYCGPRB.md"
-      - "Misc(\u6742\u9879)/NovruzCTF_one_in_million.md"
-      - "Misc(\u6742\u9879)/VishwaCTF2026_Program_Maze.md"
-  - PPC:
-      - PPC/index.md
-      - PPC/CPCTF_Sign_up_for_traP.md
-      - PPC/CPCTF_Modulo_Equation.md
-      - PPC/NovruzCTF_Floating_in_Samani.md
-  - 比赛:
-      - events/index.md
-      - ACSC Qualification 2026: events/ACSC_Qualification_2026/index.md
-      - Hack For A Change 2026 March: events/HackForAChange2026March/index.md
-      - NovruzCTF 2026: events/NovruzCTF_2026/index.md
-      - kashiCTF 2026: events/kashiCTF/index.md
-      - CPCTF: events/CPCTF/index.md
-      - MetaCTF: events/MetaCTF/index.md
-      - UMassCTF 2026: events/UMassCTF_2026/index.md
-      - VishwaCTF 2026: events/VishwaCTF_2026/index.md
-      - putcCTF: events/putcCTF/index.md
-      - 历史参赛记录: history/competitions.md
-      - 参赛记录模板: history/competitions.template.md
+  - 新手指南: guides/index.md
+  - Web: Web/index.md
+  - 密码学: "Cryptography(\u5BC6\u7801\u5B66)/index.md"
+  - 逆向工程: "Reverse Engineering(\u9006\u5411\u5DE5\u7A0B)/index.md"
+  - Pwn: Pwn/index.md
+  - 杂项: "Misc(\u6742\u9879)/index.md"
+  - PPC: PPC/index.md
+  - 比赛: events/index.md
+  - 历史参赛记录: history/competitions.md
   - 标签: tags.md
   - 模板: WRITEUP_TEMPLATE.md
+
