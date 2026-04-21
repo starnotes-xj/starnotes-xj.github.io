@@ -33,7 +33,7 @@ python3 ~/.local/bin/RsaCtfTool -h
 
 ### Step 1：确认参数
 
-附件 `CTF_Writeups/files/1、0、7/107107_b38e4b4bcd49c22b496049abb867695331cdc0f7542dd59288b3597e1b8e4119.txt` 提供：
+附件：[下载附件](https://starnotes-xj.github.io/BIGC_CTF_Writeups/files/1%E3%80%810%E3%80%817/107107_b38e4b4bcd49c22b496049abb867695331cdc0f7542dd59288b3597e1b8e4119.txt){download} · [仓库位置](https://github.com/starnotes-xj/BIGC_CTF_Writeups/tree/main/CTF_Writeups/files/1%E3%80%810%E3%80%817){target="_blank"}，其中提供：
 
 - `N`
 - `e = 65537`
