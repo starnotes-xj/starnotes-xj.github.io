@@ -22,7 +22,7 @@ RsaCtfTool -h
 
 ```bash
 python3 -m site --user-base
-# 例如输出 /home/runner/.local，则可执行：
+# 例如输出 /home/user/.local，则可执行：
 export PATH="$(python3 -m site --user-base)/bin:$PATH"
 ```
 
@@ -59,6 +59,7 @@ $$
 
 ```bash
 read -r P Q < <(python3 - <<'PY'
+# 本题中：p 是由 k 个 1 构成的 repunit，q = 10^(t+k) + 7
 k = 317  # 重复 '1' 的长度（用于构造 p）
 t = 95   # 中间 '0' 的长度（用于构造 q 的位移）
 p = (10**k - 1) // 9
