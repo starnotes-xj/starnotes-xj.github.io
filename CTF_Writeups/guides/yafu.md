@@ -50,13 +50,28 @@ RsaCtfTool \
   --decrypt <cipher_int>
 ```
 
-## 4. 与仓库 writeup 的配合建议
+## 4. yafu 适合的 RSA CTF 场景
+
+`yafu` 更适合作为 RSA 题里的整数分解与辅助验证工具。遇到 RSA 题时，建议先观察 `n` 是否有明显结构；如果没有直接代数分解路径，再根据题型选择对应命令。
+
+| 场景 | yafu 作用 | 常用入口 |
+|------|-----------|----------|
+| `p`、`q` 很接近 | 使用 Fermat 分解快速拆 `n` | `fermat(<n>, <max_iter>)` |
+| 因子疑似在某个小区间内 | 在给定区间筛候选素数，再验证是否整除 `n` | `bigprimes(<lower>, <upper>, <depth>)` |
+| 因子形如 `nextprime(base + offset)` | 从已知基准值附近找相邻素数，用于验证偏移构造 | `nextprime(<base>)` |
+| 普通中小规模 RSA 分解 | 让 yafu 自动选择 trial/rho/ECM/SIQS/NFS 等流程 | `factor(<n>)` |
+| 特殊数形如 `k*b^m+c` 或 Cunningham 类结构 | 利用特殊数域筛，通常比通用分解更快 | `snfs(<expression>, <cofactor>)` |
+| 已经通过结构分析拿到候选因子 | 做交叉验证，确认 `p*q == n` 或检查剩余合数 | `factor(<candidate>)` |
+
+注意：如果题目的 `n` 本身能被十进制拼接、repunit、公因子、共享模数等结构直接拆开，应优先使用结构法。此时 yafu 通常只适合作为验证工具，不一定能提高解题效率。
+
+## 5. 与仓库 writeup 的配合建议
 
 - RSA 题里只要出现“需要分解整数 `n`”的步骤，优先跑 `yafu`
 - 得到 `p/q` 后，再交给 `RsaCtfTool` 或自写脚本做私钥恢复与解密
 - 若题目存在明显结构（如可直接代数分解），可先用结构法拿到因子，再用 `yafu` 做交叉验证
 
-## 5. 常见命令速查
+## 6. 常见命令速查
 
 ```bash
 # 查看帮助
