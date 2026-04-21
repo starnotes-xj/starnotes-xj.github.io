@@ -9,6 +9,7 @@ title: 密码学分类索引
 ## 新手指南
 
 - [Crypto 新手上手操作指南](../guides/crypto.md) — 先识别题型，再按编码、古典密码、RSA、PRNG 与对称加密分流。
+- [RsaCtfTool 上手使用指南](../guides/rsactftool.md) — RSA 题的安装、常用命令与仓库实战示例。
 
 ## 文章列表
 
