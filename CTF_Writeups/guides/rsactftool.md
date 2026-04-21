@@ -25,11 +25,11 @@ python3 ~/.local/bin/RsaCtfTool -h
 1. 直接给公钥文件（`--publickey`），让工具尝试攻击并恢复私钥
 2. 已知 `p/q/e` 时直接传参，配合 `--decrypt` 快速还原明文
 
-本仓库中 `CPCTF - 1、0、7` 这题适合第二种方式：先根据结构拿到 `p/q`，再交给工具做解密。
+本仓库中 `CPCTF 1、0、7` 这题适合第二种方式：先根据结构拿到 `p/q`，再交给工具做解密。
 
 ## 3. 实战：CPCTF - 1、0、7
 
-参考 writeup：[`CPCTF_1_0_7.md`](../Cryptography(密码学)/CPCTF_1_0_7.md)
+参考 writeup：[CPCTF 1、0、7 题解](../Cryptography(密码学)/CPCTF_1_0_7.md)
 
 ### Step 1：确认参数
 
