@@ -58,17 +58,14 @@ $$
 ### Step 2：用 RsaCtfTool 解密
 
 ```bash
-P_AND_Q="$(python3 - <<'PY'
-k = 317
-t = 95
+read -r P Q < <(python3 - <<'PY'
+k = 317  # 重复 '1' 的长度（用于构造 p）
+t = 95   # 中间 '0' 的长度（用于构造 q 的位移）
 p = (10**k - 1) // 9
 q = 10**(t + k) + 7
-print(p)
-print(q)
+print(p, q)
 PY
-)"
-P="$(echo "$P_AND_Q" | sed -n '1p')"
-Q="$(echo "$P_AND_Q" | sed -n '2p')"
+)
 
 RsaCtfTool \
   -p "$P" \
