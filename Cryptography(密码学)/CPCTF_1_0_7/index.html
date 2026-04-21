@@ -1,0 +1,1501 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="CTF 竞赛解题记录与学习笔记">
+      
+      
+        <meta name="author" content="BIGC CTF Team">
+      
+      
+        <link rel="canonical" href="https://starnotes-xj.github.io/BIGC_CTF_Writeups/Cryptography%28%E5%AF%86%E7%A0%81%E5%AD%A6%29/CPCTF_1_0_7/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>CPCTF - 1、0、7 Writeup - BIGC CTF Writeups</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra_v3.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#cpctf-107-writeup" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="BIGC CTF Writeups" class="md-header__button md-logo" aria-label="BIGC CTF Writeups" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 11c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4 9 4zm-9 10c3.75-1 7-5.46 7-9.78V6.3l-7-3.12z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BIGC CTF Writeups
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              CPCTF - 1、0、7 Writeup
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../guides/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  新手指南
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Web/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Web
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  密码学
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Reverse%20Engineering%28%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  逆向工程
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Pwn/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Pwn
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Misc%28%E6%9D%82%E9%A1%B9%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  杂项
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../PPC/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  PPC
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../events/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  比赛
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../history/competitions/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  历史参赛记录
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../tags/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  标签
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../WRITEUP_TEMPLATE/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  模板
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="BIGC CTF Writeups" class="md-nav__button md-logo" aria-label="BIGC CTF Writeups" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 11c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4 9 4zm-9 10c3.75-1 7-5.46 7-9.78V6.3l-7-3.12z"/></svg>
+
+    </a>
+    BIGC CTF Writeups
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    新手指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    密码学
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Reverse%20Engineering%28%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    逆向工程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Pwn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pwn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%28%E6%9D%82%E9%A1%B9%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    杂项
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PPC/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PPC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../events/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    比赛
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../history/competitions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    历史参赛记录
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tags/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    标签
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../WRITEUP_TEMPLATE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模板
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        题目信息
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flag
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        解题过程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="解题过程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 初始侦察/文件识别
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 关键突破点一：把十进制拼接写成代数式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 关键突破点二：恢复私钥并解密
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 获取 Flag
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        攻击链/解题流程总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        漏洞分析 / 机制分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="漏洞分析 / 机制分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        根因
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        影响
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        修复建议（适用于漏洞类题目）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        知识点
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        使用的工具
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        脚本归档
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        命令行提取关键数据（无 GUI）
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐工具与优化解题流程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="推荐工具与优化解题流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工具对比总结
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工具 A（推荐首选）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工具 B（可选）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工具 C（推荐归档版）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="cpctf-107-writeup">CPCTF - 1、0、7 Writeup<a class="headerlink" href="#cpctf-107-writeup" title="Permanent link">&para;</a></h1>
+<h2 id="_1">题目信息<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>比赛</strong>: CPCTF</li>
+<li><strong>题目</strong>: 1、0、7</li>
+<li><strong>类别</strong>: Crypto / RSA</li>
+<li><strong>难度</strong>: 简单</li>
+<li><strong>附件/URL</strong>: <code>107107_b38e4b4bcd49c22b496049abb867695331cdc0f7542dd59288b3597e1b8e4119.txt</code></li>
+<li><strong>附件链接</strong>: <a download="download" href="https://starnotes-xj.github.io/BIGC_CTF_Writeups/files/1%E3%80%810%E3%80%817/107107_b38e4b4bcd49c22b496049abb867695331cdc0f7542dd59288b3597e1b8e4119.txt">下载附件</a> · <a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups/tree/main/CTF_Writeups/files/1%E3%80%810%E3%80%817" target="_blank">仓库位置</a></li>
+<li><strong>Flag格式</strong>: <code>CPCTF{...}</code></li>
+<li><strong>状态</strong>: 已解</li>
+</ul>
+<h2 id="flag">Flag<a class="headerlink" href="#flag" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>CPCTF{N_1s_34sy_70_bRe4k_873b4982a}
+</code></pre></div>
+<h2 id="_2">解题过程<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="1">1. 初始侦察/文件识别<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>附件里直接给出了 RSA 公钥参数和密文：</li>
+</ul>
+<div class="highlight"><pre><span></span><code>N=111...111000...000777...777
+e=65537
+c=24843637357401882323446973756028112485787496266605121365114610100704976130139741775294278368083885062198910614947919701406960107347354136102083123762522563111468269091870174521712246171376836840432255040039220296948193266921702699341919800731671378599220251932387731543800016339125706640050863673217753733950003925236014913643596976803633793469056544830856356906877796834342590774214214984186572346186348406049348500029472048880777893019592044554103952675917537653629499365661200893824071688347597515583518961750064206790440539820055665939394772896875086157476469036827442358013160609933570806379028553689444972004391787853021463769839240033616969091368964549902197048529690707775841641688773013075774663922475980270327652933542
+</code></pre></div>
+<ul>
+<li><span class="arithmatex">\(e = 65537\)</span> 是最常见的 RSA 公钥指数。</li>
+<li>真正可疑的是 <code>N</code>：它不是看起来随机的模数，而是十进制下非常整齐的拼接数。</li>
+<li>把 <code>N</code> 的十进制连续数字块统计一下，很快就能看到：</li>
+</ul>
+<div class="highlight"><pre><span></span><code>1 重复 317 次
+0 重复 95 次
+7 重复 317 次
+</code></pre></div>
+<h3 id="2">2. 关键突破点一：把十进制拼接写成代数式<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<ul>
+<li>设：</li>
+</ul>
+<div class="arithmatex">\[
+k = 317,\qquad t = 95,\qquad R_k = \frac{10^k - 1}{9}
+\]</div>
+<p>其中 <span class="arithmatex">\(R_k\)</span> 表示由 <span class="arithmatex">\(k\)</span> 个 <code>1</code> 组成的 repunit。</p>
+<ul>
+<li>那么低位的 <code>777...777</code> 可以写成：</li>
+</ul>
+<div class="arithmatex">\[
+777\ldots777 = 7R_k
+\]</div>
+<ul>
+<li>整个模数 <span class="arithmatex">\(N\)</span> 就是：</li>
+</ul>
+<div class="arithmatex">\[
+N = R_k \cdot 10^{t+k} + 7R_k
+\]</div>
+<ul>
+<li>提出公共因子 <span class="arithmatex">\(R_k\)</span>：</li>
+</ul>
+<div class="arithmatex">\[
+N = R_k \left(10^{t+k} + 7\right)
+\]</div>
+<ul>
+<li>代入本题的长度参数以后：</li>
+</ul>
+<div class="arithmatex">\[
+N = \frac{10^{317} - 1}{9} \cdot \left(10^{412} + 7\right)
+\]</div>
+<ul>
+<li>所以两个因子直接出来了：</li>
+</ul>
+<div class="arithmatex">\[
+p = \frac{10^{317} - 1}{9},\qquad q = 10^{412} + 7
+\]</div>
+<h3 id="3">3. 关键突破点二：恢复私钥并解密<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
+<ul>
+<li>一旦 <span class="arithmatex">\(N\)</span> 被分解，后续可以直接交给 <code>RsaCtfTool</code> 做私钥恢复与解密。</li>
+<li>先按“关键突破点一”的结构化推导（即把 <code>N</code> 写成 <span class="arithmatex">\(R_k(10^{t+k}+7)\)</span>）得到：</li>
+</ul>
+<div class="arithmatex">\[
+p = \frac{10^{317} - 1}{9},\qquad q = 10^{412} + 7
+\]</div>
+<ul>
+<li>再使用 <code>RsaCtfTool</code> 解密（这里直接传入 <code>p/q/e/c</code>）：</li>
+</ul>
+<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>~/.local/bin/RsaCtfTool<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="m">11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-q<span class="w"> </span><span class="m">10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="m">65537</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decrypt<span class="w"> </span><span class="m">24843637357401882323446973756028112485787496266605121365114610100704976130139741775294278368083885062198910614947919701406960107347354136102083123762522563111468269091870174521712246171376836840432255040039220296948193266921702699341919800731671378599220251932387731543800016339125706640050863673217753733950003925236014913643596976803633793469056544830856356906877796834342590774214214984186572346186348406049348500029472048880777893019592044554103952675917537653629499365661200893824071688347597515583518961750064206790440539820055665939394772896875086157476469036827442358013160609933570806379028553689444972004391787853021463769839240033616969091368964549902197048529690707775841641688773013075774663922475980270327652933542</span>
+</code></pre></div>
+<ul>
+<li>输出中的 <code>utf-8</code> 即：</li>
+</ul>
+<div class="highlight"><pre><span></span><code>CPCTF{N_1s_34sy_70_bRe4k_873b4982a}
+</code></pre></div>
+<ul>
+<li>也可以走纯数学流程，自己计算：</li>
+</ul>
+<div class="arithmatex">\[
+\varphi = (p - 1)(q - 1)
+\]</div>
+<div class="arithmatex">\[
+d \equiv e^{-1} \pmod{\varphi}
+\]</div>
+<div class="arithmatex">\[
+m \equiv c^d \pmod{N}
+\]</div>
+<ul>
+<li>把 <code>m</code> 再转回字节串即可拿到明文。</li>
+<li>实战里可以额外做两步自检：</li>
+<li><code>assert p * q == N</code></li>
+<li>用 <code>sympy.isprime()</code> 或其他素性测试确认 <code>p</code>、<code>q</code> 没问题</li>
+</ul>
+<h3 id="4-flag">4. 获取 Flag<a class="headerlink" href="#4-flag" title="Permanent link">&para;</a></h3>
+<ul>
+<li>解密结果就是：</li>
+</ul>
+<div class="highlight"><pre><span></span><code>CPCTF{N_1s_34sy_70_bRe4k_873b4982a}
+</code></pre></div>
+<h2 id="_3">攻击链/解题流程总结<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>识别 RSA 参数 -&gt; 观察 <span class="arithmatex">\(N\)</span> 的十进制结构是 <span class="arithmatex">\(1^k 0^t 7^k\)</span> -&gt; 将 <span class="arithmatex">\(N\)</span> 代数化为 repunit 公因子乘积 -&gt; 直接分解 <span class="arithmatex">\(N\)</span> -&gt; 计算 <span class="arithmatex">\(d\)</span> -&gt; RSA 解密 -&gt; Flag</p>
+<h2 id="_4">漏洞分析 / 机制分析<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="_5">根因<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<ul>
+<li>RSA 模数 <span class="arithmatex">\(N\)</span> 被构造成了一个带明显十进制规律的数：</li>
+</ul>
+<div class="arithmatex">\[
+N = 111\ldots111000\ldots000777\ldots777
+\]</div>
+<ul>
+<li>由于首尾重复块长度相同，且尾部数字块正好是前部 repunit 的 7 倍，所以可以直接提出公共因子：</li>
+</ul>
+<div class="arithmatex">\[
+N = R_k \cdot 10^{t+k} + 7R_k
+\]</div>
+<div class="arithmatex">\[
+N = R_k \left(10^{t+k} + 7\right)
+\]</div>
+<ul>
+<li>这样一来，RSA 赖以成立的“分解 <span class="arithmatex">\(N = pq\)</span> 很困难”这个前提就直接失效了。</li>
+</ul>
+<h3 id="_6">影响<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<ul>
+<li>攻击者不需要通用大整数分解算法，也不需要外部因数分解平台。</li>
+<li>只要看懂这个十进制结构，就能瞬间得到 <code>p</code> 和 <code>q</code>，再恢复私钥解出密文。</li>
+</ul>
+<h3 id="_7">修复建议（适用于漏洞类题目）<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>p</code> 和 <code>q</code> 必须来自安全随机数生成器，而不是人为拼接或带明显模式的整数。</li>
+<li>生成 RSA 密钥后，应做基本健康检查，避免：</li>
+<li>明显结构化因子</li>
+<li>共享因子</li>
+<li>低熵、可预测的构造方式</li>
+</ul>
+<h2 id="_8">知识点<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<ul>
+<li>RSA 分解后解密的标准流程</li>
+<li>Repunit：<span class="arithmatex">\(111\ldots111 = \frac{10^k - 1}{9}\)</span></li>
+<li>十进制拼接数的代数化表示</li>
+<li>结构化 RSA 模数往往比随机模数更容易被拆解</li>
+</ul>
+<details class="note">
+<summary>知识点常见问题解答（可选）</summary>
+<p>为什么 <code>111...111000...000777...777</code> 能一眼拆出来？</p>
+<p>因为它不是“随机大整数”，而是“高位块 + 若干个 0 + 低位块”的十进制拼接。<br />
+只要前后块长度相同，并且低位块是高位 repunit 的整数倍，就能把整个数写成：</p>
+<div class="arithmatex">\[
+R_k \cdot 10^{\mathrm{offset}} + \mathrm{multiplier} \cdot R_k
+\]</div>
+<div class="arithmatex">\[
+= R_k \left(10^{\mathrm{offset}} + \mathrm{multiplier}\right)
+\]</div>
+<p>本题里 <span class="arithmatex">\(\mathrm{multiplier} = 7\)</span>，所以直接得到：</p>
+<div class="arithmatex">\[
+p = \frac{10^{317} - 1}{9},\qquad q = 10^{412} + 7
+\]</div>
+</details>
+<h2 id="_9">使用的工具<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<ul>
+<li>RsaCtfTool — 读取参数并解密（本篇主流程）</li>
+<li>Python 3 — 读取附件、统计数字块并构造因子</li>
+<li>Go 1.25+ — 使用 <code>math/big</code> 纯标准库复现同一条解题链</li>
+<li>SymPy（可选）— 如需额外验证，可用 <code>isprime()</code> 检查质性</li>
+<li>yafu（可选） — 若遇到“仅给 <code>n</code> 需做通用整数分解”的 RSA 题型，可先分解再交给 RsaCtfTool</li>
+<li>RsaCtfTool 安装与常用命令参考：<a href="../../guides/rsactftool/">RsaCtfTool 上手使用指南</a></li>
+<li>yafu 安装与常用命令参考：<a href="../../guides/yafu/">yafu 上手使用指南</a></li>
+</ul>
+<h2 id="_10">脚本归档<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Go：<a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups/blob/main/CTF_Writeups/scripts_go/CPCTF_1_0_7.go" target="_blank"><code>CPCTF_1_0_7.go</code> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2z"/></svg></span></a></li>
+<li>Python：<a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups/blob/main/CTF_Writeups/scripts_python/CPCTF_1_0_7.py" target="_blank"><code>CPCTF_1_0_7.py</code> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2z"/></svg></span></a></li>
+<li>说明：两个版本都会直接读取归档后的附件，并自动根据 <code>N</code> 的十进制结构构造因子与私钥。</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">groupby</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+
+<span class="n">raw</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;CTF_Writeups/files/1、0、7/107107_b38e4b4bcd49c22b496049abb867695331cdc0f7542dd59288b3597e1b8e4119.txt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
+<span class="n">N</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;N=(\d+)&quot;</span><span class="p">,</span> <span class="n">raw</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">e</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;e=(\d+)&quot;</span><span class="p">,</span> <span class="n">raw</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">c</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;c=(\d+)&quot;</span><span class="p">,</span> <span class="n">raw</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="n">groups</span> <span class="o">=</span> <span class="p">[(</span><span class="n">digit</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">chunk</span><span class="p">)))</span> <span class="k">for</span> <span class="n">digit</span><span class="p">,</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">groupby</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">N</span><span class="p">))]</span>
+<span class="k">assert</span> <span class="n">groups</span> <span class="o">==</span> <span class="p">[(</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="mi">317</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="mi">95</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;7&quot;</span><span class="p">,</span> <span class="mi">317</span><span class="p">)]</span>
+
+<span class="n">k</span> <span class="o">=</span> <span class="n">groups</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">shift</span> <span class="o">=</span> <span class="n">groups</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">groups</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">p</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">9</span>
+<span class="n">q</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="n">shift</span> <span class="o">+</span> <span class="mi">7</span>
+
+<span class="k">assert</span> <span class="n">p</span> <span class="o">*</span> <span class="n">q</span> <span class="o">==</span> <span class="n">N</span>
+
+<span class="n">phi</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">q</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">d</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">phi</span><span class="p">)</span>
+<span class="n">m</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">((</span><span class="n">m</span><span class="o">.</span><span class="n">bit_length</span><span class="p">()</span> <span class="o">+</span> <span class="mi">7</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span><span class="p">,</span> <span class="s2">&quot;big&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+</code></pre></div>
+<h2 id="gui">命令行提取关键数据（无 GUI）<a class="headerlink" href="#gui" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># 统计 N 的连续数字块</span>
+python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;from pathlib import Path; import re,itertools; s=Path(&#39;CTF_Writeups/files/1、0、7/107107_b38e4b4bcd49c22b496049abb867695331cdc0f7542dd59288b3597e1b8e4119.txt&#39;).read_text(); N=re.search(r&#39;N=(\d+)&#39;,s).group(1); print(len(N)); print([(k,len(list(g))) for k,g in itertools.groupby(N)])&quot;</span>
+
+<span class="c1"># Python 版复现</span>
+python<span class="w"> </span>CTF_Writeups/scripts_python/CPCTF_1_0_7.py
+
+<span class="c1"># Go 版复现</span>
+go<span class="w"> </span>run<span class="w"> </span>CTF_Writeups/scripts_go/CPCTF_1_0_7.go
+</code></pre></div>
+<h2 id="_11">推荐工具与优化解题流程<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>这题的关键不在“硬分解”，而在于看出 <code>N</code> 的十进制规律并把它写成可直接拆分的代数式。</p>
+</blockquote>
+<h3 id="_12">工具对比总结<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>适用阶段</th>
+<th>本题耗时</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Python</td>
+<td>参数解析、公式验证、RSA 解密</td>
+<td>&lt; 1 秒</td>
+<td>原生大整数支持好，复现成本低</td>
+<td>需要自己写少量脚本</td>
+</tr>
+<tr>
+<td>Go</td>
+<td>参数解析、公式验证、RSA 解密</td>
+<td>&lt; 1 秒</td>
+<td>纯标准库，适合长期归档</td>
+<td><code>math/big</code> 写法比 Python 稍长</td>
+</tr>
+<tr>
+<td>SymPy</td>
+<td>素性测试</td>
+<td>&lt; 1 秒</td>
+<td><code>isprime()</code> 使用方便</td>
+<td>本题不是必须，只是额外验证</td>
+</tr>
+<tr>
+<td>yafu / 通用分解工具</td>
+<td>尝试分解 N</td>
+<td>不推荐（本题）</td>
+<td>可用于一般 RSA 分解场景</td>
+<td>本题重点是结构化代数分解，不是通用硬分解</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_13">推荐流程<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
+<p><strong>推荐流程</strong>：肉眼观察 <code>N</code> 结构 -&gt; 统计连续数字块 -&gt; 代数分解 <code>N</code> -&gt; 计算私钥并解密 -&gt; 输出 Flag（预估耗时 3-5 分钟）。</p>
+<h3 id="a">工具 A（推荐首选）<a class="headerlink" href="#a" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>安装</strong>：Python 3</li>
+<li><strong>详细步骤</strong>：</li>
+<li>读取附件中的 <code>N</code>、<code>e</code>、<code>c</code></li>
+<li>统计 <span class="arithmatex">\(N\)</span> 的连续数字块，确认是 <span class="arithmatex">\(1^{317} 0^{95} 7^{317}\)</span></li>
+<li>构造 <span class="arithmatex">\(p=\frac{10^{317}-1}{9}\)</span> 和 <span class="arithmatex">\(q=10^{412}+7\)</span></li>
+<li>计算 <span class="arithmatex">\(d\)</span> 并解密 <span class="arithmatex">\(c\)</span></li>
+<li><strong>优势</strong>：推导过程短、可读性高、完全离线可复现</li>
+</ul>
+<h3 id="b">工具 B（可选）<a class="headerlink" href="#b" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>安装</strong>：<code>pip install sympy</code></li>
+<li><strong>详细步骤</strong>：</li>
+<li>使用 <code>sympy.isprime(p)</code> 和 <code>sympy.isprime(q)</code> 检查因子是否为质数</li>
+<li>使用 <code>assert p*q == N</code> 检查分解是否正确</li>
+<li><strong>优势</strong>：可以快速确认分解出的两个因子满足 RSA 质因子条件</li>
+</ul>
+<h3 id="c">工具 C（推荐归档版）<a class="headerlink" href="#c" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>安装</strong>：Go 1.25+</li>
+<li><strong>详细步骤</strong>：</li>
+<li>读取归档附件并解析 <code>N</code>、<code>e</code>、<code>c</code></li>
+<li>用分组或正则确认 <span class="arithmatex">\(N\)</span> 的结构是 <span class="arithmatex">\(1^k 0^t 7^k\)</span></li>
+<li>使用 <code>math/big</code> 构造 <span class="arithmatex">\(p=\frac{10^k-1}{9}\)</span> 和 <span class="arithmatex">\(q=10^{t+k}+7\)</span></li>
+<li>计算 <code>d</code> 并解密出明文</li>
+<li><strong>优势</strong>：纯标准库，无第三方依赖，适合长期归档</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 id="__comments">评论</h2>
+
+<script
+  src="https://giscus.app/client.js"
+  data-repo="your-username/your-repo"
+  data-repo-id=""
+  data-category="Writeup Comments"
+  data-category-id=""
+  data-mapping="pathname"
+  data-strict="1"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="preferred_color_scheme"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.path", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../javascripts/drawer-backdrop.js"></script>
+      
+    
+  </body>
+</html>

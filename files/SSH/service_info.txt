@@ -1,0 +1,20 @@
+Challenge: SSH
+Category: Shell / Misc
+Connection:
+  ssh ssh@133.88.122.244 -p 32437
+Password:
+  cpctf2026
+Task text:
+  我们来试试SSH连接吧！旗帜就/flag/flag.txt在那里。
+Hint:
+  启动实例后，在 shell 中输入命令，然后输入密码，您应该会看到类似这样的内容。
+
+  ssh2@shell-ssh-jwefairt-6f75f5cdb6-hb425:~$
+  这是一个叫做 Linux 的系统！
+  在 Linux 中，你使用命令进行操作，要解决这个问题，cat你需要使用 `ls` 命令。
+  cat (中身を表示したいファイルのパス)这将显示文件的内容。
+
+  如果你想了解更多关于 Linux 命令的信息，man (詳細を知りたいコマンドの名前)请输入 `ls` 命令，它将显示官方手册。
+  此外，如果你想知道可用命令的列表，compgen -c请输入 `ls` 命令，它将显示当前环境中可用的命令列表。
+Recovered flag:
+  CPCTF{w31c0m3_2_c11_w0r1d}

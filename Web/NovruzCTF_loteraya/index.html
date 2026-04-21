@@ -1,0 +1,1616 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="CTF 竞赛解题记录与学习笔记">
+      
+      
+        <meta name="author" content="BIGC CTF Team">
+      
+      
+        <link rel="canonical" href="https://starnotes-xj.github.io/BIGC_CTF_Writeups/Web/NovruzCTF_loteraya/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>NovruzCTF 2026 - Lottery Writeup [未解决] - BIGC CTF Writeups</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra_v3.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#novruzctf-2026-lottery-writeup" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="BIGC CTF Writeups" class="md-header__button md-logo" aria-label="BIGC CTF Writeups" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 11c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4 9 4zm-9 10c3.75-1 7-5.46 7-9.78V6.3l-7-3.12z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BIGC CTF Writeups
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              NovruzCTF 2026 - Lottery Writeup [未解决]
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../guides/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  新手指南
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Web
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Cryptography%28%E5%AF%86%E7%A0%81%E5%AD%A6%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  密码学
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Reverse%20Engineering%28%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  逆向工程
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Pwn/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Pwn
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Misc%28%E6%9D%82%E9%A1%B9%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  杂项
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../PPC/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  PPC
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../events/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  比赛
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../history/competitions/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  历史参赛记录
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../tags/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  标签
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../WRITEUP_TEMPLATE/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  模板
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="BIGC CTF Writeups" class="md-nav__button md-logo" aria-label="BIGC CTF Writeups" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 11c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4 9 4zm-9 10c3.75-1 7-5.46 7-9.78V6.3l-7-3.12z"/></svg>
+
+    </a>
+    BIGC CTF Writeups
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    新手指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cryptography%28%E5%AF%86%E7%A0%81%E5%AD%A6%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    密码学
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Reverse%20Engineering%28%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    逆向工程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Pwn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pwn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%28%E6%9D%82%E9%A1%B9%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    杂项
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PPC/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PPC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../events/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    比赛
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../history/competitions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    历史参赛记录
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tags/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    标签
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../WRITEUP_TEMPLATE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模板
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        题目信息
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        已确认信息
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="已确认信息">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        技术栈
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#session-cookie" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Session Cookie 结构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rsa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RSA 参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API 端点
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        已尝试的攻击方法
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="已尝试的攻击方法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-rsa-flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. RSA 自动解密 + 大量回答 ✓（技术成功，但不产出 flag）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-cookie" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Cookie 签名密钥暴力破解 ✗
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-json-prototype-pollution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. JSON Prototype Pollution ✗
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-qs-style-url-encoded-prototype-pollution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. qs-style URL-encoded Prototype Pollution（待验证结果）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 端口扫描（部分成功但 flag 错误）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. 其他尝试 ✗
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        漏洞分析 / 机制分析
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        关键脚本
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="关键脚本">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        主解题脚本
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cookie" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cookie 破解脚本
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        其他文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        脚本归档
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        待尝试的方向
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="待尝试的方向">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        高优先级
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        中优先级
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        低优先级
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        使用的工具
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        命令行提取关键数据（无 GUI）
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐工具与优化解题流程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="推荐工具与优化解题流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐工具
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工具对比总结
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rsa_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RSA 解密核心代码
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cookie_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cookie 签名验证
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        知识点
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        教训
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="novruzctf-2026-lottery-writeup">NovruzCTF 2026 - Lottery Writeup [未解决]<a class="headerlink" href="#novruzctf-2026-lottery-writeup" title="Permanent link">&para;</a></h1>
+<h2 id="_1">题目信息<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>比赛</strong>: NovruzCTF 2026</li>
+<li><strong>题目</strong>: 科西亚和鲍尔迪创办了一个彩票，从中赚取了巨额财富。这个彩票系统会被黑客攻击吗？</li>
+<li><strong>地址</strong>: <code>http://95.111.234.103:2900/</code></li>
+<li><strong>Flag格式</strong>: <code>NovruzCTF{}</code></li>
+<li><strong>类别</strong>: Web</li>
+<li><strong>状态</strong>: <strong>未解决</strong> - 仍在寻找正确 flag</li>
+</ul>
+<h2 id="_2">已确认信息<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="_3">技术栈<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>后端</strong>: Express.js (Node.js)</li>
+<li><strong>RSA库</strong>: NodeRSA</li>
+<li><strong>Session</strong>: cookie-session 中间件（Keygrip HMAC-SHA1 签名）</li>
+<li><strong>Cookie</strong>: <code>session</code> + <code>session.sig</code>（27字符 base64url 签名）</li>
+<li><strong>服务路径</strong>: <code>/usr/src/app/server.js</code>（Docker 容器），第43行使用 NodeRSA.importKey</li>
+</ul>
+<h3 id="session-cookie">Session Cookie 结构<a class="headerlink" href="#session-cookie" title="Permanent link">&para;</a></h3>
+<p>Base64 解码 <code>session</code> cookie：
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;task&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;n&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;e&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">65537</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;c&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;correctAnswers&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="p">}</span>
+</code></pre></div>
+- RSA 私钥直接存储在客户端 Cookie 中
+- <code>correctAnswers</code> 每次正确回答 +1
+- <code>task</code> 包含 RSA 参数（n, e）和密文 c</p>
+<h3 id="rsa">RSA 参数<a class="headerlink" href="#rsa" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>密钥长度</strong>: 512-bit</li>
+<li><strong>填充方式</strong>: OAEP</li>
+<li><strong>密文</strong>: 128 字节 = 2个 OAEP 块（每块 64 字节）</li>
+<li><strong>明文格式</strong>: <code>"I placed X slons or no"</code>，X 在 -1000 到 1000 之间</li>
+</ul>
+<h3 id="api">API 端点<a class="headerlink" href="#api" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>GET /</code> - 主页，显示 RSA challenge</li>
+<li><code>GET /generate-task</code> - 生成新任务，返回 JSON + 设置 session cookie</li>
+<li><code>POST /check-task</code> - 提交答案，JSON body <code>{"input": "数字"}</code></li>
+<li>响应包含: <code>success</code>, <code>answered</code>, <code>task</code>(新任务)</li>
+</ul>
+<h2 id="_4">已尝试的攻击方法<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="1-rsa-flag">1. RSA 自动解密 + 大量回答 ✓（技术成功，但不产出 flag）<a class="headerlink" href="#1-rsa-flag" title="Permanent link">&para;</a></h3>
+<ul>
+<li>可无限自动解密并正确回答</li>
+<li>测试了 1000+ 轮，服务器永远只返回新任务，无 flag</li>
+<li><strong>结论</strong>: 单纯增加 correctAnswers 轮数不是解法</li>
+</ul>
+<h3 id="2-cookie">2. Cookie 签名密钥暴力破解 ✗<a class="headerlink" href="#2-cookie" title="Permanent link">&para;</a></h3>
+<ul>
+<li>使用 Node.js Keygrip 库验证（确保算法完全一致）</li>
+<li>测试了 cookie-monster 工具字典（289 条）</li>
+<li>测试了 SecLists 密码字典</li>
+<li>自定义字典（CTF 相关、Express 常见密钥、数字 0-999999 等）</li>
+<li><strong>总计 200k+ 密码候选，均未成功</strong></li>
+<li>相关脚本: <code>crack_cookie.js</code>, <code>crack_cookie2.js</code></li>
+</ul>
+<h3 id="3-json-prototype-pollution">3. JSON Prototype Pollution ✗<a class="headerlink" href="#3-json-prototype-pollution" title="Permanent link">&para;</a></h3>
+<ul>
+<li>通过 <code>__proto__</code> 注入: <code>{"__proto__": {"correctAnswers": 99999, "isAdmin": true}}</code></li>
+<li>通过 <code>constructor.prototype</code>: <code>{"constructor": {"prototype": {...}}}</code></li>
+<li>嵌套 <code>__proto__</code></li>
+<li>设置各种属性: threshold, minScore, requiredAnswers, flag, win</li>
+<li><strong>服务器接受请求但无全局效果</strong></li>
+</ul>
+<h3 id="4-qs-style-url-encoded-prototype-pollution">4. qs-style URL-encoded Prototype Pollution（待验证结果）<a class="headerlink" href="#4-qs-style-url-encoded-prototype-pollution" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Express 的 <code>urlencoded</code> body parser 使用 <code>qs</code> 库</li>
+<li>发送 <code>Content-Type: application/x-www-form-urlencoded</code></li>
+<li>载荷: <code>input=123&amp;__proto__[correctAnswers]=99999</code></li>
+<li><strong>最后一次测试已运行完成，结果未查看</strong></li>
+</ul>
+<h3 id="5-flag">5. 端口扫描（部分成功但 flag 错误）<a class="headerlink" href="#5-flag" title="Permanent link">&para;</a></h3>
+<ul>
+<li>端口 3000 返回了一个 flag: <code>novruzctf{Pr0t0type_P0lluti0n_1s_N0t_Just_f0r_Adm1n_Access}</code></li>
+<li><strong>但这个 flag 属于 Ghost Machine 题目，不是 Lottery 题目！</strong></li>
+<li>提交后被判定错误</li>
+</ul>
+<h3 id="6">6. 其他尝试 ✗<a class="headerlink" href="#6" title="Permanent link">&para;</a></h3>
+<ul>
+<li>路径遍历 — 无结果</li>
+<li>各种查询参数（debug, flag, admin, getFlag 等）— 无结果</li>
+<li>多种 HTTP 方法（PUT, PATCH）到不同端点 — 无结果</li>
+<li>Session 伪造（修改 correctAnswers 后重新签名）— 无法绕过签名验证</li>
+</ul>
+<h2 id="_5">漏洞分析 / 机制分析<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>客户端保存私钥</strong>：session cookie 中包含 RSA 私钥与题目参数，逻辑上不安全，但目前未找到可直接利用的越权路径。</li>
+<li><strong>cookie-session HMAC</strong>：签名强度足以阻止伪造，未发现弱密钥。</li>
+<li><strong>原型污染线索</strong>：存在可疑 JSON 处理路径，但尚未确认可影响到服务端逻辑或 flag 判定。</li>
+<li><strong>结论</strong>：尚未定位最终漏洞触发条件，需要进一步验证（待补）。</li>
+</ul>
+<h2 id="_6">关键脚本<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h3 id="_7">主解题脚本<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p><code>solve_rsa_lottery.py</code> - Python，自动解密 RSA + 测试各种原型污染</p>
+<h3 id="cookie">Cookie 破解脚本<a class="headerlink" href="#cookie" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>crack_cookie.js</code> - Node.js，使用 Keygrip 库 + 大字典</li>
+<li><code>crack_cookie2.js</code> - Node.js，精简版 + 自生成数字密码</li>
+</ul>
+<h3 id="_8">其他文件<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>get_cookie.py</code> - 获取原始 session cookie</li>
+<li><code>secrets.lst</code> - cookie-monster 密钥字典</li>
+<li><code>cm_tool/</code> - cookie-monster 工具仓库</li>
+</ul>
+<h2 id="_9">脚本归档<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Go：<a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups/blob/main/CTF_Writeups/scripts_go/NovruzCTF_loteraya.go" target="_blank"><code>NovruzCTF_loteraya.go</code> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2z"/></svg></span></a></li>
+<li>Python：<a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups/blob/main/CTF_Writeups/scripts_python/NovruzCTF_loteraya.py" target="_blank"><code>NovruzCTF_loteraya.py</code> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2z"/></svg></span></a></li>
+</ul>
+<h2 id="_10">待尝试的方向<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<h3 id="_11">高优先级<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>检查 qs-style 原型污染结果</strong> — 最后一次测试的输出未查看</li>
+<li><strong>深入原型污染</strong> — 尝试污染更多属性，如 <code>outputFunctionName</code>（模板注入 RCE）</li>
+<li><strong>Session 重放/竞态条件</strong> — 同时发送多个请求，看是否有竞态漏洞</li>
+<li><strong>仔细分析 /check-task 响应</strong> — 是否在某个 correctAnswers 阈值返回额外字段</li>
+</ol>
+<h3 id="_12">中优先级<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>更大的密钥字典</strong> — 尝试 rockyou.txt 等大型字典</li>
+<li><strong>SSRF/内部请求</strong> — 是否有端点接受 URL 参数</li>
+<li><strong>WebSocket</strong> — 检查是否有 WebSocket 端点</li>
+<li><strong>JWT/其他认证</strong> — 是否有其他认证机制</li>
+</ol>
+<h3 id="_13">低优先级<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>源码泄露</strong> — 尝试 <code>.git/</code>, <code>package.json</code>, <code>server.js</code> 等路径</li>
+<li><strong>DNS/域名</strong> — 检查域名解析和虚拟主机</li>
+</ol>
+<h2 id="_14">使用的工具<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Python（PyCryptodome）— RSA OAEP 解密与自动答题</li>
+<li>Node.js（Keygrip）— cookie-session 签名验证与爆破尝试</li>
+<li>curl — 获取 cookie 与接口调用</li>
+<li>cookie-monster — HMAC 字典爆破</li>
+</ul>
+<h2 id="gui">命令行提取关键数据（无 GUI）<a class="headerlink" href="#gui" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># 获取 session cookie</span>
+curl<span class="w"> </span>-i<span class="w"> </span>http://95.111.234.103:2900/generate-task<span class="w"> </span><span class="p">|</span><span class="w"> </span>rg<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;set-cookie: session=&quot;</span>
+
+<span class="c1"># 解码 base64url 的 session（需要替换字符后再 base64 -d）</span>
+<span class="c1"># echo &#39;&lt;session_value&gt;&#39; | tr &#39;_-&#39; &#39;/+&#39; | base64 -d</span>
+</code></pre></div>
+<h2 id="_15">推荐工具与优化解题流程<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h2>
+<h3 id="_16">推荐工具<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>RsaCtfTool</strong>：若题目变体是 RSA 弱点，可快速尝试常见攻击</li>
+<li><strong>CyberChef</strong>：快速检查 base64/url 编码、数据字段</li>
+</ul>
+<h3 id="_17">工具对比总结<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>适用阶段</th>
+<th>本题耗时</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>RsaCtfTool</strong></td>
+<td>RSA 弱点探测</td>
+<td>视情况</td>
+<td>常见攻击一键化</td>
+<td>仅适用于弱密钥</td>
+</tr>
+<tr>
+<td><strong>CyberChef</strong></td>
+<td>数据解码</td>
+<td>~1 分钟</td>
+<td>可视化快</td>
+<td>自动化不足</td>
+</tr>
+<tr>
+<td><strong>自写脚本</strong></td>
+<td>任务解密/验证</td>
+<td>~5 分钟</td>
+<td>可定制</td>
+<td>需要维护</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_18">推荐流程<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h3>
+<p><strong>推荐流程</strong>：先用自写脚本解密任务 → 再用 CyberChef/脚本检查字段 → 若疑似弱密钥再用 RsaCtfTool 验证（当前未解，待补）。</p>
+<h2 id="rsa_1">RSA 解密核心代码<a class="headerlink" href="#rsa_1" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">Crypto.PublicKey</span><span class="w"> </span><span class="kn">import</span> <span class="n">RSA</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Crypto.Cipher</span><span class="w"> </span><span class="kn">import</span> <span class="n">PKCS1_OAEP</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">base64</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">decrypt_task</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">pem_key</span><span class="p">):</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">RSA</span><span class="o">.</span><span class="n">import_key</span><span class="p">(</span><span class="n">pem_key</span><span class="p">)</span>
+    <span class="n">c_bytes</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">task</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">])</span>
+    <span class="n">block_size</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">size_in_bytes</span><span class="p">()</span>  <span class="c1"># 64 for 512-bit</span>
+    <span class="n">plaintext</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">c_bytes</span><span class="p">),</span> <span class="n">block_size</span><span class="p">):</span>
+        <span class="n">cipher</span> <span class="o">=</span> <span class="n">PKCS1_OAEP</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">plaintext</span> <span class="o">+=</span> <span class="n">cipher</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">c_bytes</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">block_size</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">plaintext</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Go 版本（RSA OAEP 解密）</strong>：
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;crypto/rand&quot;</span>
+<span class="w">    </span><span class="s">&quot;crypto/rsa&quot;</span>
+<span class="w">    </span><span class="s">&quot;crypto/sha1&quot;</span>
+<span class="w">    </span><span class="s">&quot;crypto/x509&quot;</span>
+<span class="w">    </span><span class="s">&quot;encoding/base64&quot;</span>
+<span class="w">    </span><span class="s">&quot;encoding/pem&quot;</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">decryptTask</span><span class="p">(</span><span class="nx">cipherB64</span><span class="p">,</span><span class="w"> </span><span class="nx">pemKey</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">block</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pem</span><span class="p">.</span><span class="nx">Decode</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">pemKey</span><span class="p">))</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">block</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;invalid pem&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">priv</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">x509</span><span class="p">.</span><span class="nx">ParsePKCS8PrivateKey</span><span class="p">(</span><span class="nx">block</span><span class="p">.</span><span class="nx">Bytes</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">key</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">priv</span><span class="p">.(</span><span class="o">*</span><span class="nx">rsa</span><span class="p">.</span><span class="nx">PrivateKey</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">cBytes</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">base64</span><span class="p">.</span><span class="nx">StdEncoding</span><span class="p">.</span><span class="nx">DecodeString</span><span class="p">(</span><span class="nx">cipherB64</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">hash</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">sha1</span><span class="p">.</span><span class="nx">New</span><span class="p">()</span><span class="w"> </span><span class="c1">// NodeRSA 默认 OAEP-SHA1</span>
+<span class="w">    </span><span class="nx">out</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">cBytes</span><span class="p">);</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">key</span><span class="p">.</span><span class="nx">Size</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">part</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">rsa</span><span class="p">.</span><span class="nx">DecryptOAEP</span><span class="p">(</span><span class="nx">hash</span><span class="p">,</span><span class="w"> </span><span class="nx">rand</span><span class="p">.</span><span class="nx">Reader</span><span class="p">,</span><span class="w"> </span><span class="nx">key</span><span class="p">,</span><span class="w"> </span><span class="nx">cBytes</span><span class="p">[</span><span class="nx">i</span><span class="p">:</span><span class="nx">i</span><span class="o">+</span><span class="nx">key</span><span class="p">.</span><span class="nx">Size</span><span class="p">()],</span><span class="w"> </span><span class="kc">nil</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="nx">out</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">out</span><span class="p">,</span><span class="w"> </span><span class="nx">part</span><span class="o">...</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">out</span><span class="p">),</span><span class="w"> </span><span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h2 id="cookie_1">Cookie 签名验证<a class="headerlink" href="#cookie_1" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">hmac</span><span class="o">,</span><span class="w"> </span><span class="nn">hashlib</span><span class="o">,</span><span class="w"> </span><span class="nn">base64</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_sig</span><span class="p">(</span><span class="n">cookie_val</span><span class="p">,</span> <span class="n">secret</span><span class="p">):</span>
+    <span class="n">sig</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">secret</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">),</span> <span class="n">cookie_val</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">),</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha1</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">sig</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Go 版本（cookie-session 签名）</strong>：
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;crypto/hmac&quot;</span>
+<span class="w">    </span><span class="s">&quot;crypto/sha1&quot;</span>
+<span class="w">    </span><span class="s">&quot;encoding/base64&quot;</span>
+<span class="w">    </span><span class="s">&quot;strings&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">computeSig</span><span class="p">(</span><span class="nx">val</span><span class="p">,</span><span class="w"> </span><span class="nx">secret</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">mac</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">hmac</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">sha1</span><span class="p">.</span><span class="nx">New</span><span class="p">,</span><span class="w"> </span><span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">secret</span><span class="p">))</span>
+<span class="w">    </span><span class="nx">mac</span><span class="p">.</span><span class="nx">Write</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">val</span><span class="p">))</span>
+<span class="w">    </span><span class="nx">sum</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">mac</span><span class="p">.</span><span class="nx">Sum</span><span class="p">(</span><span class="kc">nil</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">sig</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">base64</span><span class="p">.</span><span class="nx">StdEncoding</span><span class="p">.</span><span class="nx">EncodeToString</span><span class="p">(</span><span class="nx">sum</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">sig</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">strings</span><span class="p">.</span><span class="nx">TrimRight</span><span class="p">(</span><span class="nx">sig</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;=&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">sig</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">strings</span><span class="p">.</span><span class="nx">ReplaceAll</span><span class="p">(</span><span class="nx">sig</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;+&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">sig</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">strings</span><span class="p">.</span><span class="nx">ReplaceAll</span><span class="p">(</span><span class="nx">sig</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;_&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">sig</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h2 id="_19">知识点<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>RSA OAEP 分块解密</strong> — 512-bit 密钥下密文需要按块解密</li>
+<li><strong>cookie-session 签名机制</strong> — HMAC-SHA1 + base64url</li>
+<li><strong>原型污染</strong> — JSON/qs 处理路径可能影响全局对象</li>
+<li><strong>CTF 多题共用环境</strong> — 端口/flag 可能属于不同题目</li>
+</ul>
+<h2 id="_20">教训<a class="headerlink" href="#_20" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>端口 3000 的 flag 不是这道题的</strong> — 同一服务器可能运行多个独立题目</li>
+<li><strong>单纯增加回答轮数无效</strong> — Web 题需要找 Web 漏洞</li>
+<li><strong>cookie-session 签名非常强</strong> — HMAC-SHA1 + 未知密钥 = 极难伪造</li>
+<li><strong>原型污染是关键线索</strong> — flag 名称明确提到 Prototype Pollution，但具体利用方式尚未找到</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 id="__comments">评论</h2>
+
+<script
+  src="https://giscus.app/client.js"
+  data-repo="your-username/your-repo"
+  data-repo-id=""
+  data-category="Writeup Comments"
+  data-category-id=""
+  data-mapping="pathname"
+  data-strict="1"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="preferred_color_scheme"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.path", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../javascripts/drawer-backdrop.js"></script>
+      
+    
+  </body>
+</html>

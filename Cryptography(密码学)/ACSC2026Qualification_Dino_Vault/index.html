@@ -1,0 +1,1527 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="CTF 竞赛解题记录与学习笔记">
+      
+      
+        <meta name="author" content="BIGC CTF Team">
+      
+      
+        <link rel="canonical" href="https://starnotes-xj.github.io/BIGC_CTF_Writeups/Cryptography%28%E5%AF%86%E7%A0%81%E5%AD%A6%29/ACSC2026Qualification_Dino_Vault/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>ACSC Qualification 2026 - Dino Vault Writeup - BIGC CTF Writeups</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra_v3.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#acsc-qualification-2026-dino-vault-writeup" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="BIGC CTF Writeups" class="md-header__button md-logo" aria-label="BIGC CTF Writeups" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 11c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4 9 4zm-9 10c3.75-1 7-5.46 7-9.78V6.3l-7-3.12z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BIGC CTF Writeups
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              ACSC Qualification 2026 - Dino Vault Writeup
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../guides/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  新手指南
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Web/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Web
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  密码学
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Reverse%20Engineering%28%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  逆向工程
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Pwn/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Pwn
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Misc%28%E6%9D%82%E9%A1%B9%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  杂项
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../PPC/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  PPC
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../events/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  比赛
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../history/competitions/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  历史参赛记录
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../tags/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  标签
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../WRITEUP_TEMPLATE/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  模板
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="BIGC CTF Writeups" class="md-nav__button md-logo" aria-label="BIGC CTF Writeups" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 11c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4 9 4zm-9 10c3.75-1 7-5.46 7-9.78V6.3l-7-3.12z"/></svg>
+
+    </a>
+    BIGC CTF Writeups
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    新手指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    密码学
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Reverse%20Engineering%28%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    逆向工程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Pwn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pwn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%28%E6%9D%82%E9%A1%B9%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    杂项
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PPC/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PPC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../events/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    比赛
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../history/competitions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    历史参赛记录
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tags/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    标签
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../WRITEUP_TEMPLATE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模板
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        题目信息
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flag
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        解题过程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="解题过程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 初始侦察/文件识别
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-rsa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 从哪里看出来是 RSA 加密
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-dna" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 关键突破点一：先理解 DNA 编码
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 关键突破点二：同一只恐龙重复下载两次
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 关键突破点三：分解模数并解密
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. 获取 Flag
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        攻击链/解题流程总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        漏洞分析 / 机制分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="漏洞分析 / 机制分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        根因
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        影响
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        修复建议（适用于漏洞类题目）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        知识点
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        使用的工具
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        脚本归档
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        命令行提取关键数据（无 GUI）
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐工具与优化解题流程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="推荐工具与优化解题流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工具对比总结
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工具 A（推荐首选）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工具 B（可选）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="acsc-qualification-2026-dino-vault-writeup">ACSC Qualification 2026 - Dino Vault Writeup<a class="headerlink" href="#acsc-qualification-2026-dino-vault-writeup" title="Permanent link">&para;</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">发布提醒</p>
+<p>官方 Qualification 页面显示本轮时间为 <strong>2026-03-01 18:00 CEST ～ 2026-05-01 18:00 CEST</strong>。当前文档适合作为<strong>本地归档草稿</strong>；若比赛尚未结束，请勿提前公开发布。</p>
+</div>
+<h2 id="_1">题目信息<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>比赛</strong>: ACSC Qualification 2026（Austria Cyber Security Challenge 2026 Qualification）</li>
+<li><strong>题目</strong>: Dino Vault</li>
+<li><strong>类别</strong>: Crypto</li>
+<li><strong>难度</strong>: 中等</li>
+<li><strong>附件/URL</strong>: <code>app.py</code> · <code>Dockerfile</code> · <code>nc port.dyn.acsc.land 30853</code> · <a href="https://ctf.acsc.land/" target="_blank">平台</a></li>
+<li><strong>附件链接</strong>: <a download="download" href="https://starnotes-xj.github.io/BIGC_CTF_Writeups/files/dino-vault/app.py">下载 app.py</a> · <a download="download" href="https://starnotes-xj.github.io/BIGC_CTF_Writeups/files/dino-vault/Dockerfile">下载 Dockerfile</a> · <a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups/tree/main/CTF_Writeups/files/dino-vault" target="_blank">仓库位置</a></li>
+<li><strong>Flag格式</strong>: <code>dach2026{...}</code></li>
+<li><strong>状态</strong>: 已解</li>
+</ul>
+<h2 id="flag">Flag<a class="headerlink" href="#flag" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>dach2026{R5A_a_d1n0s5r_0f_1ts_0wn_2fqkncq16x3mbtkf}
+</code></pre></div>
+<h2 id="_2">解题过程<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="1">1. 初始侦察/文件识别<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>入口点可以直接用 <code>nc port.dyn.acsc.land 30853</code> 交互，也可以先读附件 <code>app.py</code></li>
+<li>服务支持三类关键操作：</li>
+<li>创建自己的恐龙</li>
+<li>查看已有恐龙</li>
+<li>下载某只恐龙的加密 DNA</li>
+<li>内置列表里最值得关注的是：</li>
+</ul>
+<div class="highlight"><pre><span></span><code>- Vexillum Rex
+- Pedosaurus
+- Despotiraptor
+- Planosaurus
+</code></pre></div>
+<ul>
+<li>其中 <code>Vexillum Rex</code> 的构造里直接把 flag 写进了原始描述字符串：</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">Dino</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Vexillum Rex&quot;</span><span class="p">,</span>
+    <span class="n">dna</span><span class="o">=</span><span class="n">Dino</span><span class="o">.</span><span class="n">to_dna</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Has a crown and </span><span class="si">{</span><span class="n">FLAG</span><span class="si">}</span><span class="s2"> written on its back&quot;</span><span class="p">),</span>
+    <span class="n">vault_key</span><span class="o">=</span><span class="n">getPrime</span><span class="p">(</span><span class="n">primesize</span><span class="p">),</span>
+<span class="p">)</span>
+</code></pre></div>
+<h3 id="2-rsa">2. 从哪里看出来是 RSA 加密<a class="headerlink" href="#2-rsa" title="Permanent link">&para;</a></h3>
+<ul>
+<li>题目名字和界面没有直接写 “RSA”，但 <code>app.py</code> 里有非常明显的 textbook RSA 特征：</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">transmission_key</span> <span class="o">=</span> <span class="n">getPrime</span><span class="p">(</span><span class="n">primesize</span><span class="p">)</span>
+<span class="n">dinosaur_modulation_index</span> <span class="o">=</span> <span class="n">transmission_key</span> <span class="o">*</span> <span class="n">sel2f</span><span class="o">.</span><span class="n">vault_key</span>
+<span class="n">evergreen_number</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="mi">16</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">resampled_dna</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="n">bytes_to_long</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dna</span><span class="o">.</span><span class="n">encode</span><span class="p">()),</span> <span class="n">evergreen_number</span><span class="p">,</span> <span class="n">dinosaur_modulation_index</span><span class="p">)</span>
+<span class="n">encrypted_dna</span> <span class="o">=</span> <span class="n">long_to_bytes</span><span class="p">(</span><span class="n">resampled_dna</span><span class="p">)</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">关于附件中的 <code>sel2f</code></p>
+<p>发布的 <code>app.py</code> 在这一行里写成了 <code>sel2f.vault_key</code>，这是一个明显笔误。远程服务能够正常返回下载结果，说明实际运行逻辑等价于 <code>self.vault_key</code>。<br />
+不过这不影响我们识别它的密码学结构：<strong>两个大素数相乘得到模数，再做 <code>pow(m, 65537, n)</code>，本质上依然是裸 RSA</strong>。</p>
+</div>
+<p>可以从这几处判断：</p>
+<ol>
+<li><strong>模数是两个大素数的乘积</strong></li>
+<li><code>transmission_key = getPrime(primesize)</code></li>
+<li><code>self.vault_key</code> 也是 <code>getPrime(primesize)</code> 生成的素数</li>
+<li>
+<p>然后 <code>n = transmission_key * self.vault_key</code></p>
+</li>
+<li>
+<p><strong>指数是 65537</strong></p>
+</li>
+<li><span class="arithmatex">\(2^{16} + 1 = 65537\)</span></li>
+<li>
+<p>这是 RSA 最常见的公开指数 <span class="arithmatex">\(e\)</span></p>
+</li>
+<li>
+<p><strong>加密公式是 <code>pow(m, e, n)</code></strong></p>
+</li>
+<li><code>pow(bytes_to_long(...), evergreen_number, dinosaur_modulation_index)</code></li>
+<li>也就是标准的</li>
+</ol>
+<div class="arithmatex">\[
+c = m^e \bmod n
+\]</div>
+<ol>
+<li><strong>明文先转整数，密文再转回字节</strong></li>
+<li><code>bytes_to_long(...)</code></li>
+<li><code>long_to_bytes(...)</code></li>
+<li>这也是 RSA 题里非常典型的处理方式</li>
+</ol>
+<p>所以，虽然题目文本没有说，但从代码结构上可以非常明确地判断：<strong>这就是裸 RSA</strong>。</p>
+<h3 id="3-dna">3. 关键突破点一：先理解 DNA 编码<a class="headerlink" href="#3-dna" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>Dino.to_dna()</code> 会把每个字符拆成 4 组 2-bit，再映射到 <code>A/T/G/C</code></li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">lookup</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="s2">&quot;G&quot;</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">]</span>
+</code></pre></div>
+<ul>
+<li>映射关系其实就是：</li>
+</ul>
+<div class="highlight"><pre><span></span><code>A -&gt; 0
+T -&gt; 1
+G -&gt; 2
+C -&gt; 3
+</code></pre></div>
+<ul>
+<li>例如自己创建一只恐龙，信息填 <code>A</code>，那么：</li>
+<li><code>ord('A') = 65 = 0b01000001</code></li>
+<li>按低位到高位每 2 bit 切分：<code>01 00 00 01</code></li>
+<li>
+<p>对应 DNA：<code>TAAT</code></p>
+</li>
+<li>
+<p>这一步很有用，因为它能验证“RSA 解密出来的并不是原始英文，而是 DNA 串；还需要再逆一次编码”</p>
+</li>
+</ul>
+<h3 id="4">4. 关键突破点二：同一只恐龙重复下载两次<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
+<ul>
+<li>真正的漏洞在于 <strong>每只恐龙的 <code>vault_key</code> 是固定的</strong>，但每次下载都会新生成一个 <code>transmission_key</code></li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">transmission_key</span> <span class="o">=</span> <span class="n">getPrime</span><span class="p">(</span><span class="n">primesize</span><span class="p">)</span>
+<span class="n">dinosaur_modulation_index</span> <span class="o">=</span> <span class="n">transmission_key</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">vault_key</span>
+</code></pre></div>
+<ul>
+<li>对于同一只恐龙（例如 <code>Vexillum Rex</code>），在<strong>同一连接/session</strong>里连续下载两次：</li>
+</ul>
+<div class="arithmatex">\[
+n_1 = p \cdot q_1
+\]</div>
+<div class="arithmatex">\[
+n_2 = p \cdot q_2
+\]</div>
+<p>其中：
+- <span class="arithmatex">\(p = \texttt{vault\_key}\)</span>（同一只恐龙固定不变）
+- <span class="arithmatex">\(q_1, q_2 = \texttt{transmission\_key}\)</span>（每次下载重新生成）</p>
+<ul>
+<li>因此直接有：</li>
+</ul>
+<div class="arithmatex">\[
+\gcd(n_1, n_2) = p
+\]</div>
+<ul>
+<li>这就把 RSA 模数的一个素因子直接算出来了</li>
+</ul>
+<h3 id="5">5. 关键突破点三：分解模数并解密<a class="headerlink" href="#5" title="Permanent link">&para;</a></h3>
+<ul>
+<li>拿到 <span class="arithmatex">\(p = \gcd(n_1, n_2)\)</span> 后，就可以：</li>
+</ul>
+<div class="arithmatex">\[
+q = \frac{n_1}{p}
+\]</div>
+<div class="arithmatex">\[
+\varphi(n_1) = (p-1)(q-1)
+\]</div>
+<div class="arithmatex">\[
+d = e^{-1} \bmod \varphi(n_1)
+\]</div>
+<div class="admonition note">
+<p class="admonition-title">为什么不是直接用 <span class="arithmatex">\(1/65537\)</span>？</p>
+<p>这里的 <span class="arithmatex">\(e^{-1}\)</span> 不是实数意义下的倒数 <span class="arithmatex">\(1/e\)</span>，而是<strong>模逆元</strong>。<br />
+我们要求的是一个<strong>整数</strong> <span class="arithmatex">\(d\)</span>，使得：</p>
+<div class="arithmatex">\[
+e \cdot d \equiv 1 \pmod{\varphi(n)}
+\]</div>
+<p>例如如果 <span class="arithmatex">\(e = 3\)</span>、<span class="arithmatex">\(\varphi(n) = 10\)</span>，那么 <span class="arithmatex">\(d = 7\)</span>，因为：</p>
+<div class="arithmatex">\[
+3 \cdot 7 = 21 \equiv 1 \pmod{10}
+\]</div>
+<p>这和 <span class="arithmatex">\(1/3 = 0.333\ldots\)</span> 完全不是一个概念。<br />
+RSA 解密指数必须是<strong>模 <span class="arithmatex">\(\varphi(n)\)</span></strong> 的乘法逆元，否则就无法保证：</p>
+<div class="arithmatex">\[
+(m^e)^d = m^{ed} \equiv m \pmod n
+\]</div>
+<p>所以即便 <span class="arithmatex">\(1/65537\)</span> 这个实数看起来很小，它在 RSA 里也没有意义；真正有意义的是满足 <span class="arithmatex">\(e \cdot d \equiv 1 \pmod{\varphi(n)}\)</span> 的那个大整数 <span class="arithmatex">\(d\)</span>。</p>
+</div>
+<ul>
+<li>再对其中一组密文做标准 RSA 解密：</li>
+</ul>
+<div class="arithmatex">\[
+m = c_1^d \bmod n_1
+\]</div>
+<ul>
+<li>得到的 <code>m</code> 不是英文描述，而是一串 <code>A/T/G/C</code> 的 DNA 字符串，再按 4 个字符一组逆回 ASCII</li>
+</ul>
+<h3 id="6-flag">6. 获取 Flag<a class="headerlink" href="#6-flag" title="Permanent link">&para;</a></h3>
+<ul>
+<li>对你提供的两组 <code>Vexillum Rex</code> 下载结果做 <span class="arithmatex">\(\gcd(n_1, n_2)\)</span> 后，成功恢复共享质因子</li>
+<li>解密并逆 DNA 编码后得到：</li>
+</ul>
+<div class="highlight"><pre><span></span><code>Has a crown and dach2026{R5A_a_d1n0s5r_0f_1ts_0wn_2fqkncq16x3mbtkf} written on its back
+</code></pre></div>
+<ul>
+<li>因此 flag 为：</li>
+</ul>
+<div class="highlight"><pre><span></span><code>dach2026{R5A_a_d1n0s5r_0f_1ts_0wn_2fqkncq16x3mbtkf}
+</code></pre></div>
+<h2 id="_3">攻击链/解题流程总结<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>阅读 app.py 识别 pow(m, 65537, n) 的裸 RSA 结构 → 发现同一恐龙重复下载会复用 vault_key → 在同一连接里对 Vexillum Rex 下载两次 → gcd(n1, n2) 恢复共享质因子 → 分解 n1 解 RSA → 把 DNA 串逆编码回英文 → 提取 flag
+</code></pre></div>
+<h2 id="_4">漏洞分析 / 机制分析<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="_5">根因<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>RSA 模数生成方式错误</strong>：同一只恐龙反复使用固定素因子 <code>vault_key</code></li>
+<li><strong>同一明文被不同但相关的模数重复加密</strong></li>
+<li><strong>使用裸 RSA</strong>：没有 OAEP 等随机填充保护结构</li>
+<li><strong>flag 所在明文目标可预测</strong>：<code>Has a crown and ... written on its back</code></li>
+</ul>
+<h3 id="_6">影响<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<ul>
+<li>对同一只恐龙下载两次即可通过 <span class="arithmatex">\(\gcd(n_1, n_2)\)</span> 恢复共享质因子</li>
+<li>一旦分解出模数，就能完整解密该恐龙的 DNA</li>
+<li>由于 <code>Vexillum Rex</code> 的描述中直接嵌入 flag，最终可直接泄露 flag</li>
+</ul>
+<h3 id="_7">修复建议（适用于漏洞类题目）<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<ul>
+<li>不要让不同 RSA 模数共享任何素因子</li>
+<li>为每次加密生成独立且完整的新密钥对，而不是只替换一个质因子</li>
+<li>使用 <strong>RSA-OAEP</strong> 等带随机填充的标准方案，而不是裸 RSA</li>
+<li>不要把敏感信息直接嵌入结构化、可预测的明文模板</li>
+</ul>
+<h2 id="_8">知识点<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<ul>
+<li>如何从代码识别 RSA：<span class="arithmatex">\(n = pq\)</span>、<span class="arithmatex">\(e = 65537\)</span>、<code>pow(m, e, n)</code></li>
+<li>RSA shared-prime / GCD attack（共享素因子攻击）</li>
+<li>自定义字母表编码与逆编码（A/T/G/C 还原字符）</li>
+</ul>
+<details class="note">
+<summary>RSA 与模运算扩展阅读</summary>
+<p>如果对 <span class="arithmatex">\(e^{-1} \bmod \varphi(n)\)</span>、模运算法则、同余方程求解还不熟，可以看这篇专题：<br />
+<a href="../rsa_modular_arithmetic/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21.5c-1.35-.85-3.8-1.5-5.5-1.5-1.65 0-3.35.3-4.75 1.05-.1.05-.15.05-.25.05-.25 0-.5-.25-.5-.5V6c.6-.45 1.25-.75 2-1 1.11-.35 2.33-.5 3.5-.5 1.95 0 4.05.4 5.5 1.5 1.45-1.1 3.55-1.5 5.5-1.5 1.17 0 2.39.15 3.5.5.75.25 1.4.55 2 1v14.6c0 .25-.25.5-.5.5-.1 0-.15 0-.25-.05-1.4-.75-3.1-1.05-4.75-1.05-1.7 0-4.15.65-5.5 1.5M12 8v11.5c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5V7c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5m1 3.5c1.11-.68 2.6-1 4.5-1 .91 0 1.76.09 2.5.28V9.23c-.87-.15-1.71-.23-2.5-.23q-2.655 0-4.5.84zm4.5.17c-1.71 0-3.21.26-4.5.79v1.69c1.11-.65 2.6-.99 4.5-.99 1.04 0 1.88.08 2.5.24v-1.5c-.87-.16-1.71-.23-2.5-.23m2.5 2.9c-.87-.16-1.71-.24-2.5-.24-1.83 0-3.33.27-4.5.8v1.69c1.11-.66 2.6-.99 4.5-.99 1.04 0 1.88.08 2.5.24z"/></svg></span> RSA 与模运算知识点扩展</a></p>
+</details>
+<h2 id="_9">使用的工具<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Python 标准库 <code>math.gcd</code> — 计算共享质因子</li>
+<li><code>Crypto.Util.number</code> — 求逆、RSA 解密、整数/字节转换</li>
+<li>本地阅读 <code>app.py</code> — 确认 RSA 构造与 DNA 编码方式</li>
+</ul>
+<h2 id="_10">脚本归档<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Go：<a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups/blob/main/CTF_Writeups/scripts_go/ACSC2026Qualification_Dino_Vault.go" target="_blank"><code>ACSC2026Qualification_Dino_Vault.go</code> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2z"/></svg></span></a></li>
+<li>Python：<a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups/blob/main/CTF_Writeups/scripts_python/ACSC2026Qualification_Dino_Vault.py" target="_blank"><code>ACSC2026Qualification_Dino_Vault.py</code> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2z"/></svg></span></a></li>
+<li>说明：脚本支持直接输入两组密文/模数对进行离线求解</li>
+</ul>
+<h2 id="gui">命令行提取关键数据（无 GUI）<a class="headerlink" href="#gui" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>go<span class="w"> </span>run<span class="w"> </span>CTF_Writeups/scripts_go/ACSC2026Qualification_Dino_Vault.go<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-ciphertext1<span class="w"> </span>&lt;hex1&gt;<span class="w"> </span>-modulus1<span class="w"> </span>&lt;n1&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-ciphertext2<span class="w"> </span>&lt;hex2&gt;<span class="w"> </span>-modulus2<span class="w"> </span>&lt;n2&gt;
+
+python<span class="w"> </span>CTF_Writeups/scripts_python/ACSC2026Qualification_Dino_Vault.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--ciphertext1<span class="w"> </span>&lt;hex1&gt;<span class="w"> </span>--modulus1<span class="w"> </span>&lt;n1&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--ciphertext2<span class="w"> </span>&lt;hex2&gt;<span class="w"> </span>--modulus2<span class="w"> </span>&lt;n2&gt;
+</code></pre></div>
+<h2 id="_11">推荐工具与优化解题流程<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>参考 <code>CTF_TOOLS_EXTENSION_PLAN.md</code> 中的对应类别工具推荐。</p>
+</blockquote>
+<h3 id="_12">工具对比总结<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>适用阶段</th>
+<th>本题耗时</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Go 本地脚本</td>
+<td>完整求解</td>
+<td>秒级</td>
+<td>单文件、易归档、无第三方依赖</td>
+<td>参数较长时命令行不够友好</td>
+</tr>
+<tr>
+<td>Python 本地脚本</td>
+<td>完整求解</td>
+<td>秒级</td>
+<td><code>gcd + RSA + 逆编码</code> 一体化</td>
+<td>需要自己解析题目输出</td>
+</tr>
+<tr>
+<td>Sage / Python 大整数环境</td>
+<td>数论验证</td>
+<td>秒级</td>
+<td>适合快速验证 <code>gcd</code>、求逆与解密</td>
+<td>归档性不如纯脚本</td>
+</tr>
+<tr>
+<td><code>nc</code></td>
+<td>交互获取数据</td>
+<td>秒级</td>
+<td>拿两组下载结果最直接</td>
+<td>不能自动完成数论求解</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_13">推荐流程<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
+<p><strong>推荐流程</strong>：先从代码认出 RSA → 在同一连接里对 <code>Vexillum Rex</code> 下载两次 → 提取两组 <code>modulation index</code> 与密文 → 用脚本做 <code>gcd</code> 分解并逆 DNA 编码 → 拿到 flag。 </p>
+<h3 id="a">工具 A（推荐首选）<a class="headerlink" href="#a" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>安装</strong>：Python 3.10+ 与 <code>pycryptodome</code></li>
+<li><strong>详细步骤</strong>：</li>
+<li>收集同一连接中的两组 <code>(ciphertext, modulus)</code></li>
+<li>计算 <span class="arithmatex">\(p = \gcd(n_1, n_2)\)</span></li>
+<li>分解 <code>n1</code>，恢复私钥 <code>d</code></li>
+<li>解密并将 DNA 还原为原始英文描述</li>
+<li><strong>优势</strong>：最贴合题目机制，便于长期归档</li>
+</ul>
+<h3 id="b">工具 B（可选）<a class="headerlink" href="#b" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>安装</strong>：SageMath 或支持大整数数论的环境</li>
+<li><strong>详细步骤</strong>：</li>
+<li>用 <span class="arithmatex">\(\gcd(n_1, n_2)\)</span> 找共享质因子</li>
+<li>直接在 REPL 里恢复 <code>d</code></li>
+<li>另写一小段脚本逆 DNA 编码</li>
+<li><strong>优势</strong>：适合交互式验证每一步数论结论</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 id="__comments">评论</h2>
+
+<script
+  src="https://giscus.app/client.js"
+  data-repo="your-username/your-repo"
+  data-repo-id=""
+  data-category="Writeup Comments"
+  data-category-id=""
+  data-mapping="pathname"
+  data-strict="1"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="preferred_color_scheme"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.path", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../javascripts/drawer-backdrop.js"></script>
+      
+    
+  </body>
+</html>

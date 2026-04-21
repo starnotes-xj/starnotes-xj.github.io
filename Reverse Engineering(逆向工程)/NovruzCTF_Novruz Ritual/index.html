@@ -1,0 +1,1700 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="CTF 竞赛解题记录与学习笔记">
+      
+      
+        <meta name="author" content="BIGC CTF Team">
+      
+      
+        <link rel="canonical" href="https://starnotes-xj.github.io/BIGC_CTF_Writeups/Reverse%20Engineering%28%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%29/NovruzCTF_Novruz%20Ritual/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>NovruzCTF 2026 - Ritual Writeup - BIGC CTF Writeups</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra_v3.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#novruzctf-2026-ritual-writeup" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="BIGC CTF Writeups" class="md-header__button md-logo" aria-label="BIGC CTF Writeups" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 11c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4 9 4zm-9 10c3.75-1 7-5.46 7-9.78V6.3l-7-3.12z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BIGC CTF Writeups
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              NovruzCTF 2026 - Ritual Writeup
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../guides/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  新手指南
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Web/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Web
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Cryptography%28%E5%AF%86%E7%A0%81%E5%AD%A6%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  密码学
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  逆向工程
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Pwn/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Pwn
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Misc%28%E6%9D%82%E9%A1%B9%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  杂项
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../PPC/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  PPC
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../events/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  比赛
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../history/competitions/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  历史参赛记录
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../tags/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  标签
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../WRITEUP_TEMPLATE/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  模板
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="BIGC CTF Writeups" class="md-nav__button md-logo" aria-label="BIGC CTF Writeups" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 11c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4 9 4zm-9 10c3.75-1 7-5.46 7-9.78V6.3l-7-3.12z"/></svg>
+
+    </a>
+    BIGC CTF Writeups
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    新手指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cryptography%28%E5%AF%86%E7%A0%81%E5%AD%A6%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    密码学
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    逆向工程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Pwn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pwn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%28%E6%9D%82%E9%A1%B9%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    杂项
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PPC/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PPC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../events/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    比赛
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../history/competitions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    历史参赛记录
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tags/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    标签
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../WRITEUP_TEMPLATE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模板
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        题目信息
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flag
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        解题过程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="解题过程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 文件识别
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 字符串分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-go-pclntab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 解析 Go pclntab 定位函数地址
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 手动反汇编分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 组合最终答案
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        命令行提取关键数据（无 GUI）
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        漏洞/知识点分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="漏洞/知识点分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#go" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Go 逆向特点
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        数学约束求解
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        诺鲁孜文化背景
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        知识点
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        使用的工具
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        脚本归档
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐工具与优化解题流程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="推荐工具与优化解题流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-ghidra" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Ghidra — 反编译直接看伪代码（推荐首选）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-radare2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Radare2 — 命令行快速分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-angr-flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Angr — 符号执行自动求解（一键出 Flag）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-ida-free" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. IDA Free — 工业级反编译器
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工具对比总结
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="novruzctf-2026-ritual-writeup">NovruzCTF 2026 - Ritual Writeup<a class="headerlink" href="#novruzctf-2026-ritual-writeup" title="Permanent link">&para;</a></h1>
+<h2 id="_1">题目信息<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>比赛</strong>: NovruzCTF 2026</li>
+<li><strong>题目</strong>: 古老的仪式咒语 / Ritual</li>
+<li><strong>类型</strong>: Reverse Engineering</li>
+<li><strong>附件</strong>: <code>ad1c72b0-ca4c-4899-8e24-962d6cbc60a9.bin</code></li>
+<li><strong>附件链接</strong>: <a download="download" href="https://starnotes-xj.github.io/BIGC_CTF_Writeups/files/Novruz%20Ritual/ad1c72b0-ca4c-4899-8e24-962d6cbc60a9.bin">下载附件</a> · <a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups/tree/main/CTF_Writeups/files/Novruz%20Ritual" target="_blank">仓库位置</a></li>
+<li><strong>Flag格式</strong>: <code>novruzCTF{}</code> (注意大写 CTF)</li>
+<li><strong>状态</strong>: 已解</li>
+</ul>
+<p><strong>题目描述</strong>:</p>
+<blockquote>
+<p>诺鲁孜节的三个星期二已经过去了。水已净化，火已点燃，风已吹散灰烬。但似乎还缺少些什么。一段古老的仪式咒语隐藏在代码深处。找到它，完成仪式。</p>
+</blockquote>
+<h2 id="flag">Flag<a class="headerlink" href="#flag" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>novruzCTF{buta-tonq-kosa}
+</code></pre></div>
+<p><strong>注意</strong>：Flag 格式为 <code>novruzCTF{}</code>（大写 CTF），程序内硬编码了 <code>novruzCTF{</code> 前缀校验（Go <code>strings.HasPrefix</code> 大小写敏感）。</p>
+<h2 id="_2">解题过程<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="1">1. 文件识别<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked,
+BuildID[sha1]=f2a982a78430494b59836b213ba2530d68fee252, stripped
+</code></pre></div>
+<p>Go 1.25.8 编译的静态链接 Linux ELF 二进制，已 strip（无调试符号）。
+编译参数包含 <code>-ldflags="-w -s"</code> 进一步移除了调试信息。
+源码路径泄露：<code>/home/abdullaxows/Documents/novruzctf_2026/murad/main.go</code></p>
+<h3 id="2">2. 字符串分析<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<p>通过 <code>grep -ao</code> 提取二进制中的可打印字符串，发现关键信息：</p>
+<p><strong>程序流程相关字符串：</strong>
+- <code>Enter the ritual phrase:</code> — 输入提示
+- <code>Three Tuesdays require three parts.</code> — 输入需要 3 个部分
+- <code>The ritual format is wrong.</code> — 格式错误
+- <code>Fire refused to burn.</code> / <code>Water rejected your offering.</code> / <code>Wind scattered the ashes.</code> — 三个阶段的失败消息
+- <code>[+] All three Tuesdays have been honored.</code> — 全部通过
+- <code>[+] The ritual is complete.</code> — 仪式完成
+- <code>[+] Novruz accepted your phrase.</code> — 接受</p>
+<p><strong>函数名（Go 符号保留在 pclntab 中）：</strong>
+<div class="highlight"><pre><span></span><code>main.main
+main.intro
+main.fail
+main.stageFire
+main.stageWater  (名称存在但函数被内联到 main)
+main.stageWind
+</code></pre></div></p>
+<p><strong>SQL 注入相关（无关）：</strong>
+<div class="highlight"><pre><span></span><code><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;revker&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;kerrev&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Cup{xxx...}&#39;</span><span class="p">)</span>
+</code></pre></div></p>
+<h3 id="3-go-pclntab">3. 解析 Go pclntab 定位函数地址<a class="headerlink" href="#3-go-pclntab" title="Permanent link">&para;</a></h3>
+<p>Go 二进制即使 stripped，仍保留 <code>pclntab</code>（PC-Line Number Table），其中包含函数名和地址映射。</p>
+<p>通过解析 <code>moduledata</code> 结构（位于 ELF 数据段 <code>0x16a240</code>），找到：
+- <code>pclntable</code>: ptr=<code>0x53f880</code>
+- <code>ftab</code> (函数索引表): ptr=<code>0x53f880</code>, len=1887
+- <code>funcnametab</code>: ptr=<code>0x4eb960</code>
+- <code>textStart</code>: <code>0x401000</code></p>
+<p>遍历 ftab 提取 <code>main.*</code> 函数地址：</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>虚拟地址</th>
+<th>文件偏移</th>
+<th>大小</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>main.main</code></td>
+<td><code>0x49b500</code></td>
+<td><code>0x9b500</code></td>
+<td>1312 字节</td>
+</tr>
+<tr>
+<td><code>main.intro</code></td>
+<td><code>0x49ba20</code></td>
+<td><code>0x9ba20</code></td>
+<td>256 字节</td>
+</tr>
+<tr>
+<td><code>main.fail</code></td>
+<td><code>0x49bb20</code></td>
+<td><code>0x9bb20</code></td>
+<td>256 字节</td>
+</tr>
+<tr>
+<td><code>main.stageFire</code></td>
+<td><code>0x49bc20</code></td>
+<td><code>0x9bc20</code></td>
+<td>160 字节</td>
+</tr>
+<tr>
+<td><code>main.stageWind</code></td>
+<td><code>0x49bcc0</code></td>
+<td><code>0x9bcc0</code></td>
+<td>128 字节</td>
+</tr>
+</tbody>
+</table>
+<p>注意：<code>stageWater</code> 不在函数表中 — 它被 <strong>内联</strong> 到了 <code>main.main</code> 中。</p>
+<h3 id="4">4. 手动反汇编分析<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
+<p>由于环境限制无法安装反汇编工具（capstone），采用<strong>手动 x86-64 字节码解码</strong>。</p>
+<h4 id="mainmain">main.main 关键流程<a class="headerlink" href="#mainmain" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>1. 调用 intro() 打印欢迎信息
+2. 读取用户输入 (fmt.Scan)
+3. 去除尾部换行符 (strings.TrimSuffix)
+4. 以 &quot;-&quot; 为分隔符分割输入 (strings.SplitN)
+5. 检查是否恰好 3 个部分，每个部分长度为 4
+6. stageWater: 内联验证 parts[0]
+7. stageFire:  调用验证 parts[1]
+8. stageWind:  调用验证 parts[2]
+9. 打印成功信息
+</code></pre></div>
+<p><strong>分隔符确认</strong>：在 <code>main.main</code> 中，<code>strings.SplitN</code> 调用前通过 <code>LEA rcx, [rip+0x23ce5]</code> 加载分隔符字符串指针，指向 rodata 中的 <code>0x2d</code> = <code>'-'</code>。</p>
+<h4 id="stagewater-main">stageWater（内联在 main 中）<a class="headerlink" href="#stagewater-main" title="Permanent link">&para;</a></h4>
+<p>从 <code>main.main</code> 偏移 <code>0x2c0</code> 处开始，使用<strong>索引置换 + 加法校验</strong>：</p>
+<div class="highlight"><pre><span></span><code>目标数组 [rsp+0x30]: [0x79, 0x64, 0x68, 0x76] = [&#39;y&#39;, &#39;d&#39;, &#39;h&#39;, &#39;v&#39;]
+密钥数组 [rsp+0x34]: [0x05, 0x02, 0x07, 0x01]
+索引数组 [rsp+0x48]: [2, 0, 3, 1]  (置换顺序)
+</code></pre></div>
+<p>验证逻辑（4 次迭代）：</p>
+<div class="arithmatex">\[\text{input}[\text{index}[i]] + \text{key}[i] = \text{target}[i]\]</div>
+<p>求解：
+<div class="highlight"><pre><span></span><code>i=0: input[2] + 0x05 = 0x79 → input[2] = 0x74 = &#39;t&#39;
+i=1: input[0] + 0x02 = 0x64 → input[0] = 0x62 = &#39;b&#39;
+i=2: input[3] + 0x07 = 0x68 → input[3] = 0x61 = &#39;a&#39;
+i=3: input[1] + 0x01 = 0x76 → input[1] = 0x75 = &#39;u&#39;
+</code></pre></div></p>
+<p><strong>stageWater 答案：<code>buta</code></strong></p>
+<h4 id="stagefire0x49bc20160">stageFire（0x49bc20，160 字节）<a class="headerlink" href="#stagefire0x49bc20160" title="Permanent link">&para;</a></h4>
+<p>使用<strong>累加器校验 + 线性方程组</strong>：</p>
+<p><strong>第一层：旋转异或累加器</strong>
+<div class="highlight"><pre><span></span><code>acc = 0x45
+for i in range(4):
+    acc = ROL32(acc, 2)  # 循环左移 2 位
+    acc ^= input[i]
+    acc += (i + 1)
+assert acc == 0x5f09
+</code></pre></div></p>
+<p><strong>第二层：字节对约束</strong></p>
+<div class="arithmatex">\[\text{input}[1] + \text{input}[0] \times 2 = \texttt{0x157}\ (343)\]</div>
+<div class="arithmatex">\[\text{input}[0] - \text{input}[1] = 5\]</div>
+<div class="arithmatex">\[\text{input}[2] + \text{input}[3] \times 2 = \texttt{0x150}\ (336)\]</div>
+<div class="arithmatex">\[\text{input}[3] - \text{input}[2] = 3\]</div>
+<p>求解线性方程组：</p>
+<p><strong>第一组</strong>：<span class="arithmatex">\(b_0 - b_1 = 5\)</span>，<span class="arithmatex">\(b_1 + 2b_0 = 343\)</span>
+$<span class="arithmatex">\(\Rightarrow 3b_1 = 333,\quad b_1 = 111 = \text{'o'},\quad b_0 = 116 = \text{'t'}\)</span>$</p>
+<p><strong>第二组</strong>：<span class="arithmatex">\(b_3 - b_2 = 3\)</span>，<span class="arithmatex">\(b_2 + 2b_3 = 336\)</span>
+$<span class="arithmatex">\(\Rightarrow 3b_2 = 330,\quad b_2 = 110 = \text{'n'},\quad b_3 = 113 = \text{'q'}\)</span>$</p>
+<p>验证累加器：<code>0x5f09</code> ✓</p>
+<p><strong>stageFire 答案：<code>tonq</code></strong></p>
+<h4 id="stagewind0x49bcc0128">stageWind（0x49bcc0，128 字节）<a class="headerlink" href="#stagewind0x49bcc0128" title="Permanent link">&para;</a></h4>
+<p>使用<strong>多重约束方程组</strong>：</p>
+<div class="arithmatex">\[\text{input}[0] + \text{input}[1] = \texttt{0xDA}\ (218)\]</div>
+<div class="arithmatex">\[\text{input}[0] - \text{input}[1] = -4 \quad (\text{即 } \text{input}[1] = \text{input}[0] + 4)\]</div>
+<div class="arithmatex">\[\text{input}[2] + \text{input}[3] = \texttt{0xD4}\ (212)\]</div>
+<div class="arithmatex">\[\text{input}[2] \oplus \text{input}[3] = \texttt{0x12}\ (18)\]</div>
+<div class="arithmatex">\[\text{input}[3] + \text{input}[0] = \texttt{0xCC}\ (204)\]</div>
+<p>求解：</p>
+<div class="arithmatex">\[b_0 + (b_0 + 4) = 218 \Rightarrow b_0 = 107 = \text{'k'},\quad b_1 = 111 = \text{'o'}\]</div>
+<div class="arithmatex">\[b_3 = 204 - 107 = 97 = \text{'a'}\]</div>
+<div class="arithmatex">\[b_2 = 212 - 97 = 115 = \text{'s'}\]</div>
+<p>验证：<span class="arithmatex">\(115 \oplus 97 = 18\)</span> ✓</p>
+<p><strong>stageWind 答案：<code>kosa</code></strong></p>
+<h3 id="5">5. 组合最终答案<a class="headerlink" href="#5" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Ritual phrase: buta-tonq-kosa
+Flag: novruzCTF{buta-tonq-kosa}
+</code></pre></div>
+<h2 id="gui">命令行提取关键数据（无 GUI）<a class="headerlink" href="#gui" title="Permanent link">&para;</a></h2>
+<p><strong>字符串筛选</strong>：
+<div class="highlight"><pre><span></span><code>strings<span class="w"> </span>-a<span class="w"> </span>-n<span class="w"> </span><span class="m">4</span><span class="w"> </span>ad1c72b0-ca4c-4899-8e24-962d6cbc60a9.bin<span class="w"> </span><span class="p">|</span><span class="w"> </span>rg<span class="w"> </span><span class="s2">&quot;ritual|Tuesday|Novruz&quot;</span>
+</code></pre></div></p>
+<p><strong>Radare2 快速定位主流程</strong>：
+<div class="highlight"><pre><span></span><code>r2<span class="w"> </span>-A<span class="w"> </span>ad1c72b0-ca4c-4899-8e24-962d6cbc60a9.bin
+iz~ritual
+afl~main
+pdf<span class="w"> </span>@<span class="w"> </span>main.main
+</code></pre></div></p>
+<h2 id="_3">漏洞/知识点分析<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h3 id="go">Go 逆向特点<a class="headerlink" href="#go" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>pclntab 保留</strong>：即使 stripped，Go 二进制仍保留 <code>pclntab</code> 中的函数名称信息，可用于定位所有函数</li>
+<li><strong>moduledata 结构</strong>：位于 <code>.data</code> 段，包含 <code>ftab</code>（函数地址表）和 <code>funcnametab</code>（函数名表）的指针</li>
+<li><strong>函数内联</strong>：<code>stageWater</code> 被内联到 <code>main.main</code> 中，不出现在函数表中</li>
+<li><strong>寄存器调用约定</strong>：Go 1.17+ 使用寄存器传参（RAX=第一个参数，RBX=第二个参数等）</li>
+</ul>
+<h3 id="_4">数学约束求解<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>线性方程组</strong>：stageFire 使用两个变量的线性方程对，直接代入消元即可求解</li>
+<li><strong>混合约束</strong>：stageWind 结合加法、减法和 XOR 约束，通过逐步代入求解</li>
+<li><strong>旋转异或校验</strong>：stageFire 的累加器使用 ROL + XOR + ADD 组合，增加暴力破解难度</li>
+<li><strong>索引置换</strong>：stageWater 通过重新排列字节检查顺序增加逆向难度</li>
+</ul>
+<h3 id="_5">诺鲁孜文化背景<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>buta</strong> (布塔) — 佩斯利花纹/树枝装饰，阿塞拜疆的国家象征，诺鲁孜装饰元素</li>
+<li><strong>tonq</strong> (通加勒) — 篝火，诺鲁孜节跳火传统 (Chaharshanbe Suri)</li>
+<li><strong>kosa</strong> — 风，吹散旧年灰烬的仪式</li>
+<li>三个"星期二" (Su Chershenbesi) — 诺鲁孜节前的三个星期二分别代表水、火、风</li>
+</ul>
+<h2 id="_6">知识点<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Go pclntab</strong> — stripped 二进制仍保留函数名与地址映射</li>
+<li><strong>moduledata 结构</strong> — 通过 ftab/funcnametab 恢复符号</li>
+<li><strong>函数内联</strong> — 关键校验逻辑可能被内联到 main</li>
+<li><strong>约束求解</strong> — 线性方程组与 XOR 约束组合求解</li>
+</ul>
+<h2 id="_7">使用的工具<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Python</strong> — ELF 解析、pclntab 解析、moduledata 遍历</li>
+<li><strong>grep -ao</strong> — 二进制字符串提取（替代 strings 命令）</li>
+<li><strong>手动 x86-64 反汇编</strong> — 在无 capstone/IDA 环境下手动解码机器码</li>
+</ul>
+<h2 id="_8">脚本归档<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Go：<a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups/blob/main/CTF_Writeups/scripts_go/NovruzCTF_Novruz%20Ritual.go" target="_blank"><code>NovruzCTF_Novruz Ritual.go</code> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2z"/></svg></span></a></li>
+<li>Python：<a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups/blob/main/CTF_Writeups/scripts_python/NovruzCTF_Novruz%20Ritual.py" target="_blank"><code>NovruzCTF_Novruz Ritual.py</code> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2z"/></svg></span></a></li>
+</ul>
+<h2 id="_9">推荐工具与优化解题流程<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>参考 <code>CTF_TOOLS_EXTENSION_PLAN.md</code> 中的逆向工程工具推荐。本题手动反汇编耗时较长，使用以下工具可以大幅提升效率。</p>
+</blockquote>
+<h3 id="1-ghidra">1. Ghidra — 反编译直接看伪代码（推荐首选）<a class="headerlink" href="#1-ghidra" title="Permanent link">&para;</a></h3>
+<p><a href="https://ghidra-sre.org/">Ghidra</a> 是 NSA 开源的免费逆向工程框架，支持 Go 二进制分析。</p>
+<p><strong>安装：</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># 下载安装 Ghidra（需要 JDK 17+）</span>
+<span class="c1"># https://ghidra-sre.org/ 下载最新版本</span>
+<span class="c1"># 解压后运行 ghidraRun</span>
+</code></pre></div></p>
+<p><strong>详细操作步骤：</strong></p>
+<p><strong>Step 1：导入二进制文件</strong>
+1. 打开 Ghidra → File → New Project → 创建项目
+2. File → Import File → 选择 <code>ad1c72b0-ca4c-4899-8e24-962d6cbc60a9.bin</code>
+3. Ghidra 自动识别为 ELF 64-bit x86-64
+4. 双击文件打开 CodeBrowser</p>
+<p><strong>Step 2：自动分析</strong>
+1. 弹出 "Analyze" 对话框 → 点击 "Yes"
+2. 保持默认分析选项（确保勾选 "Decompiler Parameter ID"）
+3. 等待分析完成（Go 静态链接二进制较大，约 1-3 分钟）</p>
+<p><strong>Step 3：恢复 Go 函数名</strong>
+- Ghidra 会自动解析 Go 的 <code>pclntab</code>，在 Symbol Tree 中可以看到 <code>main.main</code>、<code>main.stageFire</code>、<code>main.stageWind</code> 等函数名
+- 如果未自动恢复，安装 <a href="https://github.com/padorka/GhidraGo">GhidraGo</a> 插件辅助</p>
+<p><strong>Step 4：反编译 stageFire（关键）</strong>
+1. 在 Symbol Tree 中搜索 <code>stageFire</code> → 双击跳转
+2. 右侧 Decompiler 窗口直接显示伪代码，类似：
+<div class="highlight"><pre><span></span><code><span class="c1">// Ghidra 反编译伪代码（示意）</span>
+<span class="kt">bool</span><span class="w"> </span><span class="n">main</span><span class="p">.</span><span class="n">stageFire</span><span class="p">(</span><span class="n">byte</span><span class="w"> </span><span class="o">*</span><span class="n">input</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">len</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">len</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// 累加器校验</span>
+<span class="w">    </span><span class="n">uint</span><span class="w"> </span><span class="n">acc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0x45</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">acc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ROL</span><span class="p">(</span><span class="n">acc</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+<span class="w">        </span><span class="n">acc</span><span class="w"> </span><span class="o">^=</span><span class="w"> </span><span class="n">input</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="w">        </span><span class="n">acc</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">acc</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mh">0x5f09</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// 线性方程约束</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">input</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">input</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mh">0x157</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">input</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">input</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">input</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">input</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mh">0x150</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">input</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">input</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+3. 从伪代码中可以<strong>直接读取所有约束条件</strong>，无需手动解码字节码</p>
+<p><strong>Step 5：反编译 stageWind</strong>
+1. 同样搜索 <code>stageWind</code> → 查看反编译结果
+2. 直接看到 5 个约束方程，手动求解即可</p>
+<p><strong>Step 6：分析 main.main 中内联的 stageWater</strong>
+1. 跳转到 <code>main.main</code> 函数
+2. 在反编译窗口中找到 <code>strings.SplitN</code> 调用后的代码段
+3. 内联的 stageWater 验证逻辑会显示为循环结构，包含目标数组、密钥数组和索引数组</p>
+<p><strong>优势</strong>：无需手动解码机器码，反编译伪代码直接暴露所有约束条件，从导入到求解约 10 分钟。</p>
+<hr />
+<h3 id="2-radare2">2. Radare2 — 命令行快速分析<a class="headerlink" href="#2-radare2" title="Permanent link">&para;</a></h3>
+<p><a href="https://github.com/radareorg/radare2">Radare2</a> 是一个强大的 CLI 逆向框架，适合快速查看函数结构。</p>
+<p><strong>安装：</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># Linux/macOS</span>
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/radareorg/radare2<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>radare2<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sys/install.sh
+
+<span class="c1"># 或使用包管理器</span>
+brew<span class="w"> </span>install<span class="w"> </span>radare2<span class="w">        </span><span class="c1"># macOS</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>radare2<span class="w">    </span><span class="c1"># Debian/Ubuntu</span>
+</code></pre></div></p>
+<p><strong>详细操作步骤：</strong></p>
+<p><strong>Step 1：加载并分析二进制</strong>
+<div class="highlight"><pre><span></span><code>r2<span class="w"> </span>-A<span class="w"> </span>ad1c72b0-ca4c-4899-8e24-962d6cbc60a9.bin
+<span class="c1"># -A 自动执行 aaa（分析所有函数、引用、字符串等）</span>
+<span class="c1"># Go 二进制分析较慢，等待约 30 秒</span>
+</code></pre></div></p>
+<p><strong>Step 2：列出 main 包函数</strong>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>0x00401000<span class="o">]</span>&gt;<span class="w"> </span>afl~main.
+<span class="c1"># 输出类似：</span>
+<span class="c1"># 0x0049b500  1312  main.main</span>
+<span class="c1"># 0x0049ba20   256  main.intro</span>
+<span class="c1"># 0x0049bb20   256  main.fail</span>
+<span class="c1"># 0x0049bc20   160  main.stageFire</span>
+<span class="c1"># 0x0049bcc0   128  main.stageWind</span>
+</code></pre></div></p>
+<p><strong>Step 3：反汇编 stageFire</strong>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>0x00401000<span class="o">]</span>&gt;<span class="w"> </span>pdf<span class="w"> </span>@main.stageFire
+<span class="c1"># pdf = Print Disassembly Function</span>
+<span class="c1"># 显示完整的 x86-64 汇编指令</span>
+<span class="c1"># 从中可以看到 ROL、XOR、CMP 等关键指令和立即数</span>
+</code></pre></div></p>
+<p><strong>Step 4：反汇编 stageWind</strong>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>0x00401000<span class="o">]</span>&gt;<span class="w"> </span>pdf<span class="w"> </span>@main.stageWind
+<span class="c1"># 显示加法、减法、XOR 比较的汇编指令</span>
+<span class="c1"># 立即数 0xDA, 0xD4, 0x12, 0xCC 直接可见</span>
+</code></pre></div></p>
+<p><strong>Step 5：查看 main.main 中的字符串引用</strong>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>0x00401000<span class="o">]</span>&gt;<span class="w"> </span>pdf<span class="w"> </span>@main.main
+<span class="c1"># 查看完整的 main 函数，包括内联的 stageWater</span>
+<span class="c1"># 关注 MOV 指令加载的常量值</span>
+
+<span class="c1"># 或者直接搜索字符串引用</span>
+<span class="o">[</span>0x00401000<span class="o">]</span>&gt;<span class="w"> </span>iz~ritual
+<span class="o">[</span>0x00401000<span class="o">]</span>&gt;<span class="w"> </span>iz~novruz
+</code></pre></div></p>
+<p><strong>Step 6：提取关键常量</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># 查看 stageFire 中的立即数</span>
+<span class="o">[</span>0x00401000<span class="o">]</span>&gt;<span class="w"> </span>s<span class="w"> </span>main.stageFire
+<span class="o">[</span>0x0049bc20<span class="o">]</span>&gt;<span class="w"> </span>pd<span class="w"> </span><span class="m">40</span>
+<span class="c1"># 逐条指令查看，记录 CMP 指令中的比较值</span>
+
+<span class="c1"># 查看 rodata 中的分隔符</span>
+<span class="o">[</span>0x00401000<span class="o">]</span>&gt;<span class="w"> </span>px<span class="w"> </span><span class="m">1</span><span class="w"> </span>@0x4bf479
+<span class="c1"># 输出: 0x2d = &#39;-&#39;</span>
+</code></pre></div></p>
+<p><strong>Step 7：使用 Radare2 的反编译功能（可选）</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># 如果安装了 r2ghidra 插件</span>
+<span class="o">[</span>0x00401000<span class="o">]</span>&gt;<span class="w"> </span>pdg<span class="w"> </span>@main.stageFire
+<span class="c1"># 显示类似 Ghidra 的伪代码输出</span>
+</code></pre></div></p>
+<p><strong>优势</strong>：无需 GUI，SSH 到服务器也能用；<code>afl~main.</code> 一条命令找到所有目标函数；比手动解码字节码快得多。</p>
+<hr />
+<h3 id="3-angr-flag">3. Angr — 符号执行自动求解（一键出 Flag）<a class="headerlink" href="#3-angr-flag" title="Permanent link">&para;</a></h3>
+<p><a href="https://github.com/angr/angr">Angr</a> 是 Python 符号执行框架，可以<strong>自动求解约束条件</strong>，无需手动列方程。</p>
+<p><strong>安装：</strong>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>angr
+</code></pre></div></p>
+<p><strong>详细操作步骤：</strong></p>
+<p><strong>方法 A：基于成功/失败地址的符号执行</strong></p>
+<p>需要先用 Ghidra/Radare2 找到关键地址：
+- 成功路径：打印 <code>The ritual is complete.</code> 的地址
+- 失败路径：打印各种失败消息的地址</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">angr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">claripy</span>
+
+<span class="c1"># Step 1: 加载二进制</span>
+<span class="n">proj</span> <span class="o">=</span> <span class="n">angr</span><span class="o">.</span><span class="n">Project</span><span class="p">(</span><span class="s1">&#39;./ad1c72b0-ca4c-4899-8e24-962d6cbc60a9.bin&#39;</span><span class="p">,</span> <span class="n">auto_load_libs</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Step 2: 创建符号化输入</span>
+<span class="c1"># 输入格式: &quot;xxxx-xxxx-xxxx&quot; (14个字符 + 换行符)</span>
+<span class="n">input_len</span> <span class="o">=</span> <span class="mi">15</span>  <span class="c1"># 14 chars + newline</span>
+<span class="n">sym_input</span> <span class="o">=</span> <span class="n">claripy</span><span class="o">.</span><span class="n">BVS</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="n">input_len</span> <span class="o">*</span> <span class="mi">8</span><span class="p">)</span>
+
+<span class="c1"># Step 3: 设置初始状态</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">entry_state</span><span class="p">(</span><span class="n">stdin</span><span class="o">=</span><span class="n">angr</span><span class="o">.</span><span class="n">SimFile</span><span class="p">(</span><span class="s1">&#39;/dev/stdin&#39;</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="n">sym_input</span><span class="p">))</span>
+
+<span class="c1"># Step 4: 约束输入为可打印 ASCII</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">14</span><span class="p">):</span>
+    <span class="n">state</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">sym_input</span><span class="o">.</span><span class="n">get_byte</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mh">0x20</span><span class="p">)</span>
+    <span class="n">state</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">sym_input</span><span class="o">.</span><span class="n">get_byte</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mh">0x7e</span><span class="p">)</span>
+<span class="c1"># 分隔符位置固定为 &#39;-&#39;</span>
+<span class="n">state</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">sym_input</span><span class="o">.</span><span class="n">get_byte</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">==</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">))</span>
+<span class="n">state</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">sym_input</span><span class="o">.</span><span class="n">get_byte</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span> <span class="o">==</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">))</span>
+<span class="c1"># 换行符</span>
+<span class="n">state</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">sym_input</span><span class="o">.</span><span class="n">get_byte</span><span class="p">(</span><span class="mi">14</span><span class="p">)</span> <span class="o">==</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">))</span>
+
+<span class="c1"># Step 5: 创建模拟管理器并探索</span>
+<span class="n">simgr</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">simulation_manager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+
+<span class="c1"># 成功地址: 打印 &quot;The ritual is complete.&quot; 的位置</span>
+<span class="c1"># 失败地址: 打印 &quot;Fire refused&quot; / &quot;Water rejected&quot; / &quot;Wind scattered&quot; 的位置</span>
+<span class="c1"># （这些地址需要从 Radare2/Ghidra 中获取）</span>
+<span class="n">FIND_ADDR</span> <span class="o">=</span> <span class="mh">0x49b9</span><span class="n">xx</span>   <span class="c1"># &quot;ritual is complete&quot; 的地址（需替换为实际值）</span>
+<span class="n">AVOID_ADDRS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="mh">0x49bb</span><span class="n">xx</span><span class="p">,</span>  <span class="c1"># &quot;Fire refused to burn.&quot;</span>
+    <span class="mh">0x49bb</span><span class="n">xx</span><span class="p">,</span>  <span class="c1"># &quot;Water rejected your offering.&quot;</span>
+    <span class="mh">0x49bc</span><span class="n">xx</span><span class="p">,</span>  <span class="c1"># &quot;Wind scattered the ashes.&quot;</span>
+<span class="p">]</span>
+
+<span class="n">simgr</span><span class="o">.</span><span class="n">explore</span><span class="p">(</span><span class="n">find</span><span class="o">=</span><span class="n">FIND_ADDR</span><span class="p">,</span> <span class="n">avoid</span><span class="o">=</span><span class="n">AVOID_ADDRS</span><span class="p">)</span>
+
+<span class="c1"># Step 6: 获取结果</span>
+<span class="k">if</span> <span class="n">simgr</span><span class="o">.</span><span class="n">found</span><span class="p">:</span>
+    <span class="n">found_state</span> <span class="o">=</span> <span class="n">simgr</span><span class="o">.</span><span class="n">found</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">solution</span> <span class="o">=</span> <span class="n">found_state</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">sym_input</span><span class="p">,</span> <span class="n">cast_to</span><span class="o">=</span><span class="nb">bytes</span><span class="p">)</span>
+    <span class="n">phrase</span> <span class="o">=</span> <span class="n">solution</span><span class="p">[:</span><span class="mi">14</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Phrase: </span><span class="si">{</span><span class="n">phrase</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Flag: novruzCTF</span><span class="se">{{</span><span class="si">{</span><span class="n">phrase</span><span class="si">}</span><span class="se">}}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No solution found&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>方法 B：基于字符串匹配的符号执行（更简单）</strong></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">angr</span>
+
+<span class="n">proj</span> <span class="o">=</span> <span class="n">angr</span><span class="o">.</span><span class="n">Project</span><span class="p">(</span><span class="s1">&#39;./ad1c72b0-ca4c-4899-8e24-962d6cbc60a9.bin&#39;</span><span class="p">,</span> <span class="n">auto_load_libs</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">entry_state</span><span class="p">()</span>
+<span class="n">simgr</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">simulation_manager</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+
+<span class="c1"># 直接搜索包含成功字符串的路径</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_success</span><span class="p">(</span><span class="n">state</span><span class="p">):</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">posix</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># stdout</span>
+    <span class="k">return</span> <span class="sa">b</span><span class="s2">&quot;ritual is complete&quot;</span> <span class="ow">in</span> <span class="n">output</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">is_failure</span><span class="p">(</span><span class="n">state</span><span class="p">):</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">posix</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="sa">b</span><span class="s2">&quot;refused&quot;</span> <span class="ow">in</span> <span class="n">output</span> <span class="ow">or</span>
+            <span class="sa">b</span><span class="s2">&quot;rejected&quot;</span> <span class="ow">in</span> <span class="n">output</span> <span class="ow">or</span>
+            <span class="sa">b</span><span class="s2">&quot;scattered&quot;</span> <span class="ow">in</span> <span class="n">output</span> <span class="ow">or</span>
+            <span class="sa">b</span><span class="s2">&quot;wrong&quot;</span> <span class="ow">in</span> <span class="n">output</span><span class="p">)</span>
+
+<span class="n">simgr</span><span class="o">.</span><span class="n">explore</span><span class="p">(</span><span class="n">find</span><span class="o">=</span><span class="n">is_success</span><span class="p">,</span> <span class="n">avoid</span><span class="o">=</span><span class="n">is_failure</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">simgr</span><span class="o">.</span><span class="n">found</span><span class="p">:</span>
+    <span class="n">solution</span> <span class="o">=</span> <span class="n">simgr</span><span class="o">.</span><span class="n">found</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">posix</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># stdin</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input: </span><span class="si">{</span><span class="n">solution</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>注意事项：</strong>
+- Go 静态链接二进制体积大（~1.5MB 代码段），Angr 分析可能较慢（5-30 分钟）
+- 如果整体符号执行太慢，可以只对单个 stage 函数做符号执行（Hook <code>main.main</code>，从特定地址开始）
+- 方法 B 更简单但可能因 Go 运行时复杂性导致路径爆炸</p>
+<p><strong>优势</strong>：完全自动化，无需理解汇编或手动列方程；适合约束条件复杂、手动求解困难的题目。</p>
+<hr />
+<h3 id="4-ida-free">4. IDA Free — 工业级反编译器<a class="headerlink" href="#4-ida-free" title="Permanent link">&para;</a></h3>
+<p><a href="https://hex-rays.com/ida-free/">IDA Free</a> 是 Hex-Rays 提供的免费版本，支持 x86-64 反编译。</p>
+<p><strong>详细操作步骤：</strong></p>
+<p><strong>Step 1：加载二进制</strong>
+1. 打开 IDA Free → 选择 "New" → 加载 bin 文件
+2. 选择处理器类型 "MetaPC (x86-64)"
+3. 等待自动分析完成</p>
+<p><strong>Step 2：恢复 Go 符号</strong>
+- IDA Free 可能不会自动解析 Go pclntab
+- 安装 <a href="https://github.com/sibears/IDAGolangHelper">IDAGolangHelper</a> 插件：
+  1. 下载插件放到 IDA 的 <code>plugins/</code> 目录
+  2. Edit → Plugins → IDAGolangHelper → 选择 "Rename functions"
+  3. 所有 Go 函数名被自动恢复</p>
+<p><strong>Step 3：查看反编译结果</strong>
+1. 在 Functions 窗口搜索 <code>main_stageFire</code>
+2. 按 F5 查看伪代码（IDA Free 8.x 已支持免费反编译）
+3. 直接从伪代码中提取约束条件</p>
+<p><strong>Step 4：交叉引用分析</strong>
+1. 在字符串窗口（Shift+F12）搜索 <code>novruzCTF{</code>
+2. 双击跳转到字符串位置 → 按 X 查看交叉引用
+3. 直接定位到 <code>main.main</code> 中的前缀校验代码</p>
+<p><strong>优势</strong>：反编译质量高，UI 交互体验好，适合详细分析复杂函数。</p>
+<hr />
+<h3 id="_10">工具对比总结<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>适用场景</th>
+<th>本题耗时</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ghidra</strong></td>
+<td>首选，通用逆向</td>
+<td>~10 分钟</td>
+<td>免费、反编译质量高、Go 支持好</td>
+<td>需要 GUI、启动较慢</td>
+</tr>
+<tr>
+<td><strong>Radare2</strong></td>
+<td>快速分析、无 GUI 环境</td>
+<td>~15 分钟</td>
+<td>CLI、轻量、SSH 可用</td>
+<td>学习曲线陡峭</td>
+</tr>
+<tr>
+<td><strong>Angr</strong></td>
+<td>自动求解约束</td>
+<td>~5-30 分钟</td>
+<td>全自动、无需手动分析</td>
+<td>Go 二进制可能较慢</td>
+</tr>
+<tr>
+<td><strong>IDA Free</strong></td>
+<td>深度分析</td>
+<td>~10 分钟</td>
+<td>反编译质量最高</td>
+<td>仅限非商业用途</td>
+</tr>
+<tr>
+<td><strong>手动反汇编</strong></td>
+<td>无工具环境</td>
+<td>~2 小时</td>
+<td>不依赖任何工具</td>
+<td>极其耗时、容易出错</td>
+</tr>
+</tbody>
+</table>
+<p><strong>推荐流程</strong>：Ghidra 加载 → 反编译 3 个 stage 函数 → 提取约束 → Python 求解 → 5-10 分钟内完成。如果约束复杂也可以用 Angr 自动求解。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 id="__comments">评论</h2>
+
+<script
+  src="https://giscus.app/client.js"
+  data-repo="your-username/your-repo"
+  data-repo-id=""
+  data-category="Writeup Comments"
+  data-category-id=""
+  data-mapping="pathname"
+  data-strict="1"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="preferred_color_scheme"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.path", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../javascripts/drawer-backdrop.js"></script>
+      
+    
+  </body>
+</html>

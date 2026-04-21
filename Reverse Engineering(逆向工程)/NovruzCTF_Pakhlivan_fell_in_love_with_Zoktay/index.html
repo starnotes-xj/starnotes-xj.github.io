@@ -1,0 +1,1596 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="CTF 竞赛解题记录与学习笔记">
+      
+      
+        <meta name="author" content="BIGC CTF Team">
+      
+      
+        <link rel="canonical" href="https://starnotes-xj.github.io/BIGC_CTF_Writeups/Reverse%20Engineering%28%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%29/NovruzCTF_Pakhlivan_fell_in_love_with_Zoktay/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>NovruzCTF 2026 - Pakhlivan fell in love with Zoktay Writeup - BIGC CTF Writeups</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra_v3.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#novruzctf-2026-pakhlivan-fell-in-love-with-zoktay-writeup" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="BIGC CTF Writeups" class="md-header__button md-logo" aria-label="BIGC CTF Writeups" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 11c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4 9 4zm-9 10c3.75-1 7-5.46 7-9.78V6.3l-7-3.12z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BIGC CTF Writeups
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              NovruzCTF 2026 - Pakhlivan fell in love with Zoktay Writeup
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../guides/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  新手指南
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Web/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Web
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Cryptography%28%E5%AF%86%E7%A0%81%E5%AD%A6%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  密码学
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  逆向工程
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Pwn/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Pwn
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Misc%28%E6%9D%82%E9%A1%B9%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  杂项
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../PPC/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  PPC
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../events/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  比赛
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../history/competitions/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  历史参赛记录
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../tags/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  标签
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../WRITEUP_TEMPLATE/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  模板
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="BIGC CTF Writeups" class="md-nav__button md-logo" aria-label="BIGC CTF Writeups" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 11c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4 9 4zm-9 10c3.75-1 7-5.46 7-9.78V6.3l-7-3.12z"/></svg>
+
+    </a>
+    BIGC CTF Writeups
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    新手指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cryptography%28%E5%AF%86%E7%A0%81%E5%AD%A6%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    密码学
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    逆向工程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Pwn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pwn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%28%E6%9D%82%E9%A1%B9%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    杂项
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PPC/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PPC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../events/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    比赛
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../history/competitions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    历史参赛记录
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tags/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    标签
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../WRITEUP_TEMPLATE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模板
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        题目信息
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        题目描述
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        解题过程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="解题过程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 文件分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 字符串提取
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-elf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. ELF段分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-rc4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. RC4解密
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 密钥破解
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        漏洞分析 / 机制分析
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        使用的工具
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        脚本归档
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐工具与优化解题流程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="推荐工具与优化解题流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-ghidra-radare2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 逆向定位（Ghidra / Radare2）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工具对比总结
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        命令行提取关键数据（无 GUI）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="命令行提取关键数据（无 GUI）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-crypto_toolkit-rc4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 快速解密（crypto_toolkit 的 RC4）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flag
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        知识点
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        解题技巧总结
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="解题技巧总结">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        关键技术点
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工具使用
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        陷阱分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        学习要点
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        完整解题脚本
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        时间线
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="novruzctf-2026-pakhlivan-fell-in-love-with-zoktay-writeup">NovruzCTF 2026 - Pakhlivan fell in love with Zoktay Writeup<a class="headerlink" href="#novruzctf-2026-pakhlivan-fell-in-love-with-zoktay-writeup" title="Permanent link">&para;</a></h1>
+<h2 id="_1">题目信息<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>比赛</strong>: NovruzCTF 2026</li>
+<li><strong>题目</strong>: zoktay_crack_me</li>
+<li><strong>类别</strong>: Reverse Engineering (逆向工程)</li>
+<li><strong>难度</strong>: Easy</li>
+<li><strong>文件</strong>: <code>65c452c9-d9ce-4287-a621-c54e5624c82c.bin</code> (ELF 64-bit)</li>
+<li><strong>附件链接</strong>: <a download="download" href="https://starnotes-xj.github.io/BIGC_CTF_Writeups/files/Pakhlivan%20fell%20in%20love%20with%20Zoktay/zoktay_crack_me.bin">下载附件</a> · <a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups/tree/main/CTF_Writeups/files/Pakhlivan%20fell%20in%20love%20with%20Zoktay" target="_blank">仓库位置</a></li>
+<li><strong>状态</strong>: 已解</li>
+</ul>
+<h2 id="_2">题目描述<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>只有聪明的研究人员和帕克利文才需要抵抗。
+所以他们才会用测试任务来筛选新人。
+它很简单，但缺少一点技巧。
+他们现在非常需要帮助，所以你也会有其他任务可以完成。
+但如果你想赚点外快，完成这个任务就能得到你想要的东西。</p>
+</blockquote>
+<h2 id="_3">解题过程<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h3 id="1">1. 文件分析<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
+<p>首先分析文件类型：</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>file<span class="w"> </span>zoktay_crack_me.bin
+zoktay_crack_me.bin:<span class="w"> </span>ELF<span class="w"> </span><span class="m">64</span>-bit<span class="w"> </span>LSB<span class="w"> </span>pie<span class="w"> </span>executable,<span class="w"> </span>x86-64,
+version<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>SYSV<span class="o">)</span>,<span class="w"> </span>dynamically<span class="w"> </span>linked,<span class="w"> </span>interpreter<span class="w"> </span>/lib64/ld-linux-x86-64.so.2,
+<span class="k">for</span><span class="w"> </span>GNU/Linux<span class="w"> </span><span class="m">3</span>.2.0,<span class="w"> </span>not<span class="w"> </span>stripped
+</code></pre></div>
+<p>关键信息：
+- 64位ELF可执行文件
+- 动态链接
+- <strong>未剥离符号</strong> (not stripped) - 这意味着我们可以看到函数名</p>
+<h3 id="2">2. 字符串提取<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<p>使用Python脚本提取程序中的字符串，发现以下关键信息：</p>
+<div class="highlight"><pre><span></span><code>Usage: %s &lt;password&gt;
+this_is_not_flag
+[+] Correct flag!
+[-] Incorrect flag!
+encrypted_flag
+PRGA
+swap
+</code></pre></div>
+<p><strong>关键发现</strong>：
+- 程序需要密码参数
+- 有 <code>PRGA</code> 和 <code>swap</code> 函数 → 这是 <strong>RC4加密算法</strong> 的特征！
+  - PRGA = Pseudo-Random Generation Algorithm (伪随机生成算法)
+  - swap = RC4中的交换操作
+- <code>this_is_not_flag</code> - 这个字符串看起来像是干扰项</p>
+<h3 id="3-elf">3. ELF段分析<a class="headerlink" href="#3-elf" title="Permanent link">&para;</a></h3>
+<p>解析ELF文件结构，查找加密数据：</p>
+<h4 id="rodata">.rodata段<a class="headerlink" href="#rodata" title="Permanent link">&para;</a></h4>
+<p>包含只读字符串，没有加密数据。</p>
+<h4 id="data">.data段（关键！）<a class="headerlink" href="#data" title="Permanent link">&para;</a></h4>
+<p>在 <code>.data</code> 段偏移 <code>0x3020</code> 处找到 <strong>69字节的加密数据</strong>：</p>
+<div class="highlight"><pre><span></span><code>65 f9 45 ce 8a 60 e0 90 fe 66 ff 67 ef 1b d1 2e
+f1 6b a4 0f 96 9e be c0 0b 88 c3 40 06 27 5a d2
+df a6 15 0d 8d ef cf 29 83 a4 44 3d d7 9b f4 9e
+87 67 4d cf 4e 5a e0 6b f4 13 e1 dc bb ce 73 14
+ee 09 e3 4f 46
+</code></pre></div>
+<h3 id="4-rc4">4. RC4解密<a class="headerlink" href="#4-rc4" title="Permanent link">&para;</a></h3>
+<h4 id="rc4">RC4算法简介<a class="headerlink" href="#rc4" title="Permanent link">&para;</a></h4>
+<p>RC4是一种流密码算法，由两部分组成：
+1. <strong>KSA (Key Scheduling Algorithm)</strong> - 密钥调度算法
+2. <strong>PRGA (Pseudo-Random Generation Algorithm)</strong> - 伪随机生成算法</p>
+<h4 id="python">Python实现<a class="headerlink" href="#python" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">rc4_ksa</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;RC4密钥调度算法&quot;&quot;&quot;</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">))</span>
+    <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">):</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">key</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">)])</span> <span class="o">%</span> <span class="mi">256</span>
+        <span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">S</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">S</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">S</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">rc4_prga</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;RC4伪随机生成算法&quot;&quot;&quot;</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">byte</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">256</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">%</span> <span class="mi">256</span>
+        <span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">S</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">S</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">K</span> <span class="o">=</span> <span class="n">S</span><span class="p">[(</span><span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">S</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">%</span> <span class="mi">256</span><span class="p">]</span>
+        <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">byte</span> <span class="o">^</span> <span class="n">K</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">rc4_decrypt</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">ciphertext</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;RC4解密&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">rc4_ksa</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rc4_prga</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">ciphertext</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="go">Go 实现<a class="headerlink" href="#go" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">rc4KSA</span><span class="p">(</span><span class="nx">key</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">)</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">S</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span><span class="w"> </span><span class="mi">256</span><span class="p">)</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="mi">256</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">S</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">byte</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">j</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="mi">256</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">j</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="nx">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="nx">S</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="nx">key</span><span class="p">[</span><span class="nx">i</span><span class="o">%</span><span class="nb">len</span><span class="p">(</span><span class="nx">key</span><span class="p">)]))</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0xff</span>
+<span class="w">        </span><span class="nx">S</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span><span class="w"> </span><span class="nx">S</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">S</span><span class="p">[</span><span class="nx">j</span><span class="p">],</span><span class="w"> </span><span class="nx">S</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">S</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">rc4PRGA</span><span class="p">(</span><span class="nx">S</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">)</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">i</span><span class="p">,</span><span class="w"> </span><span class="nx">j</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="nx">out</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">idx</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">i</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="nx">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0xff</span>
+<span class="w">        </span><span class="nx">j</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="nx">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">int</span><span class="p">(</span><span class="nx">S</span><span class="p">[</span><span class="nx">i</span><span class="p">]))</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0xff</span>
+<span class="w">        </span><span class="nx">S</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span><span class="w"> </span><span class="nx">S</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">S</span><span class="p">[</span><span class="nx">j</span><span class="p">],</span><span class="w"> </span><span class="nx">S</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
+<span class="w">        </span><span class="nx">k</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">S</span><span class="p">[(</span><span class="nb">int</span><span class="p">(</span><span class="nx">S</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span><span class="o">+</span><span class="nb">int</span><span class="p">(</span><span class="nx">S</span><span class="p">[</span><span class="nx">j</span><span class="p">]))</span><span class="o">&amp;</span><span class="mh">0xff</span><span class="p">]</span>
+<span class="w">        </span><span class="nx">out</span><span class="p">[</span><span class="nx">idx</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">b</span><span class="w"> </span><span class="p">^</span><span class="w"> </span><span class="nx">k</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">out</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">rc4Decrypt</span><span class="p">(</span><span class="nx">key</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">ciphertext</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">)</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">S</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">rc4KSA</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">key</span><span class="p">))</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">rc4PRGA</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span><span class="w"> </span><span class="nx">ciphertext</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="5">5. 密钥破解<a class="headerlink" href="#5" title="Permanent link">&para;</a></h3>
+<h4 id="_4">尝试常见密码<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h4>
+<p>首先尝试程序中出现的字符串作为密码。<strong>关键洞察</strong>：</p>
+<p>虽然字符串叫 <code>"this_is_not_flag"</code>，但这可能是一个<strong>反向思维陷阱</strong>！
+它可能恰恰就是密钥！</p>
+<h4 id="_5">解密验证<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">encrypted_data</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">([</span>
+    <span class="mh">0x65</span><span class="p">,</span> <span class="mh">0xf9</span><span class="p">,</span> <span class="mh">0x45</span><span class="p">,</span> <span class="mh">0xce</span><span class="p">,</span> <span class="mh">0x8a</span><span class="p">,</span> <span class="mh">0x60</span><span class="p">,</span> <span class="mh">0xe0</span><span class="p">,</span> <span class="mh">0x90</span><span class="p">,</span>
+    <span class="mh">0xfe</span><span class="p">,</span> <span class="mh">0x66</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0x67</span><span class="p">,</span> <span class="mh">0xef</span><span class="p">,</span> <span class="mh">0x1b</span><span class="p">,</span> <span class="mh">0xd1</span><span class="p">,</span> <span class="mh">0x2e</span><span class="p">,</span>
+    <span class="c1"># ... (完整的69字节)</span>
+<span class="p">])</span>
+
+<span class="n">decrypted</span> <span class="o">=</span> <span class="n">rc4_decrypt</span><span class="p">(</span><span class="s2">&quot;this_is_not_flag&quot;</span><span class="p">,</span> <span class="n">encrypted_data</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">decrypted</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+</code></pre></div>
+<p><strong>结果</strong>：</p>
+<div class="highlight"><pre><span></span><code>novruzCTF{ea9d371ee29e03cf04054bc1154a8b0b4513614d246fe4653adc7e03f4a2ac65}
+</code></pre></div>
+<p>✅ <strong>成功！</strong></p>
+<h2 id="_6">漏洞分析 / 机制分析<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>RC4 流密码</strong>：密文存放在 <code>.data</code> 段，运行时用 RC4 解密并比较。</li>
+<li><strong>弱点</strong>：密钥字符串 <code>this_is_not_flag</code> 直接硬编码在二进制中。</li>
+<li><strong>利用点</strong>：静态提取密钥与密文即可离线解密，无需运行程序。</li>
+</ul>
+<h2 id="_7">使用的工具<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Ghidra / Radare2 — 反编译与字符串定位</li>
+<li>Python — ELF 解析与 RC4 解密脚本</li>
+<li>file — 文件类型识别</li>
+<li>ctf_tools/crypto — RC4 解密验证（可选）</li>
+</ul>
+<h2 id="_8">脚本归档<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Go：<a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups/blob/main/CTF_Writeups/scripts_go/NovruzCTF_Pakhlivan_fell_in_love_with_Zoktay.go" target="_blank"><code>NovruzCTF_Pakhlivan_fell_in_love_with_Zoktay.go</code> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2z"/></svg></span></a></li>
+<li>Python：<a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups/blob/main/CTF_Writeups/scripts_python/NovruzCTF_Pakhlivan_fell_in_love_with_Zoktay.py" target="_blank"><code>NovruzCTF_Pakhlivan_fell_in_love_with_Zoktay.py</code> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2z"/></svg></span></a></li>
+</ul>
+<h2 id="_9">推荐工具与优化解题流程<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<p>下面是基于扩展计划里推荐工具的<strong>更快流程</strong>，减少手写脚本量。</p>
+<h3 id="1-ghidra-radare2">1) 逆向定位（Ghidra / Radare2）<a class="headerlink" href="#1-ghidra-radare2" title="Permanent link">&para;</a></h3>
+<p><strong>Ghidra 流程</strong>：
+1. 导入二进制并选择 <strong>Auto-Analyze</strong>。
+2. 在 <strong>Symbol Tree</strong> 中搜索 <code>encrypted_flag</code>，双击定位到 <code>.data</code>。
+3. 右键数据 → <strong>Copy Special / Export</strong>，保存 69 字节为 <code>encrypted.bin</code>。
+4. 在 <strong>Strings</strong> 中找到 <code>this_is_not_flag</code>，确认密钥。
+5. 在 <strong>Functions</strong> 中查看 <code>RC4</code> / <code>PRGA</code>，确认算法是 RC4。</p>
+<p><strong>Radare2 流程（可选）</strong>：
+<div class="highlight"><pre><span></span><code>r2<span class="w"> </span>-A<span class="w"> </span>zoktay_crack_me
+iz~flag
+afl~RC4
+pdf<span class="w"> </span>@<span class="w"> </span>main
+px<span class="w"> </span><span class="m">69</span><span class="w"> </span>@<span class="w"> </span>sym.encrypted_flag
+</code></pre></div></p>
+<h3 id="_10">工具对比总结<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>适用阶段</th>
+<th>本题耗时</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ghidra</strong></td>
+<td>反编译定位</td>
+<td>~10 分钟</td>
+<td>伪代码直观</td>
+<td>需要 GUI</td>
+</tr>
+<tr>
+<td><strong>Radare2</strong></td>
+<td>快速定位</td>
+<td>~5 分钟</td>
+<td>CLI 快速</td>
+<td>学习成本高</td>
+</tr>
+<tr>
+<td><strong>ctf_tools/crypto</strong></td>
+<td>解密验证</td>
+<td>~1 分钟</td>
+<td>一键 RC4</td>
+<td>需先构建</td>
+</tr>
+<tr>
+<td><strong>Python 脚本</strong></td>
+<td>自动解析</td>
+<td>~5 分钟</td>
+<td>可重复</td>
+<td>需要脚本维护</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_11">推荐流程<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<p><strong>推荐流程</strong>：Ghidra/Radare2 定位密钥与密文 → Python 解密验证 → 5-10 分钟完成。</p>
+<h2 id="gui">命令行提取关键数据（无 GUI）<a class="headerlink" href="#gui" title="Permanent link">&para;</a></h2>
+<p><strong>提取 encrypted.bin</strong>：</p>
+<p>方式 A（GNU dd / WSL / Git Bash）：
+<div class="highlight"><pre><span></span><code><span class="c1"># 0x3020 是 encrypted_flag 在文件中的偏移，长度 69 字节</span>
+
+dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>zoktay_crack_me<span class="w"> </span><span class="nv">of</span><span class="o">=</span>encrypted.bin<span class="w"> </span><span class="nv">bs</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">skip</span><span class="o">=</span><span class="k">$((</span><span class="m">0x3020</span><span class="k">))</span><span class="w"> </span><span class="nv">count</span><span class="o">=</span><span class="m">69</span><span class="w"> </span><span class="nv">status</span><span class="o">=</span>none
+</code></pre></div></p>
+<p>方式 B（Python）：
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;&#39;PY&#39;</span>
+<span class="s">with open(&quot;zoktay_crack_me&quot;, &quot;rb&quot;) as f:</span>
+<span class="s">    f.seek(0x3020)</span>
+<span class="s">    data = f.read(69)</span>
+<span class="s">with open(&quot;encrypted.bin&quot;, &quot;wb&quot;) as f:</span>
+<span class="s">    f.write(data)</span>
+<span class="s">PY</span>
+</code></pre></div></p>
+<h3 id="2-crypto_toolkit-rc4">2) 快速解密（crypto_toolkit 的 RC4）<a class="headerlink" href="#2-crypto_toolkit-rc4" title="Permanent link">&para;</a></h3>
+<p>使用本仓库的 <code>ctf_tools/crypto</code>：
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>ctf_tools/crypto
+go<span class="w"> </span>build<span class="w"> </span>-o<span class="w"> </span>crypto_toolkit.exe
+./crypto_toolkit<span class="w"> </span>decrypt<span class="w"> </span>-a<span class="w"> </span>rc4<span class="w"> </span>-k<span class="w"> </span><span class="s2">&quot;this_is_not_flag&quot;</span><span class="w"> </span>-i<span class="w"> </span>encrypted.bin<span class="w"> </span>-o<span class="w"> </span>out.txt
+</code></pre></div></p>
+<p><code>out.txt</code> 得到：
+<div class="highlight"><pre><span></span><code>Cup{ea9d371ee29e03cf04054bc1154a8b0b4513614d246fe4653adc7e03f4a2ac65}
+</code></pre></div></p>
+<p>平台提交前缀规则：
+<div class="highlight"><pre><span></span><code>novruzCTF{ea9d371ee29e03cf04054bc1154a8b0b4513614d246fe4653adc7e03f4a2ac65}
+</code></pre></div></p>
+<h2 id="flag">Flag<a class="headerlink" href="#flag" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>novruzCTF{ea9d371ee29e03cf04054bc1154a8b0b4513614d246fe4653adc7e03f4a2ac65}
+</code></pre></div>
+<h2 id="_12">知识点<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>RC4 结构</strong> — KSA + PRGA 两阶段</li>
+<li><strong>ELF 段分析</strong> — 密文常位于 <code>.data</code></li>
+<li><strong>硬编码密钥</strong> — 静态分析直接提取</li>
+</ul>
+<h2 id="_13">解题技巧总结<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h2>
+<h3 id="_14">关键技术点<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>ELF文件分析</strong> - 理解ELF文件结构，提取段数据</li>
+<li><strong>RC4算法识别</strong> - 通过函数名（PRGA、swap）识别加密算法</li>
+<li><strong>反向思维</strong> - "this_is_not_flag" 实际上就是密钥！</li>
+</ol>
+<h3 id="_15">工具使用<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>file</code> - 识别文件类型</li>
+<li>Python - ELF解析和RC4实现</li>
+<li>字符串提取脚本</li>
+</ul>
+<h3 id="_16">陷阱分析<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h3>
+<p><strong>题目设置的陷阱</strong>：
+- 字符串命名为 <code>"this_is_not_flag"</code> → 让你以为它不是密钥
+- 实际上它<strong>就是</strong>RC4的解密密钥
+- 这是一种常见的社会工程学技巧</p>
+<h3 id="_17">学习要点<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>不要被表面迷惑</strong> - 程序中的提示信息可能是反向的</li>
+<li><strong>识别加密算法</strong> - 通过函数名和数据特征识别</li>
+<li><strong>ELF结构理解</strong> - 知道在哪里找数据（.rodata vs .data）</li>
+<li><strong>Python脚本</strong> - 快速实现分析和解密工具</li>
+</ol>
+<h2 id="_18">完整解题脚本<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env python3</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">rc4_decrypt</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">ciphertext</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;RC4解密函数&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span>
+
+    <span class="c1"># KSA</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">))</span>
+    <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">):</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">key</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">)])</span> <span class="o">%</span> <span class="mi">256</span>
+        <span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">S</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">S</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="c1"># PRGA</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">byte</span> <span class="ow">in</span> <span class="n">ciphertext</span><span class="p">:</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">256</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">%</span> <span class="mi">256</span>
+        <span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">S</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">S</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">K</span> <span class="o">=</span> <span class="n">S</span><span class="p">[(</span><span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">S</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">%</span> <span class="mi">256</span><span class="p">]</span>
+        <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">byte</span> <span class="o">^</span> <span class="n">K</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+
+<span class="c1"># 加密数据</span>
+<span class="n">encrypted_data</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">([</span>
+    <span class="mh">0x65</span><span class="p">,</span> <span class="mh">0xf9</span><span class="p">,</span> <span class="mh">0x45</span><span class="p">,</span> <span class="mh">0xce</span><span class="p">,</span> <span class="mh">0x8a</span><span class="p">,</span> <span class="mh">0x60</span><span class="p">,</span> <span class="mh">0xe0</span><span class="p">,</span> <span class="mh">0x90</span><span class="p">,</span>
+    <span class="mh">0xfe</span><span class="p">,</span> <span class="mh">0x66</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0x67</span><span class="p">,</span> <span class="mh">0xef</span><span class="p">,</span> <span class="mh">0x1b</span><span class="p">,</span> <span class="mh">0xd1</span><span class="p">,</span> <span class="mh">0x2e</span><span class="p">,</span>
+    <span class="mh">0xf1</span><span class="p">,</span> <span class="mh">0x6b</span><span class="p">,</span> <span class="mh">0xa4</span><span class="p">,</span> <span class="mh">0x0f</span><span class="p">,</span> <span class="mh">0x96</span><span class="p">,</span> <span class="mh">0x9e</span><span class="p">,</span> <span class="mh">0xbe</span><span class="p">,</span> <span class="mh">0xc0</span><span class="p">,</span>
+    <span class="mh">0x0b</span><span class="p">,</span> <span class="mh">0x88</span><span class="p">,</span> <span class="mh">0xc3</span><span class="p">,</span> <span class="mh">0x40</span><span class="p">,</span> <span class="mh">0x06</span><span class="p">,</span> <span class="mh">0x27</span><span class="p">,</span> <span class="mh">0x5a</span><span class="p">,</span> <span class="mh">0xd2</span><span class="p">,</span>
+    <span class="mh">0xdf</span><span class="p">,</span> <span class="mh">0xa6</span><span class="p">,</span> <span class="mh">0x15</span><span class="p">,</span> <span class="mh">0x0d</span><span class="p">,</span> <span class="mh">0x8d</span><span class="p">,</span> <span class="mh">0xef</span><span class="p">,</span> <span class="mh">0xcf</span><span class="p">,</span> <span class="mh">0x29</span><span class="p">,</span>
+    <span class="mh">0x83</span><span class="p">,</span> <span class="mh">0xa4</span><span class="p">,</span> <span class="mh">0x44</span><span class="p">,</span> <span class="mh">0x3d</span><span class="p">,</span> <span class="mh">0xd7</span><span class="p">,</span> <span class="mh">0x9b</span><span class="p">,</span> <span class="mh">0xf4</span><span class="p">,</span> <span class="mh">0x9e</span><span class="p">,</span>
+    <span class="mh">0x87</span><span class="p">,</span> <span class="mh">0x67</span><span class="p">,</span> <span class="mh">0x4d</span><span class="p">,</span> <span class="mh">0xcf</span><span class="p">,</span> <span class="mh">0x4e</span><span class="p">,</span> <span class="mh">0x5a</span><span class="p">,</span> <span class="mh">0xe0</span><span class="p">,</span> <span class="mh">0x6b</span><span class="p">,</span>
+    <span class="mh">0xf4</span><span class="p">,</span> <span class="mh">0x13</span><span class="p">,</span> <span class="mh">0xe1</span><span class="p">,</span> <span class="mh">0xdc</span><span class="p">,</span> <span class="mh">0xbb</span><span class="p">,</span> <span class="mh">0xce</span><span class="p">,</span> <span class="mh">0x73</span><span class="p">,</span> <span class="mh">0x14</span><span class="p">,</span>
+    <span class="mh">0xee</span><span class="p">,</span> <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0xe3</span><span class="p">,</span> <span class="mh">0x4f</span><span class="p">,</span> <span class="mh">0x46</span>
+<span class="p">])</span>
+
+<span class="c1"># 解密</span>
+<span class="n">password</span> <span class="o">=</span> <span class="s2">&quot;this_is_not_flag&quot;</span>
+<span class="n">flag</span> <span class="o">=</span> <span class="n">rc4_decrypt</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="n">encrypted_data</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FLAG: </span><span class="si">{</span><span class="n">flag</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>输出</strong>：
+<div class="highlight"><pre><span></span><code>FLAG: novruzCTF{ea9d371ee29e03cf04054bc1154a8b0b4513614d246fe4653adc7e03f4a2ac65}
+</code></pre></div></p>
+<h2 id="_19">时间线<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h2>
+<ol>
+<li>✅ 识别文件类型 (ELF 64-bit)</li>
+<li>✅ 提取字符串，发现RC4算法特征</li>
+<li>✅ 解析ELF结构，提取加密数据</li>
+<li>✅ 实现RC4解密算法</li>
+<li>✅ 尝试常见密码，发现 "this_is_not_flag" 就是密钥</li>
+<li>✅ 成功解密，获得FLAG</li>
+</ol>
+<hr />
+<p><strong>解题时间</strong>: ~30分钟
+<strong>难度评价</strong>: Easy-Medium
+<strong>关键点</strong>: 识别RC4算法 + 反向思维</p>
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 id="__comments">评论</h2>
+
+<script
+  src="https://giscus.app/client.js"
+  data-repo="your-username/your-repo"
+  data-repo-id=""
+  data-category="Writeup Comments"
+  data-category-id=""
+  data-mapping="pathname"
+  data-strict="1"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="preferred_color_scheme"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.path", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../javascripts/drawer-backdrop.js"></script>
+      
+    
+  </body>
+</html>

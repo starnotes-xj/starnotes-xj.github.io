@@ -1,0 +1,21 @@
+MetaCTF - Teaching Bricks
+
+Service:
+nc.umbccd.net 8921
+
+Prompt note:
+The service intentionally prints nothing on first connect.
+You must send input first.
+
+Observed behavior:
+- Sending a single line like "A" returns:
+  win() is at: 0x4011a6
+  Better luck next time!
+
+Recovered exploit parameters:
+- Technique: ret2win
+- win() address: 0x4011a6
+- saved RIP offset: 72
+
+Recovered flag:
+DawgCTF{$taching_br1cks}

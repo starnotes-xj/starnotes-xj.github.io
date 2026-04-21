@@ -1,0 +1,1778 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="CTF 竞赛解题记录与学习笔记">
+      
+      
+        <meta name="author" content="BIGC CTF Team">
+      
+      
+        <link rel="canonical" href="https://starnotes-xj.github.io/BIGC_CTF_Writeups/Misc%28%E6%9D%82%E9%A1%B9%29/NovruzCTF_WYCGPRB/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>NovruzCTF 2026 - Ancient Spell Writeup - BIGC CTF Writeups</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra_v3.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#novruzctf-2026-ancient-spell-writeup" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="BIGC CTF Writeups" class="md-header__button md-logo" aria-label="BIGC CTF Writeups" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 11c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4 9 4zm-9 10c3.75-1 7-5.46 7-9.78V6.3l-7-3.12z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BIGC CTF Writeups
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              NovruzCTF 2026 - Ancient Spell Writeup
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../guides/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  新手指南
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Web/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Web
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Cryptography%28%E5%AF%86%E7%A0%81%E5%AD%A6%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  密码学
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Reverse%20Engineering%28%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  逆向工程
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Pwn/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Pwn
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  杂项
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../PPC/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  PPC
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../events/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  比赛
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../history/competitions/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  历史参赛记录
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../tags/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  标签
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../WRITEUP_TEMPLATE/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  模板
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="BIGC CTF Writeups" class="md-nav__button md-logo" aria-label="BIGC CTF Writeups" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 11c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4 9 4zm-9 10c3.75-1 7-5.46 7-9.78V6.3l-7-3.12z"/></svg>
+
+    </a>
+    BIGC CTF Writeups
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    新手指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cryptography%28%E5%AF%86%E7%A0%81%E5%AD%A6%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    密码学
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Reverse%20Engineering%28%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    逆向工程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Pwn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pwn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    杂项
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PPC/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PPC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../events/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    比赛
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../history/competitions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    历史参赛记录
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tags/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    标签
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../WRITEUP_TEMPLATE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模板
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        题目信息
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flag
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        解题过程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="解题过程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 文件基本分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-sstv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 识别 SSTV 信号
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-sstv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 确定 SSTV 模式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-sstv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 编写 SSTV 解码器
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#go-bibo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Go 版本解题脚本（bi/bo → 摩尔斯）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 解码图像内容
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. 解码摩尔斯电码
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        漏洞分析 / 机制分析
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        知识点总结
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="知识点总结">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sstvslow-scan-television" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SSTV（Slow Scan Television）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        摩尔斯电码变体编码
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        使用的工具
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        脚本归档
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        命令行提取关键数据（无 GUI）
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐工具与优化解题流程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="推荐工具与优化解题流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-qsstv-rx-sstv-sstv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. QSSTV / RX-SSTV — SSTV 专用解码器（推荐首选）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-sonic-visualiser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Sonic Visualiser — 音频频谱分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-cyberchef" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. CyberChef — 摩尔斯电码解码
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-binwalk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Binwalk — 文件分析（排除法）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工具对比总结
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        解题流程图
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="novruzctf-2026-ancient-spell-writeup">NovruzCTF 2026 - Ancient Spell Writeup<a class="headerlink" href="#novruzctf-2026-ancient-spell-writeup" title="Permanent link">&para;</a></h1>
+<h2 id="_1">题目信息<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>比赛</strong>: NovruzCTF 2026</li>
+<li><strong>题目</strong>: WYCGPRB（西约克郡政府公共关系委员会）</li>
+<li><strong>类别</strong>: Misc / Steganography</li>
+<li><strong>难度</strong>: 难</li>
+<li><strong>题目描述</strong>: 在遥远的群山中，居住着一个古老的部落。据说他们的祖先曾传授一个神奇的咒语，但随着时间的流逝，这个咒语早已被遗忘。他们唯一留下的，是一段神秘的录音，其含义无人能解。请从这段录音中找到那个神奇的咒语。</li>
+<li><strong>附件</strong>: <code>7630e312-da5e-4792-9f88-d02a7494a651.wav</code></li>
+<li><strong>附件链接</strong>: <a download="download" href="https://starnotes-xj.github.io/BIGC_CTF_Writeups/files/WYCGPRB/7630e312-da5e-4792-9f88-d02a7494a651.wav">下载附件</a> · <a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups/tree/main/CTF_Writeups/files/WYCGPRB" target="_blank">仓库位置</a></li>
+<li><strong>状态</strong>: 已解</li>
+</ul>
+<h2 id="flag">Flag<a class="headerlink" href="#flag" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>novruzCTF{R3DB0X3920}
+</code></pre></div>
+<h2 id="_2">解题过程<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="1">1. 文件基本分析<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>file<span class="w"> </span>7630e312-da5e-4792-9f88-d02a7494a651.wav
+RIFF<span class="w"> </span><span class="o">(</span>little-endian<span class="o">)</span><span class="w"> </span>data,<span class="w"> </span>WAVE<span class="w"> </span>audio,<span class="w"> </span>Microsoft<span class="w"> </span>PCM,<span class="w"> </span><span class="m">16</span><span class="w"> </span>bit,<span class="w"> </span>mono<span class="w"> </span><span class="m">44100</span><span class="w"> </span>Hz
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>格式</td>
+<td>WAV (PCM 16bit)</td>
+</tr>
+<tr>
+<td>声道</td>
+<td>单声道 (Mono)</td>
+</tr>
+<tr>
+<td>采样率</td>
+<td>44100 Hz</td>
+</tr>
+<tr>
+<td>时长</td>
+<td>111.34 秒</td>
+</tr>
+<tr>
+<td>文件大小</td>
+<td>~9.8 MB</td>
+</tr>
+</tbody>
+</table>
+<p>关键观察：音频时长约 111 秒，信号连续无静音段，频率范围集中在 <strong>1100-2300 Hz</strong> —— 这是 SSTV（慢扫描电视）信号的典型特征。</p>
+<h3 id="2-sstv">2. 识别 SSTV 信号<a class="headerlink" href="#2-sstv" title="Permanent link">&para;</a></h3>
+<p>对音频前 500ms 进行 5ms 窗口的频率分析：</p>
+<div class="highlight"><pre><span></span><code>  0-100ms:  1900 Hz  ← SSTV Leader 音
+100-200ms:  1500 Hz  ← 校准信号
+200-300ms:  1900 Hz  ← SSTV Leader 音
+300-400ms:  1500 Hz  ← 校准信号
+400-500ms:  2300 Hz  ← 图像数据（白色）
+</code></pre></div>
+<p><strong>1900 Hz Leader + 1500-2300 Hz 图像数据</strong> 完全符合 SSTV 协议：</p>
+<ul>
+<li><strong>1200 Hz</strong> = 同步脉冲 (Sync)</li>
+<li><strong>1500 Hz</strong> = 黑色 (Black)</li>
+<li><strong>1900 Hz</strong> = Leader/校准音</li>
+<li><strong>2300 Hz</strong> = 白色 (White)</li>
+</ul>
+<h3 id="3-sstv">3. 确定 SSTV 模式<a class="headerlink" href="#3-sstv" title="Permanent link">&para;</a></h3>
+<p>通过分析 VIS（Vertical Interval Signal）码和同步脉冲间距：</p>
+<p><strong>VIS 码解码</strong>（1410-1720ms 区间）：</p>
+<table>
+<thead>
+<tr>
+<th>时间段</th>
+<th>频率</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1410-1440ms (30ms)</td>
+<td>1200 Hz</td>
+<td>VIS Start Bit</td>
+</tr>
+<tr>
+<td>1440-1500ms (60ms)</td>
+<td>1300 Hz</td>
+<td>Bit 0,1 = 1,1</td>
+</tr>
+<tr>
+<td>1500-1620ms (120ms)</td>
+<td>1100 Hz</td>
+<td>Bit 2,3,4,5 = 0,0,0,0</td>
+</tr>
+<tr>
+<td>1620-1680ms (60ms)</td>
+<td>1300 Hz</td>
+<td>Bit 6 + Parity = 1,1</td>
+</tr>
+<tr>
+<td>1680-1720ms (30ms+)</td>
+<td>1200 Hz</td>
+<td>VIS Stop Bit</td>
+</tr>
+</tbody>
+</table>
+<p><strong>同步脉冲间距</strong> = <strong>428ms</strong>，与 <strong>Scottie S1</strong> 模式完全匹配：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>Scottie S1 标准值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>行时间</td>
+<td>428.22 ms</td>
+</tr>
+<tr>
+<td>同步脉冲</td>
+<td>1200 Hz, 9ms</td>
+</tr>
+<tr>
+<td>色彩扫描</td>
+<td>138.24 ms / 通道</td>
+</tr>
+<tr>
+<td>分隔符</td>
+<td>1500 Hz, 1.5ms</td>
+</tr>
+<tr>
+<td>图像尺寸</td>
+<td>320 x 256</td>
+</tr>
+<tr>
+<td>通道顺序</td>
+<td>Green, Blue, Red</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-sstv">4. 编写 SSTV 解码器<a class="headerlink" href="#4-sstv" title="Permanent link">&para;</a></h3>
+<p>由于没有现成 SSTV 解码软件，手写 Python 解码器。核心逻辑：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 频率估计：零交叉法 + 线性插值</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_freq</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">half_w</span><span class="o">=</span><span class="mi">15</span><span class="p">):</span>
+    <span class="n">chunk</span> <span class="o">=</span> <span class="n">samples</span><span class="p">[</span><span class="n">pos</span><span class="o">-</span><span class="n">half_w</span> <span class="p">:</span> <span class="n">pos</span><span class="o">+</span><span class="n">half_w</span><span class="p">]</span>
+    <span class="n">crossings</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunk</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">chunk</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">!=</span> <span class="p">(</span><span class="n">chunk</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">frac</span> <span class="o">=</span> <span class="n">chunk</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">chunk</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">chunk</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">crossings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">frac</span><span class="p">)</span>
+    <span class="n">periods</span> <span class="o">=</span> <span class="p">[</span><span class="n">crossings</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">crossings</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">crossings</span><span class="p">))]</span>
+    <span class="k">return</span> <span class="n">sample_rate</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">avg</span><span class="p">(</span><span class="n">periods</span><span class="p">))</span>
+
+<span class="c1"># 频率 → 像素映射 (SSTV 标准)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">freq_to_pixel</span><span class="p">(</span><span class="n">freq</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">clamp</span><span class="p">((</span><span class="n">freq</span> <span class="o">-</span> <span class="mi">1500</span><span class="p">)</span> <span class="o">/</span> <span class="mi">800</span> <span class="o">*</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>
+
+<span class="c1"># Scottie S1 逐行解码</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">):</span>
+    <span class="n">line_start</span> <span class="o">=</span> <span class="n">first_sync</span> <span class="o">+</span> <span class="n">line</span> <span class="o">*</span> <span class="n">samples_per_line</span>
+    <span class="n">green_start</span> <span class="o">=</span> <span class="n">line_start</span> <span class="o">+</span> <span class="n">sync_samples</span> <span class="o">+</span> <span class="n">porch_samples</span>
+    <span class="n">blue_start</span>  <span class="o">=</span> <span class="n">green_start</span> <span class="o">+</span> <span class="n">color_samples</span> <span class="o">+</span> <span class="n">sep_samples</span>
+    <span class="n">red_start</span>   <span class="o">=</span> <span class="n">blue_start</span>  <span class="o">+</span> <span class="n">color_samples</span> <span class="o">+</span> <span class="n">sep_samples</span>
+
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">320</span><span class="p">):</span>
+        <span class="n">frac</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="mi">320</span>
+        <span class="n">G</span> <span class="o">=</span> <span class="n">freq_to_pixel</span><span class="p">(</span><span class="n">get_freq</span><span class="p">(</span><span class="n">green_start</span> <span class="o">+</span> <span class="n">frac</span> <span class="o">*</span> <span class="n">color_samples</span><span class="p">))</span>
+        <span class="n">B</span> <span class="o">=</span> <span class="n">freq_to_pixel</span><span class="p">(</span><span class="n">get_freq</span><span class="p">(</span><span class="n">blue_start</span>  <span class="o">+</span> <span class="n">frac</span> <span class="o">*</span> <span class="n">color_samples</span><span class="p">))</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="n">freq_to_pixel</span><span class="p">(</span><span class="n">get_freq</span><span class="p">(</span><span class="n">red_start</span>   <span class="o">+</span> <span class="n">frac</span> <span class="o">*</span> <span class="n">color_samples</span><span class="p">))</span>
+        <span class="n">image</span><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">line</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="go-bibo">Go 版本解题脚本（bi/bo → 摩尔斯）<a class="headerlink" href="#go-bibo" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>假设已用 SSTV 工具得到文本（对话气泡中的 <code>bi/bo</code>），该 Go 脚本完成最后的摩尔斯解码。</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;bufio&quot;</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;os&quot;</span>
+<span class="w">    </span><span class="s">&quot;strings&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">var</span><span class="w"> </span><span class="nx">morseMap</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;.-&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;A&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-...&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;B&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-.-.&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-..&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;D&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;.&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;E&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;..-.&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;F&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;--.&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;G&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;....&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;H&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;..&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;I&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;.---&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;J&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;-.-&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;K&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;.-..&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;L&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;--&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;M&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-.&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;N&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;---&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;O&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;.--.&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;P&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;--.-&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Q&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;.-.&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;R&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;...&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;S&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;T&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;..-&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;U&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;...-&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;V&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;.--&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;W&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-..-&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;X&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-.--&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Y&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;--..&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Z&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-----&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;.----&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;..---&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;...--&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;....-&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;4&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;.....&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;5&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-....&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;6&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;--...&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;7&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;---..&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;8&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;----.&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;9&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">decodeWord</span><span class="p">(</span><span class="nx">w</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">parts</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{}</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">w</span><span class="p">);</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">strings</span><span class="p">.</span><span class="nx">HasPrefix</span><span class="p">(</span><span class="nx">w</span><span class="p">[</span><span class="nx">i</span><span class="p">:],</span><span class="w"> </span><span class="s">&quot;bi&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">parts</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">parts</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;.&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">strings</span><span class="p">.</span><span class="nx">HasPrefix</span><span class="p">(</span><span class="nx">w</span><span class="p">[</span><span class="nx">i</span><span class="p">:],</span><span class="w"> </span><span class="s">&quot;bo&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">parts</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">parts</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">i</span><span class="o">++</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">morse</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">strings</span><span class="p">.</span><span class="nx">Join</span><span class="p">(</span><span class="nx">parts</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">v</span><span class="p">,</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">morseMap</span><span class="p">[</span><span class="nx">morse</span><span class="p">];</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">v</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;?&quot;</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">in</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">bufio</span><span class="p">.</span><span class="nx">NewScanner</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stdin</span><span class="p">)</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">in</span><span class="p">.</span><span class="nx">Scan</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">line</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">strings</span><span class="p">.</span><span class="nx">TrimSpace</span><span class="p">(</span><span class="nx">in</span><span class="p">.</span><span class="nx">Text</span><span class="p">())</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">line</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">continue</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="nx">words</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">strings</span><span class="p">.</span><span class="nx">Fields</span><span class="p">(</span><span class="nx">line</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">out</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">strings</span><span class="p">.</span><span class="nx">Builder</span><span class="p">{}</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">w</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">words</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">out</span><span class="p">.</span><span class="nx">WriteString</span><span class="p">(</span><span class="nx">decodeWord</span><span class="p">(</span><span class="nx">w</span><span class="p">))</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">out</span><span class="p">.</span><span class="nx">String</span><span class="p">())</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>使用方式</strong>：
+<div class="highlight"><pre><span></span><code><span class="c1"># 将对话气泡里的文本保存为 bi_bo.txt</span>
+
+go<span class="w"> </span>run<span class="w"> </span>decode_bibo.go<span class="w"> </span>&lt;<span class="w"> </span>bi_bo.txt
+</code></pre></div></p>
+<p><strong>优化措施</strong>：
+- 三通道灰度平均，降低单通道噪声
+- 中值滤波去除脉冲噪点
+- 自动对比度增强文字可读性</p>
+<h3 id="5">5. 解码图像内容<a class="headerlink" href="#5" title="Permanent link">&para;</a></h3>
+<p>解码后获得一张 320x256 的图像：一个人的自拍照，左上方有一个<strong>对话气泡</strong>，里面包含编码文字：</p>
+<div class="highlight"><pre><span></span><code>bibobi bibibibobo bobibi
+bobibibi bobobobobo
+bobibibo bibibibobo
+bobobobobi bibibobobo
+bobobobobo
+</code></pre></div>
+<h3 id="6">6. 解码摩尔斯电码<a class="headerlink" href="#6" title="Permanent link">&para;</a></h3>
+<p>文字使用 <strong>"bi"（点/dit）</strong> 和 <strong>"bo"（划/dah）</strong> 表示摩尔斯电码：</p>
+<table>
+<thead>
+<tr>
+<th>编码单词</th>
+<th>bi/bo 分解</th>
+<th>摩尔斯</th>
+<th>字符</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bibobi</td>
+<td>bi-bo-bi</td>
+<td>.-.</td>
+<td><strong>R</strong></td>
+</tr>
+<tr>
+<td>bibibibobo</td>
+<td>bi-bi-bi-bo-bo</td>
+<td>...--</td>
+<td><strong>3</strong></td>
+</tr>
+<tr>
+<td>bobibi</td>
+<td>bo-bi-bi</td>
+<td>-..</td>
+<td><strong>D</strong></td>
+</tr>
+<tr>
+<td>bobibibi</td>
+<td>bo-bi-bi-bi</td>
+<td>-...</td>
+<td><strong>B</strong></td>
+</tr>
+<tr>
+<td>bobobobobo</td>
+<td>bo-bo-bo-bo-bo</td>
+<td>-----</td>
+<td><strong>0</strong></td>
+</tr>
+<tr>
+<td>bobibibo</td>
+<td>bo-bi-bi-bo</td>
+<td>-..-</td>
+<td><strong>X</strong></td>
+</tr>
+<tr>
+<td>bibibibobo</td>
+<td>bi-bi-bi-bo-bo</td>
+<td>...--</td>
+<td><strong>3</strong></td>
+</tr>
+<tr>
+<td>bobobobobi</td>
+<td>bo-bo-bo-bo-bi</td>
+<td>----.</td>
+<td><strong>9</strong></td>
+</tr>
+<tr>
+<td>bibibobobo</td>
+<td>bi-bi-bo-bo-bo</td>
+<td>..---</td>
+<td><strong>2</strong></td>
+</tr>
+<tr>
+<td>bobobobobo</td>
+<td>bo-bo-bo-bo-bo</td>
+<td>-----</td>
+<td><strong>0</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>解码结果</strong>: <code>R3DB0X3920</code></p>
+<h2 id="_3">漏洞分析 / 机制分析<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>本题为音频隐写/编码识别题，无漏洞利用，核心机制为 SSTV 信号调制与摩尔斯变体编码。</p>
+<h2 id="_4">知识点总结<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="sstvslow-scan-television">SSTV（Slow Scan Television）<a class="headerlink" href="#sstvslow-scan-television" title="Permanent link">&para;</a></h3>
+<p>SSTV 是一种通过音频信号传输静态图像的技术，广泛用于业余无线电。核心原理：</p>
+<ul>
+<li><strong>频率调制 (FM)</strong>：将像素亮度映射为音频频率（1500 Hz = 黑，2300 Hz = 白）</li>
+<li><strong>逐行扫描</strong>：每行按 R/G/B 通道依次传输</li>
+<li><strong>同步脉冲</strong>：1200 Hz 短脉冲标记每行起始</li>
+<li><strong>VIS 码</strong>：开头的数字编码标识 SSTV 模式（如 Scottie S1、Martin M1 等）</li>
+</ul>
+<p>常见 SSTV 模式与时长：</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>行时间</th>
+<th>总时长</th>
+<th>分辨率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Scottie S1</td>
+<td>428ms</td>
+<td>~110s</td>
+<td>320x256</td>
+</tr>
+<tr>
+<td>Martin M1</td>
+<td>446ms</td>
+<td>~114s</td>
+<td>320x256</td>
+</tr>
+<tr>
+<td>Robot 36</td>
+<td>-</td>
+<td>~36s</td>
+<td>320x240</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_5">摩尔斯电码变体编码<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p>本题使用 "bi"/"bo" 代替传统的 "."/"−"，属于摩尔斯电码的<strong>音节变体编码</strong>：</p>
+<ul>
+<li><strong>bi</strong> = dit (短信号/点)</li>
+<li><strong>bo</strong> = dah (长信号/划)</li>
+</ul>
+<p>这种编码方式在 CTF 中偶尔出现，关键是识别出两个交替出现的音节对应摩尔斯的点和划。</p>
+<h2 id="_6">使用的工具<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Python + wave 模块</td>
+<td>读取 WAV 音频数据</td>
+</tr>
+<tr>
+<td>自编 SSTV 解码器</td>
+<td>频率分析 + Scottie S1 图像解码</td>
+</tr>
+<tr>
+<td>Pillow (PIL)</td>
+<td>图像生成、裁剪、对比度增强</td>
+</tr>
+<tr>
+<td>零交叉法频率估计</td>
+<td>从时域信号提取瞬时频率</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_7">脚本归档<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Go：<a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups/blob/main/CTF_Writeups/scripts_go/NovruzCTF_WYCGPRB.go" target="_blank"><code>NovruzCTF_WYCGPRB.go</code> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2z"/></svg></span></a></li>
+<li>Python：<a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups/blob/main/CTF_Writeups/scripts_python/NovruzCTF_WYCGPRB.py" target="_blank"><code>NovruzCTF_WYCGPRB.py</code> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2z"/></svg></span></a></li>
+</ul>
+<h2 id="gui">命令行提取关键数据（无 GUI）<a class="headerlink" href="#gui" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># 先用频谱图快速确认 SSTV 特征</span>
+sox<span class="w"> </span>7630e312-da5e-4792-9f88-d02a7494a651.wav<span class="w"> </span>-n<span class="w"> </span>spectrogram<span class="w"> </span>-o<span class="w"> </span>sstv_spec.png
+
+<span class="c1"># 将音频转为单声道 44100Hz（保证解码器兼容）</span>
+ffmpeg<span class="w"> </span>-y<span class="w"> </span>-i<span class="w"> </span>7630e312-da5e-4792-9f88-d02a7494a651.wav<span class="w"> </span>-ac<span class="w"> </span><span class="m">1</span><span class="w"> </span>-ar<span class="w"> </span><span class="m">44100</span><span class="w"> </span>sstv.wav
+</code></pre></div>
+<h2 id="_8">推荐工具与优化解题流程<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>参考 <code>CTF_TOOLS_EXTENSION_PLAN.md</code> 中的 Stego 工具推荐。本题涉及音频隐写（SSTV）和摩尔斯电码解码。</p>
+</blockquote>
+<h3 id="1-qsstv-rx-sstv-sstv">1. QSSTV / RX-SSTV — SSTV 专用解码器（推荐首选）<a class="headerlink" href="#1-qsstv-rx-sstv-sstv" title="Permanent link">&para;</a></h3>
+<p>专用的 SSTV 解码软件可以一键解码音频为图像，无需手写解码器。</p>
+<p><strong>QSSTV（Linux）安装：</strong>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>qsstv
+</code></pre></div></p>
+<p><strong>详细操作步骤：</strong></p>
+<p><strong>Step 1：配置音频输入</strong>
+1. 启动 QSSTV
+2. Options → Configuration → Sound → 选择音频输入设备
+3. 或者使用 PulseAudio 虚拟设备播放 WAV 文件</p>
+<p><strong>Step 2：解码 SSTV 信号</strong>
+1. 点击 "Receive" 开始接收
+2. 用音频播放器播放 WAV 文件（通过虚拟设备路由到 QSSTV）
+3. QSSTV 自动识别 SSTV 模式（Scottie S1）并开始解码
+4. ~110 秒后完整图像显示在界面中</p>
+<p><strong>Step 3：另一种方法 — 直接解码文件</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># 使用 SSTV Python 库</span>
+pip<span class="w"> </span>install<span class="w"> </span>sstv
+sstv<span class="w"> </span>-d<span class="w"> </span>7630e312-da5e-4792-9f88-d02a7494a651.wav<span class="w"> </span>-o<span class="w"> </span>decoded.png
+</code></pre></div></p>
+<p><strong>优势</strong>：自动识别 SSTV 模式，无需手动解析 VIS 码和同步脉冲，约 2 分钟出图。</p>
+<hr />
+<h3 id="2-sonic-visualiser">2. Sonic Visualiser — 音频频谱分析<a class="headerlink" href="#2-sonic-visualiser" title="Permanent link">&para;</a></h3>
+<p><a href="https://www.sonicvisualiser.org/">Sonic Visualiser</a> 是音频隐写分析的必备工具。</p>
+<p><strong>安装：</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># macOS</span>
+brew<span class="w"> </span>install<span class="w"> </span>sonic-visualiser
+<span class="c1"># Linux</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>sonic-visualiser
+</code></pre></div></p>
+<p><strong>详细操作步骤：</strong></p>
+<p><strong>Step 1：加载音频文件</strong>
+1. 启动 Sonic Visualiser → File → Open → 选择 WAV 文件</p>
+<p><strong>Step 2：添加频谱图层</strong>
+1. Layer → Add Spectrogram → 选择 "All Channels Mixed"
+2. 调整参数：Window Size = 1024, Colour = Green
+3. 频谱图会清晰显示 1100-2300 Hz 范围的 SSTV 信号</p>
+<p><strong>Step 3：识别 SSTV 特征</strong>
+- 频谱图中可以看到：
+  - <strong>1900 Hz 水平线</strong> = Leader 音
+  - <strong>1200 Hz 短脉冲</strong> = 同步信号（每 428ms 一次）
+  - <strong>1500-2300 Hz 变化区域</strong> = 图像数据
+- 从频谱图可以直观判断这是 SSTV 信号，而非其他隐写方式</p>
+<p><strong>优势</strong>：快速判断音频类型（SSTV/DTMF/频谱图隐写），频谱可视化一目了然。</p>
+<hr />
+<h3 id="3-cyberchef">3. CyberChef — 摩尔斯电码解码<a class="headerlink" href="#3-cyberchef" title="Permanent link">&para;</a></h3>
+<p><a href="https://gchq.github.io/CyberChef/">CyberChef</a> 内置摩尔斯电码解码器。</p>
+<p><strong>详细操作步骤：</strong></p>
+<p><strong>Step 1：将 bi/bo 转换为标准摩尔斯</strong>
+1. 打开 CyberChef
+2. 使用 "Find / Replace" 操作：
+   - <code>bi</code> → <code>.</code>
+   - <code>bo</code> → <code>-</code>
+3. 添加空格分隔符（每个单词之间）</p>
+<p><strong>Step 2：摩尔斯解码</strong>
+1. 添加 "From Morse Code" 操作
+2. 设置分隔符（Letter: 空格, Word: 换行）
+3. 输出: <code>R3DB0X3920</code></p>
+<p><strong>CyberChef 配方：</strong>
+<div class="highlight"><pre><span></span><code>Find_/_Replace({&#39;option&#39;:&#39;Regex&#39;,&#39;string&#39;:&#39;bo&#39;},&#39;_&#39;,true,false,true,false)
+Find_/_Replace({&#39;option&#39;:&#39;Regex&#39;,&#39;string&#39;:&#39;bi&#39;},&#39;.&#39;,true,false,true,false)
+From_Morse_Code(&#39;Space&#39;,&#39;Line feed&#39;)
+</code></pre></div></p>
+<p><strong>优势</strong>：在线可视化操作，拖拽即可完成编码转换。</p>
+<hr />
+<h3 id="4-binwalk">4. Binwalk — 文件分析（排除法）<a class="headerlink" href="#4-binwalk" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 检查 WAV 文件中是否嵌入了其他文件</span>
+binwalk<span class="w"> </span>7630e312-da5e-4792-9f88-d02a7494a651.wav
+
+<span class="c1"># 如果有嵌入文件，自动提取</span>
+binwalk<span class="w"> </span>-e<span class="w"> </span>7630e312-da5e-4792-9f88-d02a7494a651.wav
+</code></pre></div>
+<p><strong>用途</strong>：快速排除文件末尾附加数据等简单隐写方式。</p>
+<hr />
+<h3 id="_9">工具对比总结<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>适用阶段</th>
+<th>本题耗时</th>
+<th>优点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>QSSTV / sstv 库</strong></td>
+<td>SSTV 解码</td>
+<td>~2 分钟</td>
+<td>自动识别模式并解码，无需手写解码器</td>
+</tr>
+<tr>
+<td><strong>Sonic Visualiser</strong></td>
+<td>音频类型识别</td>
+<td>~1 分钟</td>
+<td>频谱图直观判断信号类型</td>
+</tr>
+<tr>
+<td><strong>CyberChef</strong></td>
+<td>摩尔斯解码</td>
+<td>~30 秒</td>
+<td>在线操作，无需编程</td>
+</tr>
+<tr>
+<td><strong>Binwalk</strong></td>
+<td>初步分析</td>
+<td>~10 秒</td>
+<td>快速排除简单隐写</td>
+</tr>
+<tr>
+<td><strong>手写 Python 解码器</strong></td>
+<td>完整解码</td>
+<td>~1 小时</td>
+<td>学习价值高，但耗时很长</td>
+</tr>
+</tbody>
+</table>
+<p><strong>推荐流程</strong>：Sonic Visualiser 确认 SSTV → QSSTV/sstv 库解码图像 → 肉眼读取 bi/bo 文字 → CyberChef 摩尔斯解码 → 5 分钟内完成（对比手写解码器的 1 小时）。</p>
+<h2 id="_10">解题流程图<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>WAV 音频文件
+    │
+    ▼
+频率分析 (1100-2300 Hz 范围)
+    │
+    ▼
+识别为 SSTV 信号 (1900Hz Leader)
+    │
+    ▼
+VIS 码 + 同步脉冲 → 确认 Scottie S1 模式
+    │
+    ▼
+自编解码器 → 320x256 RGB 图像
+    │
+    ▼
+对话气泡中提取 bi/bo 编码文字
+    │
+    ▼
+bi=dot, bo=dash → 摩尔斯电码解码
+    │
+    ▼
+R3DB0X3920 → novruzCTF{R3DB0X3920}
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 id="__comments">评论</h2>
+
+<script
+  src="https://giscus.app/client.js"
+  data-repo="your-username/your-repo"
+  data-repo-id=""
+  data-category="Writeup Comments"
+  data-category-id=""
+  data-mapping="pathname"
+  data-strict="1"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="preferred_color_scheme"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.path", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../javascripts/drawer-backdrop.js"></script>
+      
+    
+  </body>
+</html>

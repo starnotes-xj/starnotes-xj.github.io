@@ -1,0 +1,1510 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="CTF 竞赛解题记录与学习笔记">
+      
+      
+        <meta name="author" content="BIGC CTF Team">
+      
+      
+        <link rel="canonical" href="https://starnotes-xj.github.io/BIGC_CTF_Writeups/Cryptography%28%E5%AF%86%E7%A0%81%E5%AD%A6%29/HackForAChange2026March_Patient_Zero/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Hack For A Change 2026 March - Patient Zero Writeup - BIGC CTF Writeups</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra_v3.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#hack-for-a-change-2026-march-patient-zero-writeup" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="BIGC CTF Writeups" class="md-header__button md-logo" aria-label="BIGC CTF Writeups" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 11c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4 9 4zm-9 10c3.75-1 7-5.46 7-9.78V6.3l-7-3.12z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BIGC CTF Writeups
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Hack For A Change 2026 March - Patient Zero Writeup
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../guides/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  新手指南
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Web/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Web
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  密码学
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Reverse%20Engineering%28%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  逆向工程
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Pwn/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Pwn
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Misc%28%E6%9D%82%E9%A1%B9%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  杂项
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../PPC/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  PPC
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../events/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  比赛
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../history/competitions/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  历史参赛记录
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../tags/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  标签
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../WRITEUP_TEMPLATE/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  模板
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="BIGC CTF Writeups" class="md-nav__button md-logo" aria-label="BIGC CTF Writeups" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 11c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4 9 4zm-9 10c3.75-1 7-5.46 7-9.78V6.3l-7-3.12z"/></svg>
+
+    </a>
+    BIGC CTF Writeups
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    新手指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    密码学
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Reverse%20Engineering%28%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    逆向工程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Pwn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pwn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%28%E6%9D%82%E9%A1%B9%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    杂项
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PPC/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PPC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../events/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    比赛
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../history/competitions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    历史参赛记录
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tags/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    标签
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../WRITEUP_TEMPLATE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模板
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        题目信息
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flag
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        解题过程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="解题过程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 分析加密脚本
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-coppersmith" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 确认攻击条件 — Coppersmith 定理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 构造多项式并求解
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 获取 Flag
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        攻击链/解题流程总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        漏洞分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="漏洞分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        根因
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        影响
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        修复建议
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        知识点
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        使用的工具
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        脚本归档
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        命令行提取关键数据（无 GUI）
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐工具与优化解题流程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="推荐工具与优化解题流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工具对比总结
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sagemath-jupyter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SageMath Jupyter（推荐首选）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sagemath-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SageMath CLI（快速求解）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rsactftool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RsaCtfTool（可选）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="hack-for-a-change-2026-march-patient-zero-writeup">Hack For A Change 2026 March - Patient Zero Writeup<a class="headerlink" href="#hack-for-a-change-2026-march-patient-zero-writeup" title="Permanent link">&para;</a></h1>
+<h2 id="_1">题目信息<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>比赛</strong>: Hack For A Change 2026 March (UN SDG3)</li>
+<li><strong>题目</strong>: Patient Zero</li>
+<li><strong>类别</strong>: Crypto</li>
+<li><strong>难度</strong>: 中等</li>
+<li><strong>附件</strong>: <code>encrypt.py</code></li>
+<li><strong>附件链接</strong>: <a download="download" href="https://starnotes-xj.github.io/BIGC_CTF_Writeups/files/Patient_Zero/encrypt.py">下载附件</a> · <a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups/tree/main/CTF_Writeups/files/Patient_Zero" target="_blank">仓库位置</a></li>
+<li><strong>Flag格式</strong>: <code>SDG{...}</code></li>
+<li><strong>状态</strong>: 已解</li>
+</ul>
+<h2 id="flag">Flag<a class="headerlink" href="#flag" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>SDG{3c00bad87b9ba46afa47052e187cec59}
+</code></pre></div>
+<h2 id="_2">解题过程<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="1">1. 分析加密脚本<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
+<p><code>encrypt.py</code> 实现了一个带固定填充的 RSA 加密：</p>
+<div class="highlight"><pre><span></span><code><span class="n">prefix</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;SDGCTF_SECURE_MSG_V1::&quot;</span>
+<span class="n">suffix</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;::END&quot;</span>
+<span class="n">padded</span> <span class="o">=</span> <span class="n">prefix</span> <span class="o">+</span> <span class="n">flag</span> <span class="o">+</span> <span class="n">suffix</span>      <span class="c1"># 22 + 37 + 5 = 64 bytes</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">bytes_to_long</span><span class="p">(</span><span class="n">padded</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>                     <span class="c1"># e = 3</span>
+</code></pre></div>
+<p>公钥参数与密文：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(n\)</span></td>
+<td>1024 bits RSA 模数</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(e\)</span></td>
+<td><strong>3</strong>（极小公钥指数）</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(c\)</span></td>
+<td>密文</td>
+</tr>
+<tr>
+<td>flag 长度</td>
+<td>37 bytes (296 bits)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>关键观察</strong>：<span class="arithmatex">\(e = 3\)</span> 且明文结构大量已知（prefix 22 字节 + suffix 5 字节），仅 flag 的 37 字节未知。</p>
+<h3 id="2-coppersmith">2. 确认攻击条件 — Coppersmith 定理<a class="headerlink" href="#2-coppersmith" title="Permanent link">&para;</a></h3>
+<p>将明文表示为关于 flag 的函数：</p>
+<div class="arithmatex">\[m = \underbrace{P \cdot 256^{42}}_{\text{prefix 左移}} + \underbrace{x \cdot 256^{5}}_{\text{flag 左移}} + \underbrace{S}_{\text{suffix}}\]</div>
+<p>其中 <span class="arithmatex">\(P\)</span>、<span class="arithmatex">\(S\)</span> 是 prefix / suffix 的整数值，<span class="arithmatex">\(x\)</span> 是未知的 flag（37 字节 = 296 bits）。</p>
+<p><strong>Coppersmith 定理</strong>：对首一多项式 <span class="arithmatex">\(f(x) \equiv 0 \pmod{n}\)</span>（<span class="arithmatex">\(\deg f = d\)</span>），若存在根 <span class="arithmatex">\(|x_0| &lt; n^{1/d}\)</span>，则可在多项式时间内找到 <span class="arithmatex">\(x_0\)</span>。</p>
+<p>验证条件：</p>
+<div class="arithmatex">\[|x| &lt; 2^{296} \quad\text{vs}\quad n^{1/3} \approx 2^{341}\]</div>
+<div class="arithmatex">\[2^{296} &lt; 2^{341} \quad\checkmark \quad (\text{余量 45 bits})\]</div>
+<h3 id="3">3. 构造多项式并求解<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
+<p>构造关于 <span class="arithmatex">\(x\)</span> 的多项式：</p>
+<div class="arithmatex">\[f(x) = (A + B \cdot x)^3 - c \equiv 0 \pmod{n}\]</div>
+<p>其中 <span class="arithmatex">\(A = P \cdot 256^{42} + S\)</span>，<span class="arithmatex">\(B = 256^5\)</span>。</p>
+<p>将 <span class="arithmatex">\(f(x)\)</span> 转化为首一多项式后，使用 SageMath 的 <code>small_roots()</code> 方法（内部实现了 Coppersmith 的格基约化算法）：</p>
+<div class="highlight"><pre><span></span><code><span class="n">ZmodN</span> <span class="o">=</span> <span class="n">Zmod</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">PR</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">ZmodN</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">PR</span><span class="o">.</span><span class="n">gen</span><span class="p">()</span>
+<span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">A</span> <span class="o">+</span> <span class="n">B</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">^</span><span class="mi">3</span> <span class="o">-</span> <span class="n">c</span>
+<span class="n">f_monic</span> <span class="o">=</span> <span class="n">f</span> <span class="o">*</span> <span class="n">f</span><span class="o">.</span><span class="n">leading_coefficient</span><span class="p">()</span><span class="o">^</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">roots</span> <span class="o">=</span> <span class="n">f_monic</span><span class="o">.</span><span class="n">small_roots</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="mi">2</span><span class="o">^</span><span class="mi">296</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="4-flag">4. 获取 Flag<a class="headerlink" href="#4-flag" title="Permanent link">&para;</a></h3>
+<p><code>small_roots()</code> 在数秒内返回唯一根：</p>
+<div class="highlight"><pre><span></span><code>x = 41410472545770785675586758963835211975745880785476790409379578628170981910321915804072317
+</code></pre></div>
+<p>将 <span class="arithmatex">\(x\)</span> 转为 37 字节：</p>
+<div class="highlight"><pre><span></span><code>SDG{3c00bad87b9ba46afa47052e187cec59}
+</code></pre></div>
+<p>代入原始加密验证 <span class="arithmatex">\(\text{pow}(m, 3, n) == c\)</span>：通过。</p>
+<h2 id="_3">攻击链/解题流程总结<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>分析 encrypt.py → 识别 e=3 + 已知填充 → 验证 Coppersmith 条件 (2^296 &lt; n^{1/3}) → 构造首一多项式 → SageMath small_roots() → Flag
+</code></pre></div>
+<h2 id="_4">漏洞分析<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="_5">根因<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>公钥指数 <span class="arithmatex">\(e = 3\)</span> 过小</strong>：使得密文多项式的次数仅为 3，Coppersmith 小根攻击的条件更容易满足</li>
+<li><strong>确定性填充 (Textbook RSA)</strong>：prefix 和 suffix 完全已知且固定，攻击者只需恢复 37 字节的未知部分</li>
+<li><strong>无随机化</strong>：没有使用 OAEP 等概率填充方案，明文结构完全可预测</li>
+</ul>
+<h3 id="_6">影响<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<p>攻击者无需分解 <span class="arithmatex">\(n\)</span>，仅凭公钥和密文即可在数秒内恢复明文。</p>
+<h3 id="_7">修复建议<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<ul>
+<li>使用标准填充方案（<strong>OAEP</strong>），引入随机性打破明文的可预测结构</li>
+<li>使用 <span class="arithmatex">\(e = 65537\)</span> 等较大的公钥指数</li>
+<li>避免在明文中包含大量已知/固定内容</li>
+</ul>
+<h2 id="_8">知识点<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Coppersmith 小根攻击</strong> — 当多项式模 <span class="arithmatex">\(n\)</span> 存在足够小的根时，可通过格基约化在多项式时间内恢复</li>
+<li><strong>RSA 小指数攻击</strong> — <span class="arithmatex">\(e\)</span> 很小时（尤其 <span class="arithmatex">\(e=3\)</span>），配合已知明文结构可直接攻击</li>
+<li><strong>格基约化 (LLL)</strong> — Coppersmith 方法的核心，将模多项式根的问题转化为短向量问题</li>
+<li><strong>Howgrave-Graham 定理</strong> — 当格约化后的多项式系数足够小时，模根即为整数根</li>
+<li><strong>Stereotyped Message Attack</strong> — 已知明文的大部分内容时，恢复未知部分的攻击</li>
+</ul>
+<details class="note">
+<summary>Coppersmith 攻击条件详解</summary>
+<p><strong>定理 (Coppersmith, 1996)</strong>：设 <span class="arithmatex">\(f(x)\)</span> 是 <span class="arithmatex">\(\mathbb{Z}_n[x]\)</span> 上的首一多项式，次数为 <span class="arithmatex">\(d\)</span>。
+若存在 <span class="arithmatex">\(|x_0| &lt; n^{1/d}\)</span> 使得 <span class="arithmatex">\(f(x_0) \equiv 0 \pmod{n}\)</span>，则可在 <span class="arithmatex">\(O(\log^6 n)\)</span> 时间内找到 <span class="arithmatex">\(x_0\)</span>。</p>
+<p><strong>本题参数</strong>：</p>
+<ul>
+<li><span class="arithmatex">\(d = 3\)</span>（因为 <span class="arithmatex">\(e = 3\)</span>）</li>
+<li>未知量大小：<span class="arithmatex">\(2^{296}\)</span></li>
+<li>上界：<span class="arithmatex">\(n^{1/3} \approx 2^{341}\)</span></li>
+<li>余量：<span class="arithmatex">\(341 - 296 = 45\)</span> bits</li>
+</ul>
+<p>余量越大，所需的格维度越小，求解越快。SageMath 的 <code>epsilon</code> 参数控制精度/速度权衡：
+<code>epsilon=0.02</code> 对应约 50 维格，对本题绰绰有余。</p>
+</details>
+<h2 id="_9">使用的工具<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>SageMath</strong> — <code>small_roots()</code> 内置 Coppersmith 算法实现</li>
+<li><strong>Docker</strong> — <code>docker run sagemath/sagemath</code> 快速获取 SageMath 环境</li>
+<li><strong>Go <code>math/big</code></strong> — 大整数运算与加密验证</li>
+</ul>
+<h2 id="_10">脚本归档<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Go：<a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups/blob/main/CTF_Writeups/scripts_go/HackForAChange2026March_UN_SDG3_Patient_Zero.go" target="_blank"><code>HackForAChange2026March_UN_SDG3_Patient_Zero.go</code> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2z"/></svg></span></a></li>
+<li>Python：<a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups/blob/main/CTF_Writeups/scripts_python/HackForAChange2026March_UN_SDG3_Patient_Zero.py" target="_blank"><code>HackForAChange2026March_UN_SDG3_Patient_Zero.py</code> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2z"/></svg></span></a></li>
+<li>说明：Python 脚本包含 SageMath 求解代码和纯 Python 验证代码；Go 脚本提供参数分析和 Docker 调用求解</li>
+</ul>
+<h2 id="gui">命令行提取关键数据（无 GUI）<a class="headerlink" href="#gui" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># 通过 Docker SageMath 一键求解</span>
+docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-i<span class="w"> </span>sagemath/sagemath:latest<span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s1">&#39;cat &gt; /tmp/s.sage &amp;&amp; sage /tmp/s.sage&#39;</span><span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<span class="s">n = 108060031931266353758801330782473639320039225201311917178449705019176660696244872351271382486864507377607807538618062847665115562029186118435965272613853246476229261400861607263122402792644231190189479726984543802757846539830277258662001776505200445021146928156972061161319057790512542181820218329738735817807</span>
+<span class="s">e = 3</span>
+<span class="s">c = 90774649037794866754680280280216764024691444983358017422974073995178100413886762031029662717088000194392511444035891491840195308233852093768325714409859719231254914688312929679278810851560152917544549149940293794049458294647149604501225858516434416279640156540194075205584845195544175768134585225460788063158</span>
+<span class="s">prefix = b&#39;SDGCTF_SECURE_MSG_V1::&#39;</span>
+<span class="s">suffix = b&#39;::END&#39;</span>
+<span class="s">flag_len = 37</span>
+<span class="s">P = int.from_bytes(prefix, &#39;big&#39;)</span>
+<span class="s">S = int.from_bytes(suffix, &#39;big&#39;)</span>
+<span class="s">B = 256^len(suffix)</span>
+<span class="s">A = P * 256^(flag_len + len(suffix)) + S</span>
+<span class="s">ZmodN = Zmod(n)</span>
+<span class="s">PR = PolynomialRing(ZmodN, &#39;x&#39;)</span>
+<span class="s">x = PR.gen()</span>
+<span class="s">f = (A + B*x)^3 - c</span>
+<span class="s">f_monic = f * f.leading_coefficient()^(-1)</span>
+<span class="s">roots = f_monic.small_roots(X=2^(flag_len*8), beta=1.0, epsilon=0.02)</span>
+<span class="s">for r in roots:</span>
+<span class="s">    ri = int(r)</span>
+<span class="s">    m = A + B * ri</span>
+<span class="s">    if pow(m, 3, n) == c:</span>
+<span class="s">        print(ri.to_bytes(flag_len, &#39;big&#39;).decode())</span>
+<span class="s">EOF</span>
+</code></pre></div>
+<h2 id="_11">推荐工具与优化解题流程<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>参考 <code>CTF_TOOLS_EXTENSION_PLAN.md</code> 中的 Crypto 工具推荐。</p>
+</blockquote>
+<h3 id="_12">工具对比总结<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>适用阶段</th>
+<th>本题耗时</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SageMath Jupyter</strong></td>
+<td>格基约化 + 求根</td>
+<td>~1 分钟</td>
+<td>交互式调试，可视化输出</td>
+<td>需要 Docker</td>
+</tr>
+<tr>
+<td><strong>SageMath CLI</strong></td>
+<td>格基约化 + 求根</td>
+<td>~5 秒</td>
+<td><code>small_roots()</code> 一行解决</td>
+<td>需要安装/Docker</td>
+</tr>
+<tr>
+<td><strong>RsaCtfTool</strong></td>
+<td>RSA 自动攻击</td>
+<td>不直接适用</td>
+<td>自动识别多种 RSA 漏洞</td>
+<td>不支持自定义 padding</td>
+</tr>
+<tr>
+<td><strong>Go math/big</strong></td>
+<td>验证 + 分析</td>
+<td>即时</td>
+<td>编译快、无依赖</td>
+<td>无格基约化库</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_13">推荐流程<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
+<p><strong>推荐流程</strong>：分析 encrypt.py 识别 e=3 → SageMath <code>small_roots()</code> 求解 → 验证 flag。</p>
+<h3 id="sagemath-jupyter">SageMath Jupyter（推荐首选）<a class="headerlink" href="#sagemath-jupyter" title="Permanent link">&para;</a></h3>
+<p>通过 Docker 启动 SageMath Jupyter Notebook，在浏览器中交互式求解。</p>
+<p><strong>启动环境</strong>：
+<div class="highlight"><pre><span></span><code><span class="c1"># 启动 SageMath Jupyter（端口映射到 8888）</span>
+docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>sagemath<span class="w"> </span>-p<span class="w"> </span><span class="m">8888</span>:8888<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>sagemath/sagemath:latest<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>sage<span class="w"> </span>-n<span class="w"> </span>jupyter<span class="w"> </span>--no-browser<span class="w"> </span>--ip<span class="o">=</span><span class="m">0</span>.0.0.0<span class="w"> </span>--port<span class="o">=</span><span class="m">8888</span>
+
+<span class="c1"># 查看访问 URL（含 token）</span>
+docker<span class="w"> </span>logs<span class="w"> </span>sagemath<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>token
+<span class="c1"># 输出示例: http://127.0.0.1:8888/tree?token=3f9682...</span>
+</code></pre></div></p>
+<p>浏览器打开日志中的 URL，点击 <strong>New → SageMath 10.8</strong> 新建 Notebook，输入以下代码并 <code>Shift+Enter</code> 运行：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Cell 1: Patient Zero - RSA e=3 Coppersmith Attack</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">108060031931266353758801330782473639320039225201311917178449705019176660696244872351271382486864507377607807538618062847665115562029186118435965272613853246476229261400861607263122402792644231190189479726984543802757846539830277258662001776505200445021146928156972061161319057790512542181820218329738735817807</span>
+<span class="n">e</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">c</span> <span class="o">=</span> <span class="mi">90774649037794866754680280280216764024691444983358017422974073995178100413886762031029662717088000194392511444035891491840195308233852093768325714409859719231254914688312929679278810851560152917544549149940293794049458294647149604501225858516434416279640156540194075205584845195544175768134585225460788063158</span>
+<span class="n">prefix</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;SDGCTF_SECURE_MSG_V1::&#39;</span>
+<span class="n">suffix</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;::END&#39;</span>
+<span class="n">flag_len</span> <span class="o">=</span> <span class="mi">37</span>
+
+<span class="n">P</span> <span class="o">=</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="s1">&#39;big&#39;</span><span class="p">)</span>
+<span class="n">S</span> <span class="o">=</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">suffix</span><span class="p">,</span> <span class="s1">&#39;big&#39;</span><span class="p">)</span>
+<span class="n">B</span> <span class="o">=</span> <span class="mi">256</span><span class="o">^</span><span class="nb">len</span><span class="p">(</span><span class="n">suffix</span><span class="p">)</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">P</span> <span class="o">*</span> <span class="mi">256</span><span class="o">^</span><span class="p">(</span><span class="n">flag_len</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">suffix</span><span class="p">))</span> <span class="o">+</span> <span class="n">S</span>
+
+<span class="n">ZmodN</span> <span class="o">=</span> <span class="n">Zmod</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">PR</span><span class="o">.&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">PolynomialRing</span><span class="p">(</span><span class="n">ZmodN</span><span class="p">)</span>
+<span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">A</span> <span class="o">+</span> <span class="n">B</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">^</span><span class="mi">3</span> <span class="o">-</span> <span class="n">c</span>
+<span class="n">f_monic</span> <span class="o">=</span> <span class="n">f</span> <span class="o">*</span> <span class="n">f</span><span class="o">.</span><span class="n">leading_coefficient</span><span class="p">()</span><span class="o">^</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># epsilon=0.05 约1分钟出结果; epsilon=0.02 更精确但需5+分钟</span>
+<span class="n">roots</span> <span class="o">=</span> <span class="n">f_monic</span><span class="o">.</span><span class="n">small_roots</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="mi">2</span><span class="o">^</span><span class="p">(</span><span class="n">flag_len</span><span class="o">*</span><span class="mi">8</span><span class="p">),</span> <span class="n">beta</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Roots: </span><span class="si">{</span><span class="n">roots</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">roots</span><span class="p">:</span>
+    <span class="n">ri</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">A</span> <span class="o">+</span> <span class="n">B</span> <span class="o">*</span> <span class="n">ri</span>
+    <span class="k">if</span> <span class="nb">pow</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="n">c</span><span class="p">:</span>
+        <span class="n">flag</span> <span class="o">=</span> <span class="n">ri</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="n">flag_len</span><span class="p">,</span> <span class="s1">&#39;big&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Flag: </span><span class="si">{</span><span class="n">flag</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>运行输出：</p>
+<div class="highlight"><pre><span></span><code>Roots: [41410472545770785675586758963835211975745880785476790409379578628170981910321915804072317]
+Flag: SDG{3c00bad87b9ba46afa47052e187cec59}
+</code></pre></div>
+<p><strong><code>epsilon</code> 参数对比</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>epsilon</th>
+<th>格维度</th>
+<th>Docker 内耗时</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.02</td>
+<td>~50</td>
+<td>5+ 分钟</td>
+<td>精确，适合 CLI 批量跑</td>
+</tr>
+<tr>
+<td>0.05</td>
+<td>~20</td>
+<td>~1 分钟</td>
+<td>推荐，速度与成功率兼顾</td>
+</tr>
+<tr>
+<td>0.10</td>
+<td>~10</td>
+<td>~10 秒</td>
+<td>本题余量 45 bits 刚好卡边界，可能找不到</td>
+</tr>
+</tbody>
+</table>
+<p><strong>优势</strong>：交互式环境，可逐步调试多项式构造、观察中间结果，适合学习和探索。</p>
+<hr />
+<h3 id="sagemath-cli">SageMath CLI（快速求解）<a class="headerlink" href="#sagemath-cli" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>安装</strong>：
+<div class="highlight"><pre><span></span><code><span class="c1"># Docker 方式（推荐，无需本地安装）</span>
+docker<span class="w"> </span>pull<span class="w"> </span>sagemath/sagemath
+
+<span class="c1"># 或 conda 安装</span>
+conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>sage
+</code></pre></div></li>
+<li><strong>详细步骤</strong>：</li>
+<li>从 <code>encrypt.py</code> 提取 prefix、suffix、flag_len</li>
+<li>构造多项式 <code>f(x) = (A + B*x)^3 - c</code>，转为首一形式</li>
+<li>调用 <code>f_monic.small_roots(X=2^296, beta=1.0, epsilon=0.02)</code></li>
+<li>将返回的根转为字节即得 flag</li>
+<li><strong>优势</strong>：内置 Coppersmith/LLL 实现，一行代码完成核心攻击</li>
+</ul>
+<hr />
+<h3 id="rsactftool">RsaCtfTool（可选）<a class="headerlink" href="#rsactftool" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>安装</strong>：
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/RsaCtfTool/RsaCtfTool.git
+<span class="nb">cd</span><span class="w"> </span>RsaCtfTool<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</code></pre></div></li>
+<li><strong>详细步骤</strong>：本题使用自定义 padding，RsaCtfTool 的内置攻击不直接适用，但可参考其 <code>small_e</code> 模块的实现思路</li>
+<li><strong>优势</strong>：对标准 RSA 题目（无自定义 padding）可一键破解</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 id="__comments">评论</h2>
+
+<script
+  src="https://giscus.app/client.js"
+  data-repo="your-username/your-repo"
+  data-repo-id=""
+  data-category="Writeup Comments"
+  data-category-id=""
+  data-mapping="pathname"
+  data-strict="1"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="preferred_color_scheme"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.path", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../javascripts/drawer-backdrop.js"></script>
+      
+    
+  </body>
+</html>

